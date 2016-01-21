@@ -23,6 +23,8 @@ public class AngleShooter extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+
+		// moves the motor that angles the shooter
 		Robot.shooter.AngleShooter(.75);
 	}
 

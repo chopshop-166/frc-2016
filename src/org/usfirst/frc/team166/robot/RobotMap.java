@@ -8,7 +8,7 @@ package org.usfirst.frc.team166.robot;
 public class RobotMap {
 
 	// Joysticks
-	public static final int Copilot = 2;
+	public static final int CopilotJoystickNumber = 2;
 
 	// PWMs
 
@@ -17,10 +17,10 @@ public class RobotMap {
 	public static final int ShooterAngle = 6;
 
 	public static class Encoder {
-		public static final int ShooterEncoderLeftA = 12;
-		public static final int ShooterEncoderLeftB = 13;
-		public static final int ShooterEncodeRightA = 14;
-		public static final int ShooterEncodeRightB = 15;
+		public static final int ShooterLeftChannelA = 12;
+		public static final int ShooterLeftChannelB = 13;
+		public static final int ShooterRightChannelA = 14;
+		public static final int ShooterRightChannelB = 15;
 	}
 
 	// For example to map the left and right motors, you could define the
