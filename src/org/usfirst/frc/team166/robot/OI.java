@@ -1,11 +1,30 @@
 package org.usfirst.frc.team166.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
+import org.usfirst.frc.team166.robot.commands.FireShooter;
+
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands and command groups
  * that allow control of the robot.
  */
 public class OI {
-	//// CREATING BUTTONS
+
+	Joystick Copilot;
+
+	public OI() {
+
+		Copilot = new Joystick(RobotMap.Copilot);
+
+		JoystickButton button1 = new JoystickButton(Copilot, 1);
+
+		// Buttons
+		button1.whileHeld(new FireShooter());
+
+	}
+
+	// // CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a joystick.
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
@@ -16,7 +35,7 @@ public class OI {
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
 
-	//// TRIGGERING COMMANDS WITH BUTTONS
+	// // TRIGGERING COMMANDS WITH BUTTONS
 	// Once you have a button, it's trivial to bind it to a button in one of
 	// three ways:
 
