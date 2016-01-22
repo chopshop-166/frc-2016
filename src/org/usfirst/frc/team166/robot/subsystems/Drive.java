@@ -52,12 +52,12 @@ public class Drive extends Subsystem {
 	//// rightPID2.set(powerRight);
 	// }
 	public void drive() {
-		// integrate gyro into drive. ie. correct for imperfect forward motion
+		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
-		if (gyro.getAngle() < 0) {
+		if (getGyro() < 0) {
 			double lessPowerRight = Math.abs(gyro.getAngle() * 0.011111111111);
 			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis() - lessPowerRight);
-		} else if (gyro.getAngle() > 0) {
+		} else if (getGyro() > 0) {
 			double lessPowerLeft = Math.abs(gyro.getAngle() * 0.011111111111);
 			tankDrive.tankDrive(Robot.oi.getLeftYAxis() - lessPowerLeft, Robot.oi.getRightYAxis());
 		} else {
