@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import org.usfirst.frc.team166.robot.RobotMap;
+
 /**
  *
  */
@@ -13,10 +15,36 @@ public class Intake extends Subsystem {
 	Victor IntakeSIM;
 
 	public Intake() {
+		Actuator = new DoubleSolenoid(RobotMap.IntakeSolenoid, 1);
+		IntakeSIM = new Victor(RobotMap.IntakeVictor);
 
 	}
 
+	// Motor Methods
+
+	public void IntakeMotorForward() {
+
+	}
+
+	public void IntakeMotorReverse() {
+
+	}
+
+	public void IntsakeMotorStop() {
+		IntakeSIM.set(0);
+	}
+
 	public void ToggleIntakeMotor() {
+
+	}
+
+	// Solenoid Methods
+
+	public void IntakeSolenoidForward() {
+
+	}
+
+	public void IntakeSolenoidReverse() {
 
 	}
 

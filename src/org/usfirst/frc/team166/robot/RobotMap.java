@@ -8,10 +8,12 @@ package org.usfirst.frc.team166.robot;
 public class RobotMap {
 
 	// Motors
+	public static int IntakeVictor = 7;
 
 	// DigitalInputs
 
 	// Solenoids
+	public static int IntakeSolenoid = 1;
 
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
