@@ -20,9 +20,9 @@ public class Shooter extends Subsystem {
 	AnalogInput pot;
 
 	public Shooter() {
-		shooterLeftSide = new Victor(RobotMap.LeftShooterMotor);
-		shooterRightSide = new Victor(RobotMap.RightShooterMotor);
-		shooterAngle = new Victor(RobotMap.ShooterAngleMotor);
+		shooterLeftSide = new Victor(RobotMap.Pwm.LeftShooterMotor);
+		shooterRightSide = new Victor(RobotMap.Pwm.RightShooterMotor);
+		shooterAngle = new Victor(RobotMap.Pwm.ShooterAngleMotor);
 		encoderLeft = new Encoder(null, null);
 		encoderRight = new Encoder(null, null);
 	}
