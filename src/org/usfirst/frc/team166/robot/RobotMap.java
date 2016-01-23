@@ -14,7 +14,7 @@ public class RobotMap {
 
 	public static final int LeftShooterMotor = 4;
 	public static final int RightShooterMotor = 5;
-	public static final int ShooterAngle = 6;
+	public static final int ShooterAngleMotor = 6;
 
 	public static class Encoder {
 		public static final int ShooterLeftChannelA = 12;
@@ -22,6 +22,8 @@ public class RobotMap {
 		public static final int ShooterRightChannelA = 14;
 		public static final int ShooterRightChannelB = 15;
 	}
+
+	public static final int ShooterPotAngle = 16;
 
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.

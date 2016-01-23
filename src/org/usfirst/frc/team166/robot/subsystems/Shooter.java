@@ -12,29 +12,34 @@ import org.usfirst.frc.team166.robot.RobotMap;
  */
 public class Shooter extends Subsystem {
 
-	Victor ShooterLeftSide;
-	Victor ShooterRightSide;
-	Victor ShooterAngle;
-	Encoder EncoderLeft;
-	Encoder EncoderRight;
+	Victor shooterLeftSide;
+	Victor shooterRightSide;
+	Victor shooterAngle;
+	Encoder encoderLeft;
+	Encoder encoderRight;
 	AnalogInput pot;
 
 	public Shooter() {
-		ShooterLeftSide = new Victor(RobotMap.LeftShooterMotor);
-		ShooterRightSide = new Victor(RobotMap.RightShooterMotor);
-		ShooterAngle = new Victor(RobotMap.ShooterAngle);
-		EncoderLeft = new Encoder(null, null);
-		EncoderRight = new Encoder(null, null);
+		shooterLeftSide = new Victor(RobotMap.LeftShooterMotor);
+		shooterRightSide = new Victor(RobotMap.RightShooterMotor);
+		shooterAngle = new Victor(RobotMap.ShooterAngleMotor);
+		encoderLeft = new Encoder(null, null);
+		encoderRight = new Encoder(null, null);
+	}
+
+	public double getPot() {
+		// math to get to angle
+		return pot.getVoltage();
 	}
 
 	// launch the ball
 	public void Fire(double power) {
-		ShooterLeftSide.set(power);
-		ShooterRightSide.set(power);
+		shooterLeftSide.set(power);
+		shooterRightSide.set(power);
 	}
 
-	public void AngleShooter(double power) {
-		ShooterAngle.set(power);
+	public void angleShooter(double power) {
+		shooterAngle.set(power);
 	}
 
 	// Put methods for controlling this subsystem
