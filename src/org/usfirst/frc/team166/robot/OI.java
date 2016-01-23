@@ -15,7 +15,7 @@ public class OI {
 
 	public OI() {
 
-		Copilot = new Joystick(RobotMap.CopilotJoystickNumber);
+		Copilot = new Joystick(RobotMap.Copilot.Joystick);
 
 		JoystickButton button1 = new JoystickButton(Copilot, 1);
 
