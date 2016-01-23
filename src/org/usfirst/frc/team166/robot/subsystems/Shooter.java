@@ -23,8 +23,8 @@ public class Shooter extends Subsystem {
 		shooterLeftSide = new Victor(RobotMap.Pwm.LeftShooterMotor);
 		shooterRightSide = new Victor(RobotMap.Pwm.RightShooterMotor);
 		shooterAngle = new Victor(RobotMap.Pwm.ShooterAngleMotor);
-		encoderLeft = new Encoder(null, null);
-		encoderRight = new Encoder(null, null);
+		encoderLeft = new Encoder(RobotMap.Digital.ShooterLeftChannelA, RobotMap.Digital.ShooterLeftChannelB);
+		encoderRight = new Encoder(RobotMap.Digital.ShooterRightChannelA, RobotMap.Digital.ShooterRightChannelB);
 	}
 
 	public double getPot() {
