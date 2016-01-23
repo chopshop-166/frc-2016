@@ -24,7 +24,7 @@ public class RobotMap {
 
 	// Copilot Controls
 	public static class Copilot {
-		public static final int Joystick = 2;
+		public static final int CoPiolitJoystick = 2;
 	}
 
 	// PWM Channels

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team166.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -36,6 +37,7 @@ public class Intake extends Subsystem {
 	}
 
 	public void ToggleIntakeMotor() {
+		double MotorVal = IntakeSIM.get();
 
 	}
 
@@ -51,7 +53,13 @@ public class Intake extends Subsystem {
 	}
 
 	public void ToggleIntakeSolenoid() {
+		Value SolenoidVal = Actuator.get();
+		if (SolenoidVal == Value.kForward) {
+			IntakeSolenoidReverse();
+		} else {
+			IntakeSolenoidForward();
 
+		}
 	}
 
 	// Put methods for controlling this subsystem

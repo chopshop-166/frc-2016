@@ -7,10 +7,11 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class ToggleIntakeSolenoid extends Command {
+public class IntakeMotorReverse extends Command {
 
-	public ToggleIntakeSolenoid() {
+	public IntakeMotorReverse() {
 		requires(Robot.intake);
+
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -23,7 +24,7 @@ public class ToggleIntakeSolenoid extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.intake.ToggleIntakeSolenoid();
+		Robot.intake.IntakeMotorReverse();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
