@@ -54,20 +54,35 @@ public class Drive extends Subsystem {
 	public void drive() {
 		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
-		if (getGyro() < 0) {
-			double lessPowerRight = Math.abs(gyro.getAngle() * 0.011111111111);
-			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis() - lessPowerRight);
-		} else if (getGyro() > 0) {
-			double lessPowerLeft = Math.abs(gyro.getAngle() * 0.011111111111);
-			tankDrive.tankDrive(Robot.oi.getLeftYAxis() - lessPowerLeft, Robot.oi.getRightYAxis());
+		double leftPower = Robot.oi.getLeftYAxis();
+		double rightPower = Robot.oi.getRightYAxis();
+		double encoderConstant = 1 / 90;
+		double modPower = Math.abs(leftEncoder.getRate() - rightEncoder.getRate()) * encoderConstant;
+
+		leftEncoder.setDistancePerPulse(10 / 1024);
+		rightEncoder.setDistancePerPulse(10 / 1024);
+
+		if ((rightEncoder.getRate() - leftEncoder.getRate()) > 0) {
+			tankDrive.tankDrive(leftPower + modPower, rightPower - modPower);
+
+		} else if ((rightEncoder.getRate() - leftEncoder.getRate()) < 0) {
+			tankDrive.tankDrive(leftPower - modPower, rightPower + modPower);
+
 		} else {
-			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
+			tankDrive.tankDrive(leftPower, rightPower);
 		}
 
+		if (Math.abs(leftPower - rightPower) > 0.1) {
+			resetGyro();
+		}
 	}
 
 	public void stop() {
 		tankDrive.tankDrive(0, 0);
+	}
+
+	public void resetGyro() {
+		gyro.reset();
 	}
 
 	public void resetEncoders() {
