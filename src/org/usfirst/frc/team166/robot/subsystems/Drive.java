@@ -16,18 +16,18 @@ import org.usfirst.frc.team166.robot.RobotMap;
  */
 public class Drive extends Subsystem {
 
-	Victor leftTopVictor = new Victor(RobotMap.leftTopDrive);
-	Victor leftBotVictor = new Victor(RobotMap.leftBotDrive);
-	Victor rightTopVictor = new Victor(RobotMap.rightTopDrive);
-	Victor rightBotVictor = new Victor(RobotMap.rightBotDrive);
+	Victor leftTopVictor = new Victor(RobotMap.Pwm.leftTopDrive);
+	Victor leftBotVictor = new Victor(RobotMap.Pwm.leftBotDrive);
+	Victor rightTopVictor = new Victor(RobotMap.Pwm.rightTopDrive);
+	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
 
-	Encoder leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB);// more
-																					// specificity,
-																					// "left"
-																					// is
-																					// not
-																					// descriptive
-	Encoder rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB);
+	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
+	// specificity,
+	// "left"
+	// is
+	// not
+	// descriptive
+	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
 
 	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopVictor, "Six Wheel Drive", "LeftTopPID");// again
 																														// specify
@@ -38,7 +38,7 @@ public class Drive extends Subsystem {
 	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder, rightBotVictor, "Six Wheel Drive",
 			"RightBotPID");// or bot motors
 
-	Gyro gyro = new AnalogGyro(RobotMap.gyroPort);
+	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 
 	RobotDrive tankDrive = new RobotDrive(leftTopPID, leftBotPID, rightTopPID, rightBotPID);
 
