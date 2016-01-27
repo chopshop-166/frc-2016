@@ -37,4 +37,8 @@ public class RobotMap {
 		public static final int ShooterPotAngle = 16;
 	}
 
+	// Solenoid Channels
+	public static class Solenoid {
+
+	}
 }
