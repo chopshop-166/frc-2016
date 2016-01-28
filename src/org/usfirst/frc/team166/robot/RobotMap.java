@@ -41,4 +41,21 @@ public class RobotMap {
 	public static class Solenoid {
 
 	}
+
+	// Prefs
+	public static class Prefs {
+		public static final String ShooterP = "ShooterP";
+		public static final String ShooterI = "ShooterI";
+		public static final String ShooterD = "ShooterD";
+		public static final String ShooterF = "ShooterF";
+
+		public static final String ShooterAngleP = "ShooterAngleP";
+		public static final String ShooterAngleI = "ShooterAngleI";
+		public static final String ShooterAngleD = "ShooterAngleD";
+		public static final String ShooterAngleF = "ShooterAngleF";
+
+		public static final String ShooterSpeed = "ShooterSpeed";
+
+		public static final String angleToDisplacementConstant = "angleToDisplacementConstant";
+	}
 }
