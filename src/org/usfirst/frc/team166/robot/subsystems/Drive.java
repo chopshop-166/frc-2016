@@ -19,9 +19,10 @@ import org.usfirst.frc.team166.robot.commands.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	double distancePerPulse = 10.0 / 1024.0;
-	double gyroConstant = 0.3 / 10;
+	double distancePerPulse = 12 / 56320.0; // this makes perfect cents
+	double gyroConstant = -0.3 / 10.0;
 	double driveSpeedModifierConstant = .7;
+	double gyroVal = 0;
 
 	Victor leftTopVictor = new Victor(RobotMap.Pwm.leftTopDrive);
 	Victor leftBotVictor = new Victor(RobotMap.Pwm.leftBotDrive);
@@ -31,48 +32,70 @@ public class Drive extends Subsystem {
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
 
+	Encoder leftEncoder1 = new Encoder(RobotMap.Digital.leftEncoder1A, RobotMap.Digital.leftEncoder1B); // delete these
+																										// later
+	Encoder rightEncoder1 = new Encoder(RobotMap.Digital.rightEncoder1A, RobotMap.Digital.rightEncoder1B);
+
 	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopVictor, "Six Wheel Drive", "LeftTopPID"); // specify
-	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder, leftBotVictor, "Six Wheel Drive", "LeftBotPID");
+	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotVictor, "Six Wheel Drive",
+			"LeftBotPID");
 	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopVictor, "Six Wheel Drive",
 			"RightTopPID");
-	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder, rightBotVictor, "Six Wheel Drive",
+	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotVictor, "Six Wheel Drive",
 			"RightBotPID");// or bot motors
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 
-	// RobotDrive tankDrive = new RobotDrive(leftTopPID, leftBotPID, rightTopPID, rightBotPID);
-	RobotDrive tankDrive = new RobotDrive(leftTopVictor, leftBotVictor, rightTopVictor, rightBotVictor);
+	RobotDrive tankDrive = new RobotDrive(leftTopPID, leftBotPID, rightTopPID, rightBotPID);
+	// RobotDrive tankDrive = new RobotDrive(leftTopVictor, leftBotVictor, rightTopVictor, rightBotVictor);
 
 	public Drive() {
 		leftEncoder.setDistancePerPulse(distancePerPulse);
 		rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
+
+		leftEncoder1.setDistancePerPulse(distancePerPulse);
+		rightEncoder1.setDistancePerPulse(distancePerPulse);
+		leftEncoder1.setPIDSourceType(PIDSourceType.kRate); // delete these later
+		rightEncoder1.setPIDSourceType(PIDSourceType.kRate);
 	}
 
 	public double getGyroOffset() {
-		double gyroVal = Robot.drive.getGyro() * gyroConstant;
+		gyroVal = Robot.drive.getGyro() * gyroConstant;
 		if (Math.abs(gyroVal) > (1.0 - driveSpeedModifierConstant)) {
-			gyroVal = -(1.0 - driveSpeedModifierConstant) * Math.abs(gyroVal) / gyroVal; // sets gyroVal to either 1 or
-																							// -1
+			gyroVal = (1.0 - driveSpeedModifierConstant) * Math.abs(gyroVal) / gyroVal; // sets gyroVal to either 1 or
+																						// -1
 		}
-		return -gyroVal;
+		return gyroVal;
+	}
+
+	public void driveWithGyro() {
+		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
+		double leftPower = Robot.oi.getLeftYAxis() * driveSpeedModifierConstant;
+		double power = 0;
+		power = (rightPower + leftPower) / 2;
+		if (Math.abs(Robot.oi.getRightYAxis()) > .1) {
+			tankDrive.tankDrive(power + getGyroOffset(), power - getGyroOffset());
+		}
 	}
 
 	public void driveWithJoysticks() {
 		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
-		double leftPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
+		double leftPower = Robot.oi.getLeftYAxis() * driveSpeedModifierConstant;
 		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
 		boolean areJoysticksSimilar = false;
 
 		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
-			if (Math.abs(leftPower - rightPower) < .1) {
+			if (Math.abs(leftPower - rightPower) < .2) {
 				if (areJoysticksSimilar = false) { // is this the first time in loop?
 					gyro.reset(); // then reset the GYRO!!!!
 					areJoysticksSimilar = true;
 				}
-				tankDrive.tankDrive(leftPower + -getGyroOffset(), rightPower + getGyroOffset()); // then drive with gyro
+				// tankDrive.tankDrive(leftPower + getGyroOffset(), rightPower - getGyroOffset()); // then drive with
+				// gyro
+				tankDrive.tankDrive(leftPower, rightPower);
 				SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
 				SmartDashboard.putNumber("Right Power", rightPower);
 				SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
@@ -147,7 +170,7 @@ public class Drive extends Subsystem {
 
 	public void setPIDConstants() {
 		double p = 1;
-		double i = 1;
+		double i = 2;
 		double d = 0;
 		double f = 1;
 

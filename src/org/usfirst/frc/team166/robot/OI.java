@@ -3,6 +3,7 @@ package org.usfirst.frc.team166.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team166.robot.commands.DriveWithGyro;
 import org.usfirst.frc.team166.robot.commands.FireShooter;
 
 /**
@@ -21,9 +22,11 @@ public class OI {
 		copilotController = new Joystick(RobotMap.Copilot.copilotPort);
 
 		JoystickButton button1 = new JoystickButton(copilotController, 1);
+		JoystickButton rightJoyTrigger = new JoystickButton(rightStick, 1);
 
 		// Buttons
 		button1.whileHeld(new FireShooter());
+		rightJoyTrigger.whileHeld(new DriveWithGyro());
 
 	}
 
