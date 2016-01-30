@@ -24,16 +24,16 @@ public class RobotMap {
 
 	// Copilot Controls
 	public static class Copilot {
-		public static final int CoPiolitJoystick = 2;
+		public static final int CoPiolitJoystick = 0;
 	}
 
 	// PWM Channels
 	public static class Pwm {
-		public static final int LeftShooterMotor = 4;
-		public static final int RightShooterMotor = 5;
+		public static final int LeftShooterMotor = 8;
+		public static final int RightShooterMotor = 7;
 		public static final int ShooterAngleMotor = 6;
-		public static final int IntakeVictor = 7;
-		public static final int IntakeVictor2 = 8;
+		public static final int IntakeVictor = 4;
+		public static final int IntakeVictor2 = 5;
 	}
 
 	// Encoder (Digital Input) Channels
