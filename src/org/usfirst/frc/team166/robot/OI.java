@@ -3,7 +3,7 @@ package org.usfirst.frc.team166.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team166.robot.commands.FireShooter;
+import org.usfirst.frc.team166.robot.commands.Aim;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
@@ -27,7 +27,7 @@ public class OI {
 		JoystickButton CPbutton3 = new JoystickButton(Copilot, 3);
 		JoystickButton CPbutton4 = new JoystickButton(Copilot, 4);
 		// Buttons
-		CPbutton1.whileHeld(new FireShooter());
+		CPbutton1.whileHeld(new Aim());
 		CPbutton2.whileHeld(new IntakeMotorForward());
 		CPbutton2.whenReleased(new IntakeMotorStop());
 		CPbutton3.whileHeld(new IntakeMotorReverse());
