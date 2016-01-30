@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team166.robot.commands.Aim;
+import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
+import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
+import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
+import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands and command groups
@@ -12,16 +16,26 @@ import org.usfirst.frc.team166.robot.commands.Aim;
 public class OI {
 
 	Joystick Copilot;
+	Joystick Driver;
 
 	public OI() {
 
-		Copilot = new Joystick(RobotMap.Copilot.Joystick);
-
-		JoystickButton button1 = new JoystickButton(Copilot, 1);
-
+		Copilot = new Joystick(RobotMap.Copilot.CoPiolitJoystick);
+		Driver = new Joystick(RobotMap.Driver.Joystick);
+		JoystickButton CPbutton1 = new JoystickButton(Copilot, 1);
+		JoystickButton CPbutton2 = new JoystickButton(Copilot, 2);
+		JoystickButton CPbutton3 = new JoystickButton(Copilot, 3);
+		JoystickButton CPbutton4 = new JoystickButton(Copilot, 4);
 		// Buttons
-		button1.whileHeld(new Aim());
+		CPbutton1.whileHeld(new Aim());
+		CPbutton2.whileHeld(new IntakeMotorForward());
+		CPbutton2.whenReleased(new IntakeMotorStop());
+		CPbutton3.whileHeld(new IntakeMotorReverse());
+		CPbutton3.whenReleased(new IntakeMotorStop());
+		CPbutton4.whenPressed(new ToggleIntakeSolenoid());
 
+		// The Following commands are mapped from buttons on a joystick and may need to be changed if the
+		// copiolits controller turns out to be an Xbox controler
 	}
 
 	// // CREATING BUTTONS
