@@ -7,6 +7,7 @@ import org.usfirst.frc.team166.robot.commands.Aim;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
+import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeMotor;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 
 /**
@@ -26,6 +27,8 @@ public class OI {
 		JoystickButton CPbutton2 = new JoystickButton(Copilot, 2);
 		JoystickButton CPbutton3 = new JoystickButton(Copilot, 3);
 		JoystickButton CPbutton4 = new JoystickButton(Copilot, 4);
+		JoystickButton CPbutton5 = new JoystickButton(Copilot, 5);
+
 		// Buttons
 		CPbutton1.whileHeld(new Aim());
 		CPbutton2.whileHeld(new IntakeMotorForward());
@@ -33,6 +36,7 @@ public class OI {
 		CPbutton3.whileHeld(new IntakeMotorReverse());
 		CPbutton3.whenReleased(new IntakeMotorStop());
 		CPbutton4.whenPressed(new ToggleIntakeSolenoid());
+		CPbutton5.whenPressed(new ToggleIntakeMotor());
 
 		// The Following commands are mapped from buttons on a joystick and may need to be changed if the
 		// copiolits controller turns out to be an Xbox controler
