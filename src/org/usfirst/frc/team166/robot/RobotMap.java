@@ -7,14 +7,24 @@ package org.usfirst.frc.team166.robot;
  */
 public class RobotMap {
 
-	// Driver Controls
+	// For example to map the left and right motors, you could define the
+	// following variables to use with your drivetrain subsystem.
+	// public static int leftMotor = 1;
+	// public static int rightMotor = 2;
+
+	// If you are using multiple modules, make sure to define both the port
+	// number and the module. For example you with a rangefinder:
+	// public static int rangefinderPort = 1;
+	// public static int rangefinderModule = 1;
+
+	// Driver Conrols
 	public static class Driver {
 		public static final int Joystick = 1;
 	}
 
 	// Copilot Controls
 	public static class Copilot {
-		public static final int Joystick = 2;
+		public static final int CoPiolitJoystick = 2;
 	}
 
 	// PWM Channels
@@ -22,6 +32,7 @@ public class RobotMap {
 		public static final int LeftShooterMotor = 4;
 		public static final int RightShooterMotor = 5;
 		public static final int ShooterAngleMotor = 6;
+		public static final int IntakeVictor = 7;
 	}
 
 	// Encoder (Digital Input) Channels
@@ -37,8 +48,26 @@ public class RobotMap {
 		public static final int ShooterPotAngle = 16;
 	}
 
-	// Solenoid Channels
+	// Solenoids
 	public static class Solenoid {
-
+		public static final int IntakeSolenoid = 1;
 	}
+
+	// Prefs
+	public static class Prefs {
+		public static final String ShooterP = "ShooterP";
+		public static final String ShooterI = "ShooterI";
+		public static final String ShooterD = "ShooterD";
+		public static final String ShooterF = "ShooterF";
+
+		public static final String ShooterAngleP = "ShooterAngleP";
+		public static final String ShooterAngleI = "ShooterAngleI";
+		public static final String ShooterAngleD = "ShooterAngleD";
+		public static final String ShooterAngleF = "ShooterAngleF";
+
+		public static final String ShooterSpeed = "ShooterSpeed";
+
+		public static final String angleToDisplacementConstant = "angleToDisplacementConstant";
+	}
+
 }
