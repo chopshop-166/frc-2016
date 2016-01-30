@@ -39,10 +39,11 @@ public class RobotMap {
 
 		public static int rollerPort = 6;
 
-		public static final int LeftShooterMotor = 4;
-		public static final int RightShooterMotor = 5;
+		public static final int LeftShooterMotor = 8;
+		public static final int RightShooterMotor = 7;
 		public static final int ShooterAngleMotor = 6;
-		public static final int IntakeVictor = 7;
+		public static final int IntakeVictor = 4;
+		public static final int IntakeVictor2 = 5;
 	}
 
 	// Encoder (Digital Input) Channels
@@ -73,7 +74,8 @@ public class RobotMap {
 
 	// Solenoids
 	public static class Solenoid {
-		public static final int IntakeSolenoid = 1;
+		public static final int IntakeSolenoidR = 0;
+		public static final int IntakeSolenoidF = 1;
 	}
 
 	// Prefs
