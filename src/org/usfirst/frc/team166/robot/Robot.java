@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team166.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -10,6 +9,7 @@ import org.usfirst.frc.team166.robot.commands.Autonomous;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
+import org.usfirst.frc.team166.robot.subsystems.Vision;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -21,6 +21,7 @@ public class Robot extends IterativeRobot {
 	public static Drive drive;
 	public static Intake intake;
 	public static Shooter shooter;
+	public static Vision vision;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 		drive = new Drive();
 		intake = new Intake();
 		shooter = new Shooter();
+		vision = new Vision();
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();

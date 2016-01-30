@@ -3,8 +3,8 @@ package org.usfirst.frc.team166.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team166.robot.commands.Aim;
 import org.usfirst.frc.team166.robot.commands.DriveWithGyro;
-import org.usfirst.frc.team166.robot.commands.FireShooter;
 
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands and command groups
@@ -25,8 +25,8 @@ public class OI {
 		JoystickButton rightJoyTrigger = new JoystickButton(rightStick, 1);
 
 		// Buttons
-		button1.whileHeld(new FireShooter());
 		rightJoyTrigger.whileHeld(new DriveWithGyro());
+		button1.whileHeld(new Aim());
 
 	}
 
