@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team166.robot.commands.FireShooter;
+import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
+import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
+import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 
 /**
@@ -25,6 +28,10 @@ public class OI {
 		JoystickButton CPbutton4 = new JoystickButton(Copilot, 4);
 		// Buttons
 		CPbutton1.whileHeld(new FireShooter());
+		CPbutton2.whileHeld(new IntakeMotorForward());
+		CPbutton2.whenReleased(new IntakeMotorStop());
+		CPbutton3.whileHeld(new IntakeMotorReverse());
+		CPbutton3.whenReleased(new IntakeMotorStop());
 		CPbutton4.whenPressed(new ToggleIntakeSolenoid());
 
 		// The Following commands are mapped from buttons on a joystick and may need to be changed if the
