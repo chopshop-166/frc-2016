@@ -39,8 +39,8 @@ public class RobotMap {
 
 		public static int rollerPort = 6;
 
-		public static final int LeftShooterMotor = 4;
-		public static final int RightShooterMotor = 5;
+		public static final int LeftShooterMotor = 5;
+		public static final int RightShooterMotor = 4;
 		public static final int ShooterAngleMotor = 6;
 		public static final int IntakeVictor = 7;
 	}
@@ -68,12 +68,14 @@ public class RobotMap {
 	public static class Analog {
 		public static int gyroPort = 0;
 
-		public static final int ShooterPotAngle = 16; // NEEDS A COMMENT
+		public static final int ShooterPotAngle = 1; // NEEDS A COMMENT
 	}
 
 	// Solenoids
 	public static class Solenoid {
-		public static final int IntakeSolenoid = 1;
+		public static final int IntakeSolenoidForwards = 1;
+		public static final int IntakeSolenoidBackwards = 2;
+
 	}
 
 	// Prefs

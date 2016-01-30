@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,7 +17,7 @@ import org.usfirst.frc.team166.robot.RobotMap;
  */
 public class Shooter extends Subsystem {
 
-	Victor shooterLeftSide;
+	Talon shooterLeftSide;
 	Victor shooterRightSide;
 	Victor shooterAngle;
 	Encoder encoderLeft;
@@ -30,7 +31,7 @@ public class Shooter extends Subsystem {
 		pot = new AnalogInput(RobotMap.Analog.ShooterPotAngle);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 
-		shooterLeftSide = new Victor(RobotMap.Pwm.LeftShooterMotor);
+		shooterLeftSide = new Talon(RobotMap.Pwm.LeftShooterMotor);
 		shooterRightSide = new Victor(RobotMap.Pwm.RightShooterMotor);
 		shooterAngle = new Victor(RobotMap.Pwm.ShooterAngleMotor);
 
@@ -41,8 +42,9 @@ public class Shooter extends Subsystem {
 		encoderRight.setPIDSourceType(PIDSourceType.kRate);
 
 		shooterAnglePID = new PIDController(0, 0, 0, pot, shooterAngle);
-		leftPID = new PIDSpeedController(encoderLeft, shooterLeftSide, "Shooter", "Left Wheel");
-		rightPID = new PIDSpeedController(encoderRight, shooterRightSide, "Shooter", "Right Wheel");
+		// leftPID = new PIDSpeedController(encoderLeft, shooterLeftSide, "Shooter", "Left Wheel");
+		// rightPID = new PIDSpeedController(encoderRight, shooterRightSide, "Shooter", "Right Wheel");
+
 	}
 
 	public double convertAngleToDisplacement(double angle) {
@@ -53,8 +55,10 @@ public class Shooter extends Subsystem {
 
 	// launch the ball
 	public void setSpeed(double power) {
-		leftPID.set(power);
-		rightPID.set(power);
+		// leftPID.set(power);
+		// rightPID.set(power);
+		shooterLeftSide.set(power);
+		shooterRightSide.set(-power);
 	}
 
 	public void setAngle(double angle) {

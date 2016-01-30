@@ -17,7 +17,8 @@ public class Intake extends Subsystem {
 	Victor IntakeSIM;
 
 	public Intake() {
-		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoid, 1);
+		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidForwards,
+				RobotMap.Solenoid.IntakeSolenoidBackwards);
 		IntakeSIM = new Victor(RobotMap.Pwm.IntakeVictor);
 
 	}
@@ -34,11 +35,6 @@ public class Intake extends Subsystem {
 
 	public void IntsakeMotorStop() {
 		IntakeSIM.set(Preferences.getInstance().getDouble("Stop", 0));
-	}
-
-	public void ToggleIntakeMotor() {
-		double MotorVal = IntakeSIM.get();
-
 	}
 
 	// Solenoid Methods
