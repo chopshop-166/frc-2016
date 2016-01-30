@@ -22,9 +22,9 @@ public class RobotMap {
 
 	// PWM Channels
 	public static class Pwm {
-		public static int leftTopDrive = 0;
-		public static int leftBotDrive = 1;
-		public static int rightTopDrive = 2;
+		public static int leftTopDrive = 1;
+		public static int leftBotDrive = 2;
+		public static int rightTopDrive = 0;
 		public static int rightBotDrive = 3;
 
 		public static int rollerPort = 6;
@@ -37,13 +37,13 @@ public class RobotMap {
 	// Encoder (Digital Input) Channels
 	public static class Digital {
 
-		public static int leftEncoderA = 8;
-		public static int leftEncoderB = 9;
+		public static int leftEncoderA = 12;
+		public static int leftEncoderB = 13;
 		public static int rightEncoderA = 10;
 		public static int rightEncoderB = 11;
 
-		public static final int ShooterLeftChannelA = 12;
-		public static final int ShooterLeftChannelB = 13;
+		public static final int ShooterLeftChannelA = 16;
+		public static final int ShooterLeftChannelB = 17;
 		public static final int ShooterRightChannelA = 14;
 		public static final int ShooterRightChannelB = 15;
 	}

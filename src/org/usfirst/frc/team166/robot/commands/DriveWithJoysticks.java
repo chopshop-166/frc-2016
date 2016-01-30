@@ -7,9 +7,9 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class Drive extends Command {
+public class DriveWithJoysticks extends Command {
 
-	public Drive() {
+	public DriveWithJoysticks() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.drive);
@@ -18,12 +18,13 @@ public class Drive extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.drive.setPIDConstants();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.drive();
+		Robot.drive.driveWithJoysticks();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

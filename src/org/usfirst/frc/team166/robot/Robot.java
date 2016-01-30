@@ -18,9 +18,9 @@ import org.usfirst.frc.team166.robot.subsystems.Shooter;
  */
 public class Robot extends IterativeRobot {
 
-	public static final Drive drive = new Drive();
-	public static final Intake intake = new Intake();
-	public static final Shooter shooter = new Shooter();
+	public static Drive drive;
+	public static Intake intake;
+	public static Shooter shooter;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -30,6 +30,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		drive = new Drive();
+		intake = new Intake();
+		shooter = new Shooter();
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
