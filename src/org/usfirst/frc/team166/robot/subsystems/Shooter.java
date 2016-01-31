@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -17,7 +16,7 @@ import org.usfirst.frc.team166.robot.RobotMap;
  */
 public class Shooter extends Subsystem {
 
-	Talon shooterLeftSide;
+	Victor shooterLeftSide;
 	Victor shooterRightSide;
 	Victor shooterAngle;
 	Encoder encoderLeft;
@@ -31,7 +30,7 @@ public class Shooter extends Subsystem {
 		pot = new AnalogInput(RobotMap.Analog.ShooterPotAngle);
 		pot.setPIDSourceType(PIDSourceType.kDisplacement);
 
-		shooterLeftSide = new Talon(RobotMap.Pwm.LeftShooterMotor);
+		shooterLeftSide = new Victor(RobotMap.Pwm.LeftShooterMotor);
 		shooterRightSide = new Victor(RobotMap.Pwm.RightShooterMotor);
 		shooterAngle = new Victor(RobotMap.Pwm.ShooterAngleMotor);
 
