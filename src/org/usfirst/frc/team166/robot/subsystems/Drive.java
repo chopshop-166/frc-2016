@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -19,23 +20,21 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	double distancePerPulse = (12 / 56320.0); // this makes perfect cents
+	double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes 2.1306818181...
 	double gyroConstant = -0.3 / 10.0;
 	double driveSpeedModifierConstant = .7;
 	double gyroVal = 0;
 
-	public enum distancePerPulseState {
-		lowGear, highGear;
-	}
-
-	distancePerPulseState transmissionState = distancePerPulseState.lowGear;
-
-	boolean highGear = false;
+	boolean highGear;
+	boolean neutral;
 
 	Victor leftTopVictor = new Victor(RobotMap.Pwm.leftTopDrive);
 	Victor leftBotVictor = new Victor(RobotMap.Pwm.leftBotDrive);
 	Victor rightTopVictor = new Victor(RobotMap.Pwm.rightTopDrive);
 	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
+
+	Servo transmission1Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
+	Servo transmission2Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
 
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
@@ -88,18 +87,32 @@ public class Drive extends Subsystem {
 		}
 	}
 
-	public void lowGearDistancePerPulse() {
+	public void highGear() {
+		transmission1Servo.set(1);
+		transmission2Servo.set(1);
+		highGear = true;
+		neutral = false;
+		leftEncoder.setDistancePerPulse(3 * distancePerPulse);
+		rightEncoder.setDistancePerPulse(3 * distancePerPulse);
+		leftEncoder1.setDistancePerPulse(3 * distancePerPulse); // delete this later
+		rightEncoder1.setDistancePerPulse(3 * distancePerPulse);
+	}
+
+	public void lowGear() {
+		transmission1Servo.set(0);
+		transmission2Servo.set(0);
+		highGear = false;
+		neutral = false;
 		leftEncoder.setDistancePerPulse(distancePerPulse);
 		rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
 		rightEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
 	}
 
-	public void highGearDistancePerPulse() {
-		leftEncoder.setDistancePerPulse(3 * distancePerPulse);
-		rightEncoder.setDistancePerPulse(3 * distancePerPulse);
-		leftEncoder1.setDistancePerPulse(3 * distancePerPulse); // delete this later
-		rightEncoder1.setDistancePerPulse(3 * distancePerPulse);
+	public void neutral() {
+		transmission1Servo.set(0.5);
+		transmission2Servo.set(0.5);
+		neutral = true;
 	}
 
 	public void driveWithJoysticks() {
