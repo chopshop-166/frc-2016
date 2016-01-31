@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -28,6 +29,9 @@ public class Drive extends Subsystem {
 	Victor leftBotVictor = new Victor(RobotMap.Pwm.leftBotDrive);
 	Victor rightTopVictor = new Victor(RobotMap.Pwm.rightTopDrive);
 	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
+
+	Servo transmission1Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
+	Servo transmission2Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
 
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
@@ -78,6 +82,21 @@ public class Drive extends Subsystem {
 		if (Math.abs(Robot.oi.getRightYAxis()) > .1) {
 			tankDrive.tankDrive(power + getGyroOffset(), power - getGyroOffset());
 		}
+	}
+
+	public void highGear() {
+		transmission1Servo.set(1);
+		transmission2Servo.set(1);
+	}
+
+	public void lowGear() {
+		transmission1Servo.set(0);
+		transmission2Servo.set(0);
+	}
+
+	public void neutral() {
+		transmission1Servo.set(0.5);
+		transmission2Servo.set(0.5);
 	}
 
 	public void driveWithJoysticks() {

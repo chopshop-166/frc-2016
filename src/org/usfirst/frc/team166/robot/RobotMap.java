@@ -17,7 +17,7 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 
-	// Driver Conrols
+	// Driver Controls
 	public static class Driver {
 		public static int leftJoystickPort = 0;
 		public static int rightJoystickPort = 1;
@@ -44,6 +44,9 @@ public class RobotMap {
 		public static final int ShooterAngleMotor = 6;
 		public static final int IntakeVictor = 4;
 		public static final int IntakeVictor2 = 5;
+
+		public static final int transmission1ServoPort = 7;
+		public static final int transmission2ServoPort = 8;
 	}
 
 	// Encoder (Digital Input) Channels
