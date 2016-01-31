@@ -1,18 +1,16 @@
-package org.usfirst.frc.team166.robot.commands;
+package org.usfirst.frc.team166.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team166.robot.Robot;
-import org.usfirst.frc.team166.robot.RobotMap;
 
 /**
  *
  */
-public class Aim extends Command {
+public class IntakeMotorForward extends Command {
 
-	public Aim() {
-		requires(Robot.shooter);
+	public IntakeMotorForward() {
+		requires(Robot.intake);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -20,13 +18,12 @@ public class Aim extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.shooter.setSpeed(Preferences.getInstance().getDouble(RobotMap.Prefs.ShooterSpeed, 0));
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.shooter.setAngle(Robot.vision.getDesiredShooterAngle());
+		Robot.intake.IntakeMotorForward();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

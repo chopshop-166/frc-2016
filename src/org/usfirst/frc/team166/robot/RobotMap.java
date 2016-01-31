@@ -7,7 +7,17 @@ package org.usfirst.frc.team166.robot;
  */
 public class RobotMap {
 
-	// Driver Controls
+	// For example to map the left and right motors, you could define the
+	// following variables to use with your drivetrain subsystem.
+	// public static int leftMotor = 1;
+	// public static int rightMotor = 2;
+
+	// If you are using multiple modules, make sure to define both the port
+	// number and the module. For example you with a rangefinder:
+	// public static int rangefinderPort = 1;
+	// public static int rangefinderModule = 1;
+
+	// Driver Conrols
 	public static class Driver {
 		public static int leftJoystickPort = 0;
 		public static int rightJoystickPort = 1;
@@ -29,9 +39,11 @@ public class RobotMap {
 
 		public static int rollerPort = 6;
 
-		public static final int LeftShooterMotor = 4;
-		public static final int RightShooterMotor = 5;
+		public static final int LeftShooterMotor = 5;
+		public static final int RightShooterMotor = 4;
 		public static final int ShooterAngleMotor = 6;
+		public static final int IntakeVictor = 4;
+		public static final int IntakeVictor2 = 5;
 	}
 
 	// Encoder (Digital Input) Channels
@@ -57,12 +69,13 @@ public class RobotMap {
 	public static class Analog {
 		public static int gyroPort = 0;
 
-		public static final int ShooterPotAngle = 16; // NEEDS A COMMENT
+		public static final int ShooterPotAngle = 1; // NEEDS A COMMENT
 	}
 
-	// Solenoid Channels
+	// Solenoids
 	public static class Solenoid {
-
+		public static final int IntakeSolenoidForwards = 1;
+		public static final int IntakeSolenoidBackwards = 2;
 	}
 
 	// Prefs
@@ -81,4 +94,5 @@ public class RobotMap {
 
 		public static final String angleToDisplacementConstant = "angleToDisplacementConstant";
 	}
+
 }
