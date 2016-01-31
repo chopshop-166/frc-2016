@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team166.robot.commands.Aim;
 import org.usfirst.frc.team166.robot.commands.Autonomous;
+import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
