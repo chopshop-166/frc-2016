@@ -3,13 +3,12 @@ package org.usfirst.frc.team166.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team166.robot.commands.Aim;
+import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
-import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeMotor;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
-import org.usfirst.frc.team166.robot.commands.DriveWithGyro;
+import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands and command groups
@@ -46,7 +45,6 @@ public class OI {
 		CPbutton3.whileHeld(new IntakeMotorReverse());
 		CPbutton3.whenReleased(new IntakeMotorStop());
 		CPbutton4.whenPressed(new ToggleIntakeSolenoid());
-		CPbutton5.whenPressed(new ToggleIntakeMotor());
 
 		// The Following commands are mapped from buttons on a joystick and may need to be changed if the
 		// copiolits controller turns out to be an Xbox controler

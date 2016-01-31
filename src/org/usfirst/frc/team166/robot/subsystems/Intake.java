@@ -19,7 +19,8 @@ public class Intake extends Subsystem {
 	Talon IntakeSIM2;
 
 	public Intake() {
-		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidF, RobotMap.Solenoid.IntakeSolenoidR);
+		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidForwards,
+				RobotMap.Solenoid.IntakeSolenoidBackwards);
 		IntakeSIM = new Victor(RobotMap.Pwm.IntakeVictor);
 		IntakeSIM = new Victor(RobotMap.Pwm.IntakeVictor2);
 
@@ -37,25 +38,25 @@ public class Intake extends Subsystem {
 		IntakeSIM2.set(Preferences.getInstance().getDouble("Reverse2", -.4));
 	}
 
-	public void IntsakeMotorStop() {
+	public void IntakeMotorStop() {
 		IntakeSIM.set(Preferences.getInstance().getDouble("Stop", 0));
 		IntakeSIM2.set(Preferences.getInstance().getDouble("Stop2", 0));
 	}
 
-	public void ToggleIntakeMotor() {
-		double MotorVal = IntakeSIM.get();
-		if (MotorVal >= .4) {
-			IntakeMotorReverse();
-		}
-
-		else if (MotorVal <= -.4) {
-			IntakeMotorForward();
-		}
-
-		else
-			IntsakeMotorStop();
-
-	}
+	// public void ToggleIntakeMotor() {
+	// double MotorVal = IntakeSIM.get();
+	// if (MotorVal >= .4) {
+	// IntakeMotorReverse();
+	// }
+	//
+	// else if (MotorVal <= -.4) {
+	// IntakeMotorForward();
+	// }
+	//
+	// else
+	// IntakeMotorStop();
+	//
+	// }
 
 	// Solenoid Methods
 
