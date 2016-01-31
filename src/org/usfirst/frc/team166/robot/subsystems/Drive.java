@@ -20,10 +20,13 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	double distancePerPulse = 12 / 56320.0; // this makes perfect cents
+	double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes 2.1306818181...
 	double gyroConstant = -0.3 / 10.0;
 	double driveSpeedModifierConstant = .7;
 	double gyroVal = 0;
+
+	boolean highGear;
+	boolean neutral;
 
 	Victor leftTopVictor = new Victor(RobotMap.Pwm.leftTopDrive);
 	Victor leftBotVictor = new Victor(RobotMap.Pwm.leftBotDrive);
@@ -87,16 +90,21 @@ public class Drive extends Subsystem {
 	public void highGear() {
 		transmission1Servo.set(1);
 		transmission2Servo.set(1);
+		highGear = true;
+		neutral = false;
 	}
 
 	public void lowGear() {
 		transmission1Servo.set(0);
 		transmission2Servo.set(0);
+		highGear = false;
+		neutral = false;
 	}
 
 	public void neutral() {
 		transmission1Servo.set(0.5);
 		transmission2Servo.set(0.5);
+		neutral = true;
 	}
 
 	public void driveWithJoysticks() {
