@@ -92,6 +92,10 @@ public class Drive extends Subsystem {
 		transmission2Servo.set(1);
 		highGear = true;
 		neutral = false;
+		leftEncoder.setDistancePerPulse(3 * distancePerPulse);
+		rightEncoder.setDistancePerPulse(3 * distancePerPulse);
+		leftEncoder1.setDistancePerPulse(3 * distancePerPulse); // delete this later
+		rightEncoder1.setDistancePerPulse(3 * distancePerPulse);
 	}
 
 	public void lowGear() {
@@ -99,6 +103,10 @@ public class Drive extends Subsystem {
 		transmission2Servo.set(0);
 		highGear = false;
 		neutral = false;
+		leftEncoder.setDistancePerPulse(distancePerPulse);
+		rightEncoder.setDistancePerPulse(distancePerPulse);
+		leftEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
+		rightEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
 	}
 
 	public void neutral() {
@@ -113,24 +121,14 @@ public class Drive extends Subsystem {
 		double leftPower = Robot.oi.getLeftYAxis() * driveSpeedModifierConstant;
 		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
 		boolean areJoysticksSimilar = false;
-
 		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
-			if (Math.abs(leftPower - rightPower) < .2) {
-				if (areJoysticksSimilar = false) { // is this the first time in loop?
-					gyro.reset(); // then reset the GYRO!!!!
-					areJoysticksSimilar = true;
-				}
-				// tankDrive.tankDrive(leftPower + getGyroOffset(), rightPower - getGyroOffset()); // then drive with
-				// gyro
-				tankDrive.tankDrive(leftPower, rightPower);
-				SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
-				SmartDashboard.putNumber("Right Power", rightPower);
-				SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
-			} else {
-				tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());// if not trying to go straight,
-																						// don't use gyro
-				areJoysticksSimilar = false;
-			}
+
+			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
+			SmartDashboard.putNumber("Right Power", rightPower);
+			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
+			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis()); // if not trying to go straight, //
+																					// don't use gyro
+
 		} else {
 			stop();
 		}
@@ -149,12 +147,14 @@ public class Drive extends Subsystem {
 		rightEncoder.reset();
 	}
 
-	public int getLeftEncoder() {
-		return leftEncoder.get();
+	public double getLeftEncoder() {
+		SmartDashboard.putNumber("Left Encoder", leftEncoder.getRate());
+		return leftEncoder.getRate();
 	}
 
-	public int getRightEncoder() {
-		return rightEncoder.get();
+	public double getRightEncoder() {
+		SmartDashboard.putNumber("Right Encoder", rightEncoder.getRate());
+		return rightEncoder.getRate();
 	}
 
 	public double getDistance() {
@@ -196,9 +196,14 @@ public class Drive extends Subsystem {
 	}
 
 	public void setPIDConstants() {
-		double p = 1;
-		double i = 2;
-		double d = 0;
+		// double p = 1;
+		// double i = 2;
+		// double d = 0;
+		// double f = 1;
+
+		double p = 0.000001;
+		double i = 0.000001;
+		double d = 0.000001;
 		double f = 1;
 
 		leftTopPID.setConstants(p, i, d, f);

@@ -29,9 +29,9 @@ public class OI {
 		copilotController = new Joystick(RobotMap.Copilot.copilotPort);
 
 		JoystickButton rightJoyTrigger = new JoystickButton(rightStick, 1);
-		JoystickButton highGearButton = new JoystickButton(rightStick, 3);
-		JoystickButton lowGearButton = new JoystickButton(rightStick, 2);
-		JoystickButton neutralButton = new JoystickButton(rightStick, 7);
+		JoystickButton rightJoyButton2 = new JoystickButton(rightStick, 2);
+		JoystickButton rightJoyButton3 = new JoystickButton(rightStick, 3);
+		JoystickButton rightJoyButton7 = new JoystickButton(rightStick, 7);
 
 		JoystickButton CPbutton1 = new JoystickButton(copilotController, 1);
 		JoystickButton CPbutton2 = new JoystickButton(copilotController, 2);
@@ -41,9 +41,10 @@ public class OI {
 
 		// Buttons
 		rightJoyTrigger.whileHeld(new DriveWithGyro());
-		highGearButton.whenPressed(new HighGear());
-		lowGearButton.whenPressed(new LowGear());
-		neutralButton.whenPressed(new Neutral());
+
+		rightJoyButton3.whenPressed(new HighGear());
+		rightJoyButton2.whenPressed(new LowGear());
+		rightJoyButton7.whenPressed(new Neutral());
 
 		// The Following commands are mapped from buttons on a joystick and may
 		// need to be changed if the copilot's controller turns out to be an
