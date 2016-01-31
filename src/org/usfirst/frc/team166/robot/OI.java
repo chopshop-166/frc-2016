@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
+import org.usfirst.frc.team166.robot.commands.drive.highGearDistancePerPulse;
+import org.usfirst.frc.team166.robot.commands.drive.lowGearDistancePerPulse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
@@ -26,6 +28,8 @@ public class OI {
 		copilotController = new Joystick(RobotMap.Copilot.copilotPort);
 
 		JoystickButton rightJoyTrigger = new JoystickButton(rightStick, 1);
+		JoystickButton rightJoyButton2 = new JoystickButton(rightStick, 2);
+		JoystickButton rightJoyButton3 = new JoystickButton(rightStick, 3);
 
 		JoystickButton CPbutton1 = new JoystickButton(copilotController, 1);
 		JoystickButton CPbutton2 = new JoystickButton(copilotController, 2);
@@ -35,6 +39,8 @@ public class OI {
 
 		// Buttons
 		rightJoyTrigger.whileHeld(new DriveWithGyro());
+		rightJoyButton2.whenPressed(new lowGearDistancePerPulse());
+		rightJoyButton3.whenPressed(new highGearDistancePerPulse());
 
 		// The Following commands are mapped from buttons on a joystick and may
 		// need to be changed if the copilot's controller turns out to be an

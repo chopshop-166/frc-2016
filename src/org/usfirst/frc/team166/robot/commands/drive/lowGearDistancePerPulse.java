@@ -7,24 +7,22 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class DriveWithGyro extends Command {
+public class lowGearDistancePerPulse extends Command {
 
-	public DriveWithGyro() {
+	public lowGearDistancePerPulse() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.drive);
+		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.drive.resetGyro();
+		Robot.drive.lowGearDistancePerPulse();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.getRightEncoder();
-		Robot.drive.driveWithGyro();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
