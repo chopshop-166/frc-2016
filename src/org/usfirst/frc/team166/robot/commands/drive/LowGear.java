@@ -7,22 +7,21 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class lowGearDistancePerPulse extends Command {
+public class LowGear extends Command {
 
-	public lowGearDistancePerPulse() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
+	public LowGear() {
+		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.drive.lowGearDistancePerPulse();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		Robot.drive.lowGear();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

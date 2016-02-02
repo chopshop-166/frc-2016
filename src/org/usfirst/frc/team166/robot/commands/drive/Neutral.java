@@ -7,22 +7,21 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class highGearDistancePerPulse extends Command {
+public class Neutral extends Command {
 
-	public highGearDistancePerPulse() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
+	public Neutral() {
+		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.drive.highGearDistancePerPulse();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		Robot.drive.neutral();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
