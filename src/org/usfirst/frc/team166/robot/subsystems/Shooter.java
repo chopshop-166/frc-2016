@@ -41,8 +41,9 @@ public class Shooter extends Subsystem {
 		encoderRight.setPIDSourceType(PIDSourceType.kRate);
 
 		shooterAnglePID = new PIDController(0, 0, 0, pot, shooterAngle);
-		leftPID = new PIDSpeedController(encoderLeft, shooterLeftSide, "Shooter", "Left Wheel");
-		rightPID = new PIDSpeedController(encoderRight, shooterRightSide, "Shooter", "Right Wheel");
+		// leftPID = new PIDSpeedController(encoderLeft, shooterLeftSide, "Shooter", "Left Wheel");
+		// rightPID = new PIDSpeedController(encoderRight, shooterRightSide, "Shooter", "Right Wheel");
+
 	}
 
 	public double convertAngleToDisplacement(double angle) {
@@ -53,8 +54,10 @@ public class Shooter extends Subsystem {
 
 	// launch the ball
 	public void setSpeed(double power) {
-		leftPID.set(power);
-		rightPID.set(power);
+		// leftPID.set(power);
+		// rightPID.set(power);
+		shooterLeftSide.set(power);
+		shooterRightSide.set(-power);
 	}
 
 	public void setAngle(double angle) {
