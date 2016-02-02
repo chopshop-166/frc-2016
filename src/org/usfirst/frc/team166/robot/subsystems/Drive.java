@@ -34,7 +34,7 @@ public class Drive extends Subsystem {
 	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
 
 	Servo transmission1Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
-	Servo transmission2Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
+	Servo transmission2Servo = new Servo(RobotMap.Pwm.transmission2ServoPort);
 
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
@@ -118,14 +118,9 @@ public class Drive extends Subsystem {
 	public void driveWithJoysticks() {
 		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
-		double leftPower = Robot.oi.getLeftYAxis() * driveSpeedModifierConstant;
-		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
-		boolean areJoysticksSimilar = false;
 		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
 
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
-			SmartDashboard.putNumber("Right Power", rightPower);
-			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
 			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis()); // if not trying to go straight, //
 																					// don't use gyro
 
