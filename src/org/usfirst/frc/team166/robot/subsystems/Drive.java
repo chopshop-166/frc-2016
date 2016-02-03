@@ -38,26 +38,26 @@ public class Drive extends Subsystem {
 	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
 
 	Servo transmission1Servo = new Servo(RobotMap.Pwm.leftTransmissionServoPort);
-	Servo transmission2Servo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);
+	Servo transmission2Servo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);// dont be dumb by putting double 1s
 
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
 
 	Encoder leftEncoder1 = new Encoder(RobotMap.Digital.leftEncoder1A, RobotMap.Digital.leftEncoder1B); // delete these
-																										// later
+	// later when we have the real robot
 	Encoder rightEncoder1 = new Encoder(RobotMap.Digital.rightEncoder1A, RobotMap.Digital.rightEncoder1B);
 
-	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopVictor, "Six Wheel Drive", "LeftTopPID"); // specify
-	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotVictor, "Six Wheel Drive",
-			"LeftBotPID");
-	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopVictor, "Six Wheel Drive",
-			"RightTopPID");
-	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotVictor, "Six Wheel Drive",
-			"RightBotPID");// or bot motors
+	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopVictor, "Drive", "LeftTopPID"); // specify
+	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotVictor, "Drive", "LeftBotPID");
+	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopVictor, "Drive", "RightTopPID");
+	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotVictor, "Drive", "RightBotPID");// or
+																													// bot
+																													// motors
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 
 	RobotDrive tankDrive = new RobotDrive(leftTopPID, leftBotPID, rightTopPID, rightBotPID);
+
 	// RobotDrive tankDrive = new RobotDrive(leftTopVictor, leftBotVictor, rightTopVictor, rightBotVictor);
 
 	public Drive() {
@@ -76,7 +76,7 @@ public class Drive extends Subsystem {
 		gyroVal = Robot.drive.getGyro() * gyroConstant;
 		if (Math.abs(gyroVal) > (1.0 - driveSpeedModifierConstant)) {
 			gyroVal = (1.0 - driveSpeedModifierConstant) * Math.abs(gyroVal) / gyroVal; // sets gyroVal to either 1 or
-																						// -1
+			// -1
 		}
 		return gyroVal;
 	}
@@ -126,7 +126,6 @@ public class Drive extends Subsystem {
 	public void driveWithJoysticks() {
 		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
-		double leftPower = Robot.oi.getLeftYAxis() * driveSpeedModifierConstant;
 		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
 		boolean areJoysticksSimilar = false;
 		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
@@ -135,7 +134,6 @@ public class Drive extends Subsystem {
 			SmartDashboard.putNumber("Right Power", rightPower);
 			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
 			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis()); // if not trying to go straight, //
-																					// // don't use gyro
 		} else {
 			isShiftingOK = false;
 			stop();
