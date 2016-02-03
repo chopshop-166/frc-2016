@@ -43,15 +43,15 @@ public class Drive extends Subsystem {
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
 
 	Encoder leftEncoder1 = new Encoder(RobotMap.Digital.leftEncoder1A, RobotMap.Digital.leftEncoder1B); // delete these
-	// later
+	// later when we have the real robot
 	Encoder rightEncoder1 = new Encoder(RobotMap.Digital.rightEncoder1A, RobotMap.Digital.rightEncoder1B);
 
-	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopVictor, "Six Wheel Drive", "LeftTopPID"); // specify
-	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotVictor, "Six Wheel Drive", "LeftBotPID");
-	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopVictor, "Six Wheel Drive",
-			"RightTopPID");
-	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotVictor, "Six Wheel Drive",
-			"RightBotPID");// or bot motors
+	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopVictor, "Drive", "LeftTopPID"); // specify
+	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotVictor, "Drive", "LeftBotPID");
+	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopVictor, "Drive", "RightTopPID");
+	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotVictor, "Drive", "RightBotPID");// or
+																													// bot
+																													// motors
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 

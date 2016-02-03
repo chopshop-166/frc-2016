@@ -54,7 +54,7 @@ public class RobotMap {
 	// Encoder (Digital Input) Channels
 	public static class Digital {
 
-		public static int leftEncoderA = 13; // front left all encoders got bumed up one
+		public static int leftEncoderA = 13; // front left
 		public static int leftEncoderB = 14;
 		public static int rightEncoderA = 11; // front right
 		public static int rightEncoderB = 12;
