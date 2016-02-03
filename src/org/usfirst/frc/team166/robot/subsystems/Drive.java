@@ -27,14 +27,18 @@ public class Drive extends Subsystem {
 
 	boolean highGear;
 	boolean neutral;
+	boolean isShiftingOK;
+
+	double highGearValue = 0.0;
+	double lowGearValue = 1.0;
 
 	Victor leftTopVictor = new Victor(RobotMap.Pwm.leftTopDrive);
 	Victor leftBotVictor = new Victor(RobotMap.Pwm.leftBotDrive);
 	Victor rightTopVictor = new Victor(RobotMap.Pwm.rightTopDrive);
 	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
 
-	Servo transmission1Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
-	Servo transmission2Servo = new Servo(RobotMap.Pwm.transmission1ServoPort);
+	Servo transmission1Servo = new Servo(RobotMap.Pwm.leftTransmissionServoPort);
+	Servo transmission2Servo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);
 
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
@@ -88,25 +92,29 @@ public class Drive extends Subsystem {
 	}
 
 	public void highGear() {
-		transmission1Servo.set(1);
-		transmission2Servo.set(1);
-		highGear = true;
-		neutral = false;
-		leftEncoder.setDistancePerPulse(3 * distancePerPulse);
-		rightEncoder.setDistancePerPulse(3 * distancePerPulse);
-		leftEncoder1.setDistancePerPulse(3 * distancePerPulse); // delete this later
-		rightEncoder1.setDistancePerPulse(3 * distancePerPulse);
+		if (isShiftingOK = true) {
+			transmission1Servo.set(highGearValue);
+			transmission2Servo.set(highGearValue);
+			highGear = true;
+			neutral = false;
+			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
+			rightEncoder.setDistancePerPulse(3 * distancePerPulse);
+			leftEncoder1.setDistancePerPulse(3 * distancePerPulse); // delete this later
+			rightEncoder1.setDistancePerPulse(3 * distancePerPulse);
+		}
 	}
 
 	public void lowGear() {
-		transmission1Servo.set(0);
-		transmission2Servo.set(0);
-		highGear = false;
-		neutral = false;
-		leftEncoder.setDistancePerPulse(distancePerPulse);
-		rightEncoder.setDistancePerPulse(distancePerPulse);
-		leftEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
-		rightEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
+		if (isShiftingOK = true) {
+			transmission1Servo.set(lowGearValue);
+			transmission2Servo.set(lowGearValue);
+			highGear = false;
+			neutral = false;
+			leftEncoder.setDistancePerPulse(distancePerPulse);
+			rightEncoder.setDistancePerPulse(distancePerPulse);
+			leftEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
+			rightEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
+		}
 	}
 
 	public void neutral() {
@@ -122,14 +130,14 @@ public class Drive extends Subsystem {
 		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
 		boolean areJoysticksSimilar = false;
 		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
-
+			isShiftingOK = true;
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
 			SmartDashboard.putNumber("Right Power", rightPower);
 			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
 			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis()); // if not trying to go straight, //
-																					// don't use gyro
-
+																					// // don't use gyro
 		} else {
+			isShiftingOK = false;
 			stop();
 		}
 	}

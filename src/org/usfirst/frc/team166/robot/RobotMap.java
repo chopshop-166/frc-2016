@@ -41,10 +41,10 @@ public class RobotMap {
 
 		public static final int LeftShooterMotor = 5;
 		public static final int RightShooterMotor = 4;
-		public static final int ShooterAngleMotor = 6;
+		public static final int ShooterAngleMotor = 11;
 
-		public static final int transmission1ServoPort = 7;
-		public static final int transmission2ServoPort = 8;
+		public static final int leftTransmissionServoPort = 7;
+		public static final int rightTransmissionServoPort = 8;
 
 		public static final int IntakeVictor = 9;
 		public static final int IntakeVictor2 = 10;
@@ -54,8 +54,8 @@ public class RobotMap {
 	// Encoder (Digital Input) Channels
 	public static class Digital {
 
-		public static int leftEncoderA = 12; // front left
-		public static int leftEncoderB = 13;
+		public static int leftEncoderA = 0; // front left
+		public static int leftEncoderB = 1;
 		public static int rightEncoderA = 10; // front right
 		public static int rightEncoderB = 11;
 

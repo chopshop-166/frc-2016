@@ -3,7 +3,6 @@ package org.usfirst.frc.team166.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,13 +15,13 @@ public class Intake extends Subsystem {
 
 	DoubleSolenoid Actuator;
 	Victor IntakeSIM;
-	Talon IntakeSIM2;
+	Victor IntakeSIM2;
 
 	public Intake() {
 		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidForwards,
 				RobotMap.Solenoid.IntakeSolenoidBackwards);
 		IntakeSIM = new Victor(RobotMap.Pwm.IntakeVictor);
-		IntakeSIM = new Victor(RobotMap.Pwm.IntakeVictor2);
+		IntakeSIM2 = new Victor(RobotMap.Pwm.IntakeVictor2);
 
 	}
 
