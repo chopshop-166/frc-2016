@@ -92,7 +92,7 @@ public class Drive extends Subsystem {
 	}
 
 	public void highGear() {
-		if (isShiftingOK = true) {
+		if (isShiftingOK == true) {
 			transmission1Servo.set(highGearValue);
 			transmission2Servo.set(highGearValue);
 			highGear = true;
@@ -105,7 +105,7 @@ public class Drive extends Subsystem {
 	}
 
 	public void lowGear() {
-		if (isShiftingOK = true) {
+		if (isShiftingOK == true) {
 			transmission1Servo.set(lowGearValue);
 			transmission2Servo.set(lowGearValue);
 			highGear = false;

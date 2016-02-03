@@ -41,7 +41,7 @@ public class RobotMap {
 
 		public static final int LeftShooterMotor = 5;
 		public static final int RightShooterMotor = 4;
-		public static final int ShooterAngleMotor = 11;
+		public static final int ShooterAngleMotor = 6;
 
 		public static final int leftTransmissionServoPort = 7;
 		public static final int rightTransmissionServoPort = 8;
