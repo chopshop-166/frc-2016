@@ -37,8 +37,9 @@ public class Drive extends Subsystem {
 	Victor rightTopVictor = new Victor(RobotMap.Pwm.rightTopDrive);
 	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
 
-	Servo transmission1Servo = new Servo(RobotMap.Pwm.leftTransmissionServoPort);
-	Servo transmission2Servo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);// dont be dumb by putting double 1s
+	Servo leftTransmissionServo = new Servo(RobotMap.Pwm.leftTransmissionServoPort);
+	Servo rightTransmissionServo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);// dont be dumb by putting double
+																						// 1s
 
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
@@ -93,8 +94,8 @@ public class Drive extends Subsystem {
 
 	public void highGear() {
 		if (isShiftingOK == true) {
-			transmission1Servo.set(highGearValue);
-			transmission2Servo.set(highGearValue);
+			leftTransmissionServo.set(highGearValue);
+			rightTransmissionServo.set(highGearValue);
 			highGear = true;
 			neutral = false;
 			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
@@ -106,8 +107,8 @@ public class Drive extends Subsystem {
 
 	public void lowGear() {
 		if (isShiftingOK == true) {
-			transmission1Servo.set(lowGearValue);
-			transmission2Servo.set(lowGearValue);
+			leftTransmissionServo.set(lowGearValue);
+			rightTransmissionServo.set(lowGearValue);
 			highGear = false;
 			neutral = false;
 			leftEncoder.setDistancePerPulse(distancePerPulse);
@@ -118,21 +119,18 @@ public class Drive extends Subsystem {
 	}
 
 	public void neutral() {
-		transmission1Servo.set(0.5);
-		transmission2Servo.set(0.5);
+		leftTransmissionServo.set(0.5);
+		rightTransmissionServo.set(0.5);
 		neutral = true;
 	}
 
 	public void driveWithJoysticks() {
 		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
-		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
-		boolean areJoysticksSimilar = false;
+
 		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
 			isShiftingOK = true;
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
-			SmartDashboard.putNumber("Right Power", rightPower);
-			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
 			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis()); // if not trying to go straight, //
 		} else {
 			isShiftingOK = false;

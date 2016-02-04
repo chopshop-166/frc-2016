@@ -66,6 +66,7 @@ public class RobotMap {
 
 		public static final int ShooterLeftChannelA = 19;
 		public static final int ShooterLeftChannelB = 20;
+
 		public static final int ShooterRightChannelA = 21;
 		public static final int ShooterRightChannelB = 22;
 	}
