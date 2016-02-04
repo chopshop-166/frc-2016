@@ -17,10 +17,6 @@ public class Vision extends Subsystem {
 		return (0);
 	}
 
-	public void centerRobotOnTarget() {
-
-	}
-
 	@Override
 	public void initDefaultCommand() {
 
