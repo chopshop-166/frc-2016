@@ -25,8 +25,12 @@ def threshold_range(im, lo, hi):
     unused, t2 = cv2.threshold(im, hi, 255, type=cv2.THRESH_BINARY_INV)
     return cv2.bitwise_and(t1, t2)
 def findDistanceToTarget(width):
-    distance = (-15.26*math.log(width)+82.857)
+    #distance = (-15.26*math.log(width)+82.857)
+    distance = (44.139 * math.exp((-0.012 * width)))
     return distance
+def findAngle(distance):
+    angle = math.degrees(math.atan(6.5/distance))
+    return angle;
 
 vc = cv2.VideoCapture()
 
@@ -85,22 +89,17 @@ while cv2.waitKey(10) <= 0:
                if (atemp > maxArea):
                    maxArea = atemp;
                    maxAreaIndex = partCount;
+                
 
                #Keep in mind, x and y are the actual centers, but xtemp and ytemp is the upper left corner
                
-               
-               cv2.circle(color,(xtemp + (wtemp/2) ,ytemp + (htemp/2)),2,(0,255,0),thickness = -1)
-               tempstring = " (%d,%d)" % (xtemp, ytemp)
-               cv2.putText(color, tempstring, (xtemp + wtemp,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-               cv2.putText(color, "%d" %(wtemp), (xtemp + (wtemp/2),ytemp + htemp + 30), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-               cv2.putText(color, "%d" %(htemp), (xtemp - 30 ,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-               cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget(w[maxAreaIndex])), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+               if(atemp > 1000):
+                   cv2.circle(color,(xtemp + (wtemp/2) ,ytemp + (htemp/2)),2,(0,255,0),thickness = -1)
+                   tempstring = " (%d,%d)" % (xtemp, ytemp)
+                   cv2.putText(color, tempstring, (xtemp + wtemp,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
+                   cv2.putText(color, "%d" %(wtemp), (xtemp + (wtemp/2),ytemp + htemp + 30), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
+                   cv2.putText(color, "%d" %(htemp), (xtemp - 30 ,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
+                   cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget(w[maxAreaIndex])), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+                   cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget(w[maxAreaIndex]))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
               
     cv2.imshow("Cameras are awesome :D", color)
-
-    
-    
-
-   
-    
-    
