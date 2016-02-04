@@ -24,7 +24,7 @@ public class IntakeMotorReverse extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.intake.IntakeMotorReverse();
+		Robot.intake.intakeMotorReverse();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

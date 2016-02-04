@@ -48,10 +48,10 @@ public class RobotMap {
 
 		public static final int IntakeVictor = 9;
 		public static final int IntakeVictor2 = 10;
-
+		public static final int RollerVictor = 11;
 	}
 
-	// Encoder (Digital Input) Channels
+	// Encoder (Digital or Analog Input) Channels
 	public static class Digital {
 
 		public static int leftEncoderA = 13; // front left
@@ -69,6 +69,10 @@ public class RobotMap {
 
 		public static final int ShooterRightChannelA = 21;
 		public static final int ShooterRightChannelB = 22;
+		public static final int RollerEncoderA = 23;
+		public static final int RollerEncoderB = 24;
+
+		public static final int IntakeSensor = 25;
 	}
 
 	// Analog Inputs
