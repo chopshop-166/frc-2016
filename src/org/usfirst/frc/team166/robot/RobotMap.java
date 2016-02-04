@@ -43,8 +43,8 @@ public class RobotMap {
 		public static final int RightShooterMotor = 4;
 		public static final int ShooterAngleMotor = 6;
 
-		public static final int transmission1ServoPort = 7;
-		public static final int transmission2ServoPort = 8;
+		public static final int leftTransmissionServoPort = 7;
+		public static final int rightTransmissionServoPort = 8;
 
 		public static final int IntakeVictor = 9;
 		public static final int IntakeVictor2 = 10;
@@ -66,8 +66,9 @@ public class RobotMap {
 
 		public static final int ShooterLeftChannelA = 19;
 		public static final int ShooterLeftChannelB = 20;
-		public static final int ShooterRightChannelA = 22;
-		public static final int ShooterRightChannelB = 23;
+
+		public static final int ShooterRightChannelA = 21;
+		public static final int ShooterRightChannelB = 22;
 	}
 
 	// Analog Inputs
