@@ -15,12 +15,6 @@ visionDataTable.PutBoolean("isHot", False)
 visionDataTable.PutNumber("skinnyOffset", 0.0)
 
 
-def find_distance(x1, y1, x2, y2):
-    root = math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
-    rootInt = int(root)
-    return rootInt
-
-
 def threshold_range(im, lo, hi):
     '''Returns a binary image if the values are between a certain value'''
 
@@ -36,8 +30,7 @@ def findDistanceToTarget(width):
 
 
 def findAngle(distance):
-    angle = math.degrees(math.atan(6.5 / distance))
-    return angle
+    return math.degrees(math.atan(6.5 / distance))
 
 
 def putText(img, text, pos, color):
@@ -69,7 +62,7 @@ while cv2.waitKey(10) <= 0:
     v = threshold_range(v, 20, 255)
 
     # Combine 3 thresholds into one final threshold image
-    threshold = cv2.bitwise_and(h, cv2.bitwise_and(s, v))
+    threshold = reduce(cv2.bitwise_and, (h, s, v))
 
     kernal = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2), anchor=(1, 1))
 
@@ -96,14 +89,14 @@ while cv2.waitKey(10) <= 0:
     for partCount, contour, in enumerate(simplecontours):
         # Determine x,y,w,h by drawing a rectangle on contour
         (xtemp, ytemp, wtemp, htemp) = cv2.boundingRect(contour)
+        atemp = wtemp * htemp
 
         # put x,y,w,h for each particle in an array
         x.append(xtemp + (wtemp / 2))
         y.append(ytemp + (htemp / 2))
         w.append(wtemp)
         h.append(htemp)
-        a.append(wtemp * htemp)
-        atemp = wtemp * htemp
+        a.append(atemp)
 
         if (atemp > maxArea):
             maxArea = atemp
@@ -113,24 +106,17 @@ while cv2.waitKey(10) <= 0:
         # the upper left corner
 
         if(atemp > 1000):
-            cv2.circle(color,
-                       (xtemp + (wtemp / 2), ytemp + (htemp / 2)),
+            distToTarget = findDistanceToTarget(w[maxAreaIndex])
+            cv2.circle(color, (xtemp + (wtemp / 2), ytemp + (htemp / 2)),
                        2, (0, 255, 0), thickness=-1)
-            tempstring = " (%d,%d)" % (xtemp, ytemp)
-            putText(color, tempstring,
-                    (xtemp + wtemp, ytemp + (htemp / 2)),
-                    (255, 0, 255))
-            putText(color, "%d" % (wtemp),
-                    (xtemp + (wtemp / 2), ytemp + htemp + 30),
-                    cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 255))
-            putText(color, "%d" % (htemp),
-                    (xtemp - 30, ytemp + (htemp / 2)),
-                    (255, 0, 255))
-            putText(color, "Distance To Target: %d" % (
-                    findDistanceToTarget(w[maxAreaIndex])),
+            putText(color, " (%d,%d)" % (xtemp, ytemp),
+                    (xtemp + wtemp, ytemp + (htemp / 2)), (255, 0, 255))
+            putText(color, str(wtemp),
+                    (xtemp + (wtemp / 2), ytemp + htemp + 30), (255, 0, 255))
+            putText(color, str(htemp),
+                    (xtemp - 30, ytemp + (htemp / 2)), (255, 0, 255))
+            putText(color, "Distance To Target: %d" % distToTarget,
                     (0, 16), (0, 255, 255))
-            putText(color, "Angle: %d" % (
-                    findAngle(findDistanceToTarget(w[maxAreaIndex]))),
-                    (0, 32), (0, 255, 255))
+            putText(color, "Angle: %d" % distToTarget, (0, 32), (0, 255, 255))
 
     cv2.imshow("Cameras are awesome :D", color)
