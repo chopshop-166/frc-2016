@@ -1,9 +1,7 @@
 package org.usfirst.frc.team166.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,34 +16,12 @@ public class Intake extends Subsystem {
 	DoubleSolenoid Actuator;
 	Victor IntakeCIM;
 	Victor IntakeCIM2;
-	Victor RollerCIM;
-	Encoder RollerEncoder;
-	DigitalInput IntakeSensor;
 
 	public Intake() {
 		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidForwards,
 				RobotMap.Solenoid.IntakeSolenoidBackwards);
 		IntakeCIM = new Victor(RobotMap.Pwm.IntakeVictor);
 		IntakeCIM2 = new Victor(RobotMap.Pwm.IntakeVictor2);
-		RollerCIM = new Victor(RobotMap.Pwm.RollerVictor);
-		RollerEncoder = new Encoder(RobotMap.Digital.RollerEncoderA, RobotMap.Digital.RollerEncoderB);
-		IntakeSensor = new DigitalInput(RobotMap.Digital.IntakeSensor);
-
-	}
-
-	// Sensor Methods
-	public void getSensorBoolean() {
-		boolean SensorVal = IntakeSensor.get();
-		if (SensorVal == false) {
-			intakeMotorStop();
-		}
-	}
-
-	public void EncoderVal() {
-		boolean SensorVal = IntakeSensor.get();
-		if (SensorVal == false) {
-
-		}
 
 	}
 
@@ -53,7 +29,7 @@ public class Intake extends Subsystem {
 	public void intakeMotorForward() {
 		IntakeCIM.set(Preferences.getInstance().getDouble("Forward", .4));
 		IntakeCIM2.set(Preferences.getInstance().getDouble("Forward2", .4));
-		getSensorBoolean();
+
 	}
 
 	public void intakeMotorReverse() {
@@ -83,27 +59,32 @@ public class Intake extends Subsystem {
 
 	// Solenoid Methods
 
-	public void intakeSolenoidForward() {
+	public void lowerRake() {
 		Actuator.set(DoubleSolenoid.Value.kForward);
 
 	}
 
-	public void intakeSolenoidReverse() {
+	public void raiseRake() {
 		Actuator.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	public void toggleIntakeSolenoid() {
 		Value SolenoidVal = Actuator.get();
 		if (SolenoidVal == Value.kForward) {
-			intakeSolenoidReverse();
+			raiseRake();
 		} else {
-			intakeSolenoidForward();
+			lowerRake();
 
 		}
 	}
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
+	// Intake Final Commands
+
+	public void startLoadProcess() {
+		lowerRake();
+		intakeMotorForward();
+
+	}
 
 	@Override
 	public void initDefaultCommand() {
