@@ -58,12 +58,11 @@ def processImage(img):
 
     cv2.drawContours(image, simplecontours, -1, BLUE, thickness=2)
 
-    widths = []
-    maxArea = maxAreaIndex = 0
-
     for partCount, contour, in enumerate(simplecontours):
         # Determine x,y,w,h by drawing a rectangle on contour
         (xtemp, ytemp, wtemp, htemp) = cv2.boundingRect(contour)
+
+        # Rough area of the particle
         atemp = wtemp * htemp
 
         # Keep in mind, x and y are the actual centers, but xtemp and ytemp is
@@ -71,15 +70,8 @@ def processImage(img):
         xcenter = xtemp + (wtemp/2)
         ycenter = ytemp + (htemp/2)
 
-        # put x,y,w,h for each particle in an array
-        widths.append(wtemp)
-
-        if atemp > maxArea:
-            maxArea = atemp
-            maxAreaIndex = partCount
-
         if atemp > 1000:
-            distToTarget = findDistanceToTarget(widths[maxAreaIndex])
+            distToTarget = findDistanceToTarget(wtemp)
             cv2.circle(image, (xcenter, ycenter), 2, GREEN, thickness=-1)
             putText(image, " (%d,%d)" % (xtemp, ytemp),
                     (xtemp + wtemp, ycenter), MAGENTA)
@@ -89,7 +81,7 @@ def processImage(img):
             putText(image, "Distance: %d" % distToTarget, (0, 16), CYAN)
             putText(image, "Angle: %d" % distToTarget, (0, 32), CYAN)
 
-    cv2.imshow("Cameras are awesome :D", image)
+    cv2.imshow("Vision 166", image)
 
 
 def main():
