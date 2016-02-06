@@ -15,10 +15,13 @@ public class Intake extends Subsystem {
 
 	DoubleSolenoid Actuator;
 	Victor IntakeSIM;
+	Victor IntakeSIM2;
 
 	public Intake() {
-		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoid, 1);
+		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidForwards,
+				RobotMap.Solenoid.IntakeSolenoidBackwards);
 		IntakeSIM = new Victor(RobotMap.Pwm.IntakeVictor);
+		IntakeSIM2 = new Victor(RobotMap.Pwm.IntakeVictor2);
 
 	}
 
@@ -26,20 +29,33 @@ public class Intake extends Subsystem {
 
 	public void IntakeMotorForward() {
 		IntakeSIM.set(Preferences.getInstance().getDouble("Forward", .4));
+		IntakeSIM2.set(Preferences.getInstance().getDouble("Forward2", .4));
 	}
 
 	public void IntakeMotorReverse() {
-		IntakeSIM.set(Preferences.getInstance().getDouble("reverse", -.4));
+		IntakeSIM.set(Preferences.getInstance().getDouble("Reverse", -.4));
+		IntakeSIM2.set(Preferences.getInstance().getDouble("Reverse2", -.4));
 	}
 
-	public void IntsakeMotorStop() {
+	public void IntakeMotorStop() {
 		IntakeSIM.set(Preferences.getInstance().getDouble("Stop", 0));
+		IntakeSIM2.set(Preferences.getInstance().getDouble("Stop2", 0));
 	}
 
-	public void ToggleIntakeMotor() {
-		double MotorVal = IntakeSIM.get();
-
-	}
+	// public void ToggleIntakeMotor() {
+	// double MotorVal = IntakeSIM.get();
+	// if (MotorVal >= .4) {
+	// IntakeMotorReverse();
+	// }
+	//
+	// else if (MotorVal <= -.4) {
+	// IntakeMotorForward();
+	// }
+	//
+	// else
+	// IntakeMotorStop();
+	//
+	// }
 
 	// Solenoid Methods
 

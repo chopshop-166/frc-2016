@@ -17,40 +17,71 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 
-	// Driver Conrols
+	// Driver Controls
 	public static class Driver {
+		public static int leftJoystickPort = 0;
+		public static int rightJoystickPort = 1;
 		public static final int Joystick = 1;
 	}
 
 	// Copilot Controls
 	public static class Copilot {
-		public static final int CoPiolitJoystick = 2;
+		public static int copilotPort = 2;
+		public static int Joystick = 2;
 	}
 
 	// PWM Channels
 	public static class Pwm {
-		public static final int LeftShooterMotor = 4;
-		public static final int RightShooterMotor = 5;
+		public static int leftTopDrive = 1;
+		public static int leftBotDrive = 2;
+		public static int rightTopDrive = 0;
+		public static int rightBotDrive = 3;
+
+		public static int rollerPort = 6;
+
+		public static final int LeftShooterMotor = 5;
+		public static final int RightShooterMotor = 4;
 		public static final int ShooterAngleMotor = 6;
-		public static final int IntakeVictor = 7;
+
+		public static final int leftTransmissionServoPort = 7;
+		public static final int rightTransmissionServoPort = 8;
+
+		public static final int IntakeVictor = 9;
+		public static final int IntakeVictor2 = 10;
+
 	}
 
 	// Encoder (Digital Input) Channels
 	public static class Digital {
-		public static final int ShooterLeftChannelA = 12;
-		public static final int ShooterLeftChannelB = 13;
-		public static final int ShooterRightChannelA = 14;
-		public static final int ShooterRightChannelB = 15;
+
+		public static int leftEncoderA = 13; // front left
+		public static int leftEncoderB = 14;
+		public static int rightEncoderA = 11; // front right
+		public static int rightEncoderB = 12;
+
+		public static int leftEncoder1A = 17; // rear left
+		public static int leftEncoder1B = 18;
+		public static int rightEncoder1A = 15; // rear right
+		public static int rightEncoder1B = 16;
+
+		public static final int ShooterLeftChannelA = 19;
+		public static final int ShooterLeftChannelB = 20;
+
+		public static final int ShooterRightChannelA = 21;
+		public static final int ShooterRightChannelB = 22;
 	}
 
 	// Analog Inputs
 	public static class Analog {
-		public static final int ShooterPotAngle = 16;
+		public static int gyroPort = 0;
+
+		public static final int ShooterPotAngle = 1; // NEEDS A COMMENT
 	}
 
 	// Solenoids
 	public static class Solenoid {
-		public static final int IntakeSolenoid = 1;
+		public static final int IntakeSolenoidForwards = 1;
+		public static final int IntakeSolenoidBackwards = 2;
 	}
 
 	// Prefs

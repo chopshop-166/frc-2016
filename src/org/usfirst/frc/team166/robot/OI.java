@@ -3,30 +3,52 @@ package org.usfirst.frc.team166.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team166.robot.commands.Aim;
+import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
+import org.usfirst.frc.team166.robot.commands.drive.HighGear;
+import org.usfirst.frc.team166.robot.commands.drive.LowGear;
+import org.usfirst.frc.team166.robot.commands.drive.Neutral;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
+import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands and command groups
  * that allow control of the robot.
  */
-public class OI {
 
-	Joystick Copilot;
-	Joystick Driver;
+public class OI {
+	private final Joystick leftStick;
+	private final Joystick rightStick;
+	private final Joystick copilotController;
 
 	public OI() {
+		leftStick = new Joystick(RobotMap.Driver.leftJoystickPort);
+		rightStick = new Joystick(RobotMap.Driver.rightJoystickPort);
+		copilotController = new Joystick(RobotMap.Copilot.copilotPort);
 
-		Copilot = new Joystick(RobotMap.Copilot.CoPiolitJoystick);
-		Driver = new Joystick(RobotMap.Driver.Joystick);
-		JoystickButton CPbutton1 = new JoystickButton(Copilot, 1);
-		JoystickButton CPbutton2 = new JoystickButton(Copilot, 2);
-		JoystickButton CPbutton3 = new JoystickButton(Copilot, 3);
-		JoystickButton CPbutton4 = new JoystickButton(Copilot, 4);
+		JoystickButton rightJoyTrigger = new JoystickButton(rightStick, 1);
+		JoystickButton rightJoyButton2 = new JoystickButton(rightStick, 2);
+		JoystickButton rightJoyButton3 = new JoystickButton(rightStick, 3);
+		JoystickButton rightJoyButton7 = new JoystickButton(rightStick, 7);
+
+		JoystickButton CPbutton1 = new JoystickButton(copilotController, 1);
+		JoystickButton CPbutton2 = new JoystickButton(copilotController, 2);
+		JoystickButton CPbutton3 = new JoystickButton(copilotController, 3);
+		JoystickButton CPbutton4 = new JoystickButton(copilotController, 4);
+		JoystickButton CPbutton5 = new JoystickButton(copilotController, 5);
+
 		// Buttons
+		rightJoyTrigger.whileHeld(new DriveWithGyro());
+
+		rightJoyButton3.whenPressed(new HighGear());
+		rightJoyButton2.whenPressed(new LowGear());
+		rightJoyButton7.whenPressed(new Neutral());
+
+		// The Following commands are mapped from buttons on a joystick and may
+		// need to be changed if the copilot's controller turns out to be an
+		// Xbox controler
 		CPbutton1.whileHeld(new Aim());
 		CPbutton2.whileHeld(new IntakeMotorForward());
 		CPbutton2.whenReleased(new IntakeMotorStop());
@@ -38,30 +60,15 @@ public class OI {
 		// copiolits controller turns out to be an Xbox controler
 	}
 
-	// // CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
+	public double getLeftYAxis() {
+		return -leftStick.getRawAxis(1);
+	}
 
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
+	public double getRightYAxis() {
+		return -rightStick.getRawAxis(1);
+	}
 
-	// // TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
+	public double getZAxis() {
+		return copilotController.getRawAxis(2);
+	}
 }

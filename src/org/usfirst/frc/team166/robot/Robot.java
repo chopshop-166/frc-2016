@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.commands.Autonomous;
+import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
@@ -18,10 +20,10 @@ import org.usfirst.frc.team166.robot.subsystems.Vision;
  */
 public class Robot extends IterativeRobot {
 
-	public static final Drive drive = new Drive();
-	public static final Intake intake = new Intake();
-	public static final Shooter shooter = new Shooter();
-	public static final Vision vision = new Vision();
+	public static Drive drive;
+	public static Intake intake;
+	public static Shooter shooter;
+	public static Vision vision;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -31,9 +33,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		drive = new Drive();
+		intake = new Intake();
+		shooter = new Shooter();
+		vision = new Vision();
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
+		SmartDashboard.putData("Aim", new Aim());
 	}
 
 	@Override
