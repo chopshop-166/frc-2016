@@ -103,6 +103,9 @@ public class RobotMap {
 		public static final String ShooterSpeed = "ShooterSpeed";
 
 		public static final String angleToDisplacementConstant = "angleToDisplacementConstant";
+
+		public static final String IntakeRollerRotations = "IntakeRollerRotations";
+		public static final String IntakeRollerMotorSpeed = "IntakeRollerMotorSpeed";
 	}
 
 }
