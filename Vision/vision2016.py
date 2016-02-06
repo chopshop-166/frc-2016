@@ -16,6 +16,11 @@ def threshold_range(im, lo, hi):
     return cv2.bitwise_and(t1, t2)
 
 
+def findAngle(distance):
+    ''' Formula found using experimentation with given camera '''
+    return math.degrees(math.atan(6.5 / distance))
+
+
 def findDistanceToTarget(width):
     ''' Formula found using experimentation with given camera '''
     return 44.139 * math.exp((-0.012) * width)
@@ -79,7 +84,8 @@ def processImage(img):
                     (xcenter, ytemp + htemp + 30), MAGENTA)
             putText(image, str(htemp), (xtemp - 30, ycenter), MAGENTA)
             putText(image, "Distance: %d" % distToTarget, (0, 16), CYAN)
-            putText(image, "Angle: %d" % distToTarget, (0, 32), CYAN)
+            putText(image, "Angle: %d" % findAngle(distToTarget),
+                    (0, 32), CYAN)
 
     cv2.imshow("Vision 166", image)
 
