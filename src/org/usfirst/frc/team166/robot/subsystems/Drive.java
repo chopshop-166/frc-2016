@@ -148,16 +148,7 @@ public class Drive extends Subsystem {
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
 			SmartDashboard.putNumber("Right Power", rightPower);
 			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
-			if (Math.abs(Robot.oi.getLeftYAxis()) > 0.1 ^ Math.abs(Robot.oi.getRightYAxis()) > 0.1) {
-				double powerBoth = (Robot.oi.getLeftYAxis() + Robot.oi.getRightYAxis()) / 2;
-				tankDrive.tankDrive(-powerBoth, -powerBoth);
-			} else if (Math.abs(Robot.oi.getLeftYAxis()) > 0.1 && Math.abs(Robot.oi.getRightYAxis()) > 0.1) {
-				if (Robot.oi.getLeftYAxis() < 0.1 ^ Robot.oi.getRightYAxis() < 0.1) {
-					tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
-				} else {
-					tankDrive.tankDrive(-Robot.oi.getLeftYAxis(), -Robot.oi.getRightYAxis());
-				}
-			}
+			tankDrive.tankDrive(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis());
 		} else {
 			isShiftingOK = false;
 			stop();
