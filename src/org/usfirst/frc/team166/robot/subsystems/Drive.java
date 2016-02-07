@@ -154,7 +154,11 @@ public class Drive extends Subsystem {
 				double powerBoth = (Robot.oi.getLeftYAxis() + Robot.oi.getRightYAxis()) / 2;
 				tankDrive.tankDrive(-powerBoth, -powerBoth);
 			} else if (Math.abs(Robot.oi.getLeftYAxis()) > 0.1 && Math.abs(Robot.oi.getRightYAxis()) > 0.1) {
-				tankDrive.tankDrive(-Robot.oi.getLeftYAxis(), -Robot.oi.getRightYAxis());
+				if (Robot.oi.getLeftYAxis() < 0.1 ^ Robot.oi.getRightYAxis() < 0.1) {
+					tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
+				} else {
+					tankDrive.tankDrive(-Robot.oi.getLeftYAxis(), -Robot.oi.getRightYAxis());
+				}
 			}
 		} else {
 			isShiftingOK = false;
