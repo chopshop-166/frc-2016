@@ -1,6 +1,5 @@
 package org.usfirst.frc.team166.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Preferences;
@@ -17,20 +16,13 @@ public class Intake extends Subsystem {
 	DoubleSolenoid Actuator;
 	Victor IntakeCIM;
 	Victor IntakeCIM2;
-	DigitalInput IntakeSensor;
 
 	public Intake() {
 		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidForwards,
 				RobotMap.Solenoid.IntakeSolenoidBackwards);
 		IntakeCIM = new Victor(RobotMap.Pwm.IntakeVictor);
 		IntakeCIM2 = new Victor(RobotMap.Pwm.IntakeVictor2);
-		IntakeSensor = new DigitalInput(RobotMap.Digital.IntakeSensor);
-	}
 
-	// Sensor methods
-	public boolean getSensorBoolean() {
-		boolean SensorVal = IntakeSensor.get();
-		return SensorVal;
 	}
 
 	// Motor Methods

@@ -22,13 +22,12 @@ public class RunRollerSystem extends Command {
 	protected void initialize() {
 		double value = Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerRotations, 3);
 		Robot.intakeRoller.setDesiredRotation(value);
-		Robot.intakeRoller.StartRoller();
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		Robot.intakeRoller.StartRoller();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -40,6 +39,7 @@ public class RunRollerSystem extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		Robot.intakeRoller.ResetEncoder();
 
 	}
 

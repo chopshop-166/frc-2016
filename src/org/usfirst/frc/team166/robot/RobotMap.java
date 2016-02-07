@@ -37,7 +37,7 @@ public class RobotMap {
 		public static int rightTopDrive = 0;
 		public static int rightBotDrive = 3;
 
-		public static int rollerPort = 6;
+		// public static int rollerPort = 6; unused?
 
 		public static final int LeftShooterMotor = 5;
 		public static final int RightShooterMotor = 4;
@@ -51,18 +51,18 @@ public class RobotMap {
 		public static final int RollerVictor = 11;
 	}
 
-	// Encoder (Digital or Analog Input) Channels
+	// Encoder (Digital Input) Channels
 	public static class Digital {
 
-		public static int leftEncoderA = 13; // front left
-		public static int leftEncoderB = 14;
-		public static int rightEncoderA = 11; // front right
-		public static int rightEncoderB = 12;
+		public static int leftEncoderA = 2; // front left
+		public static int leftEncoderB = 3;
+		public static int rightEncoderA = 0; // front right
+		public static int rightEncoderB = 1;
 
 		public static int leftEncoder1A = 17; // rear left
 		public static int leftEncoder1B = 18;
-		public static int rightEncoder1A = 15; // rear right
-		public static int rightEncoder1B = 16;
+		public static int rightEncoder1A = 4; // rear right
+		public static int rightEncoder1B = 5;
 
 		public static final int ShooterLeftChannelA = 19;
 		public static final int ShooterLeftChannelB = 20;
@@ -72,20 +72,19 @@ public class RobotMap {
 		public static final int RollerEncoderA = 23;
 		public static final int RollerEncoderB = 24;
 
-		public static final int IntakeSensor = 25;
 	}
 
 	// Analog Inputs
 	public static class Analog {
 		public static int gyroPort = 0;
-
-		public static final int ShooterPotAngle = 1; // NEEDS A COMMENT
+		public static final int IntakeSensor = 1;
+		public static final int ShooterPotAngle = 2; // NEEDS A COMMENT
 	}
 
 	// Solenoids
 	public static class Solenoid {
-		public static final int IntakeSolenoidForwards = 1;
-		public static final int IntakeSolenoidBackwards = 2;
+		public static final int IntakeSolenoidForwards = 0;
+		public static final int IntakeSolenoidBackwards = 1;
 	}
 
 	// Prefs
