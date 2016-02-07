@@ -14,32 +14,32 @@ import org.usfirst.frc.team166.robot.RobotMap;
 public class Intake extends Subsystem {
 
 	DoubleSolenoid Actuator;
-	Victor IntakeSIM;
-	Victor IntakeSIM2;
+	Victor IntakeCIM;
+	Victor IntakeCIM2;
 
 	public Intake() {
 		Actuator = new DoubleSolenoid(RobotMap.Solenoid.IntakeSolenoidForwards,
 				RobotMap.Solenoid.IntakeSolenoidBackwards);
-		IntakeSIM = new Victor(RobotMap.Pwm.IntakeVictor);
-		IntakeSIM2 = new Victor(RobotMap.Pwm.IntakeVictor2);
+		IntakeCIM = new Victor(RobotMap.Pwm.IntakeVictor);
+		IntakeCIM2 = new Victor(RobotMap.Pwm.IntakeVictor2);
 
 	}
 
 	// Motor Methods
+	public void intakeMotorForward() {
+		IntakeCIM.set(Preferences.getInstance().getDouble("Forward", .4));
+		IntakeCIM2.set(Preferences.getInstance().getDouble("Forward2", .4));
 
-	public void IntakeMotorForward() {
-		IntakeSIM.set(Preferences.getInstance().getDouble("Forward", .4));
-		IntakeSIM2.set(Preferences.getInstance().getDouble("Forward2", .4));
 	}
 
-	public void IntakeMotorReverse() {
-		IntakeSIM.set(Preferences.getInstance().getDouble("Reverse", -.4));
-		IntakeSIM2.set(Preferences.getInstance().getDouble("Reverse2", -.4));
+	public void intakeMotorReverse() {
+		IntakeCIM.set(Preferences.getInstance().getDouble("Reverse", -.4));
+		IntakeCIM2.set(Preferences.getInstance().getDouble("Reverse2", -.4));
 	}
 
-	public void IntakeMotorStop() {
-		IntakeSIM.set(Preferences.getInstance().getDouble("Stop", 0));
-		IntakeSIM2.set(Preferences.getInstance().getDouble("Stop2", 0));
+	public void intakeMotorStop() {
+		IntakeCIM.set(Preferences.getInstance().getDouble("Stop", 0));
+		IntakeCIM2.set(Preferences.getInstance().getDouble("Stop2", 0));
 	}
 
 	// public void ToggleIntakeMotor() {
@@ -59,27 +59,32 @@ public class Intake extends Subsystem {
 
 	// Solenoid Methods
 
-	public void IntakeSolenoidForward() {
+	public void lowerRake() {
 		Actuator.set(DoubleSolenoid.Value.kForward);
 
 	}
 
-	public void IntakeSolenoidReverse() {
+	public void raiseRake() {
 		Actuator.set(DoubleSolenoid.Value.kReverse);
 	}
 
-	public void ToggleIntakeSolenoid() {
+	public void toggleIntakeSolenoid() {
 		Value SolenoidVal = Actuator.get();
 		if (SolenoidVal == Value.kForward) {
-			IntakeSolenoidReverse();
+			raiseRake();
 		} else {
-			IntakeSolenoidForward();
+			lowerRake();
 
 		}
 	}
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
+	// Intake Final Commands
+
+	public void startLoadProcess() {
+		lowerRake();
+		intakeMotorForward();
+
+	}
 
 	@Override
 	public void initDefaultCommand() {
