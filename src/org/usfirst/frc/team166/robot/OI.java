@@ -38,6 +38,9 @@ public class OI {
 		JoystickButton CPbutton3 = new JoystickButton(copilotController, 3);
 		JoystickButton CPbutton4 = new JoystickButton(copilotController, 4);
 		JoystickButton CPbutton5 = new JoystickButton(copilotController, 5);
+		JoystickButton CPbutton6 = new JoystickButton(copilotController, 6);
+		JoystickButton CPbutton7 = new JoystickButton(copilotController, 7);
+		JoystickButton CPbutton8 = new JoystickButton(copilotController, 8);
 
 		// Buttons
 		rightJoyTrigger.whileHeld(new DriveWithGyro());
