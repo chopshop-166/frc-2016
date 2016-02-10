@@ -14,14 +14,17 @@ public class Vision extends Subsystem {
 	double xPos = 0;
 
 	public double getDesiredShooterAngle() {
-		// read from networktables and stuff
+		// returns the desired shooter angle as calculated in the python code
+
 		return (NetworkTable.getTable("visionDataTable").getNumber("shooterAngle", defaultShooterAngle));
 	}
 
 	public double getXOffset() {
+		// returns the offset from the center of the largest vision target (a value between -1 and 1)
+
 		xPos = NetworkTable.getTable("Vision").getNumber("xPos", screenCenter);
 		xOffset = (xPos - screenCenter) * xOffsetMultiplier;
-		return (0);
+		return (xOffset);
 	}
 
 	@Override
