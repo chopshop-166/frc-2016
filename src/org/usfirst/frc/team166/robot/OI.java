@@ -10,6 +10,7 @@ import org.usfirst.frc.team166.robot.commands.drive.Neutral;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
+import org.usfirst.frc.team166.robot.commands.intake.LoadingProcess;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 
@@ -58,6 +59,7 @@ public class OI {
 		CPbutton3.whileHeld(new IntakeMotorReverse());
 		CPbutton3.whenReleased(new IntakeMotorStop());
 		CPbutton4.whenPressed(new ToggleIntakeSolenoid());
+		CPbutton5.whenPressed(new LoadingProcess());// this the entire loading and prepping process.
 
 		// The Following commands are mapped from buttons on a joystick and may need to be changed if the
 		// copiolits controller turns out to be an Xbox controler
