@@ -7,9 +7,9 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class IntakeMotorStop extends Command {
+public class RaiseRake extends Command {
 
-	public IntakeMotorStop() {
+	public RaiseRake() {
 		requires(Robot.intake);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -18,7 +18,7 @@ public class IntakeMotorStop extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.intake.intakeMotorStop();
+		Robot.intake.raiseRake();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
