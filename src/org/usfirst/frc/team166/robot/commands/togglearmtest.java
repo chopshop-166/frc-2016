@@ -1,25 +1,19 @@
 package org.usfirst.frc.team166.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
-import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
-import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
-import org.usfirst.frc.team166.robot.commands.intake.LowerRake;
-import org.usfirst.frc.team166.robot.commands.intake.RaiseRake;
-import org.usfirst.frc.team166.robot.commands.roller.RunRollerSystem;
+import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 
 /**
  *
  */
-public class LoadingProcess extends CommandGroup {
+public class togglearmtest extends CommandGroup {
 
-	public LoadingProcess() {
-		addSequential(new LowerRake());
-		addSequential(new IntakeMotorForward());
-		addSequential(new RunRollerSystem());
-		addSequential(new IntakeMotorStop());
-		addSequential(new RaiseRake());
-
+	public togglearmtest() {
+		addSequential(new ToggleIntakeSolenoid());
+		addSequential(new WaitCommand(5));
+		addSequential(new ToggleIntakeSolenoid());
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
