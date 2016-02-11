@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.commands.Autonomous;
+import org.usfirst.frc.team166.robot.commands.roller.RunRollerSystem;
 import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot {
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
 		SmartDashboard.putData("Aim", new Aim());
+		SmartDashboard.putData("RunRollerSystem", new RunRollerSystem());
 	}
 
 	@Override
