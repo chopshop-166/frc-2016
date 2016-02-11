@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team166.robot.commands.LoadingProcess;
 import org.usfirst.frc.team166.robot.commands.togglearmtest;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
+import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticksBackward;
 import org.usfirst.frc.team166.robot.commands.drive.HighGear;
 import org.usfirst.frc.team166.robot.commands.drive.LowGear;
 import org.usfirst.frc.team166.robot.commands.drive.Neutral;
@@ -31,6 +32,7 @@ public class OI {
 		copilotController = new Joystick(RobotMap.Copilot.copilotPort);
 
 		JoystickButton rightJoyTrigger = new JoystickButton(rightStick, 1);
+		JoystickButton leftJoyTrigger = new JoystickButton(leftStick, 1);
 		JoystickButton rightJoyButton2 = new JoystickButton(rightStick, 2);
 		JoystickButton rightJoyButton3 = new JoystickButton(rightStick, 3);
 		JoystickButton rightJoyButton7 = new JoystickButton(rightStick, 7);
@@ -46,6 +48,7 @@ public class OI {
 
 		// Buttons
 		rightJoyTrigger.whileHeld(new DriveWithGyro());
+		leftJoyTrigger.whileHeld(new DriveWithJoysticksBackward());
 
 		rightJoyButton3.whenPressed(new HighGear());
 		rightJoyButton2.whenPressed(new LowGear());

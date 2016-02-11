@@ -138,6 +138,23 @@ public class Drive extends Subsystem {
 		}
 	}
 
+	public void driveWithJoysticksBackward() {
+		// integrate gyro into drive. i.e. correct for imperfect forward motion
+		// with a proportional controller
+		double rightPower = -Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
+		boolean areJoysticksSimilar = false;
+		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
+			isShiftingOK = true;
+			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
+			SmartDashboard.putNumber("Right Power", rightPower);
+			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
+			tankDrive.tankDrive(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis());
+		} else {
+			isShiftingOK = false;
+			stop();
+		}
+	}
+
 	public void stop() {
 		tankDrive.tankDrive(0, 0);
 	}
