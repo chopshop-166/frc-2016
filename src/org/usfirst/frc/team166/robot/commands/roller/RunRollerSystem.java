@@ -22,7 +22,7 @@ public class RunRollerSystem extends Command {
 	protected void initialize() {
 		double value = Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerRotations, 5);
 		Robot.intakeRoller.setDesiredRotation(value);
-		setTimeout(value);
+		setTimeout(value);// Get rid of this when we get an encoder
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -34,7 +34,8 @@ public class RunRollerSystem extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return Robot.intakeRoller.hasRotatedDesiredRotations() || isTimedOut();
+		return Robot.intakeRoller.hasRotatedDesiredRotations() || isTimedOut();// get rid of || is Timed out once we get
+																				// and encoder
 	}
 
 	// Called once after isFinished returns true
