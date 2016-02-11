@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team166.robot.commands.LoadingProcess;
-import org.usfirst.frc.team166.robot.commands.togglearmtest;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticksBackward;
 import org.usfirst.frc.team166.robot.commands.drive.HighGear;
@@ -64,7 +63,6 @@ public class OI {
 		CPbutton3.whenReleased(new IntakeMotorStop());
 		CPbutton4.whenPressed(new ToggleIntakeSolenoid());
 		CPbutton5.whenPressed(new LoadingProcess());// this the entire loading and prepping process.
-		CPbutton6.whenPressed(new togglearmtest());
 
 		// The Following commands are mapped from buttons on a joystick and may need to be changed if the
 		// copiolits controller turns out to be an Xbox controler
