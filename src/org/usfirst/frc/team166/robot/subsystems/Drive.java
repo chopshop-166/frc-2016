@@ -38,7 +38,7 @@ public class Drive extends Subsystem {
 	// TalonSRX rightTopVictor = new TalonSRX(RobotMap.Pwm.rightTopDrive);
 	// TalonSRX rightBotVictor = new TalonSRX(RobotMap.Pwm.rightBotDrive);
 
-	CANTalon leftTopCanTalon = new CANTalon(0);
+	CANTalon leftTopCanTalon = new CANTalon(0); // These values are CAN IDs, they might be different.
 	CANTalon leftBotCanTalon = new CANTalon(1);
 	CANTalon rightTopCanTalon = new CANTalon(2);
 	CANTalon rightBotCanTalon = new CANTalon(3);
