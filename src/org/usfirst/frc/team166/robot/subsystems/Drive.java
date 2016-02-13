@@ -1,11 +1,12 @@
 package org.usfirst.frc.team166.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+//import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,10 +33,15 @@ public class Drive extends Subsystem {
 	double highGearValue = 0.0;
 	double lowGearValue = 1.0;
 
-	Victor leftTopVictor = new Victor(RobotMap.Pwm.leftTopDrive);
-	Victor leftBotVictor = new Victor(RobotMap.Pwm.leftBotDrive);
-	Victor rightTopVictor = new Victor(RobotMap.Pwm.rightTopDrive);
-	Victor rightBotVictor = new Victor(RobotMap.Pwm.rightBotDrive);
+	// TalonSRX leftTopVictor = new TalonSRX(RobotMap.Pwm.leftTopDrive);
+	// TalonSRX leftBotVictor = new TalonSRX(RobotMap.Pwm.leftBotDrive);
+	// TalonSRX rightTopVictor = new TalonSRX(RobotMap.Pwm.rightTopDrive);
+	// TalonSRX rightBotVictor = new TalonSRX(RobotMap.Pwm.rightBotDrive);
+
+	CANTalon leftTopCanTalon = new CANTalon(0); // These values are CAN IDs, they might be different.
+	CANTalon leftBotCanTalon = new CANTalon(1);
+	CANTalon rightTopCanTalon = new CANTalon(2);
+	CANTalon rightBotCanTalon = new CANTalon(3);
 
 	Servo leftTransmissionServo = new Servo(RobotMap.Pwm.leftTransmissionServoPort);
 	Servo rightTransmissionServo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);// dont be dumb by putting double
@@ -48,12 +54,12 @@ public class Drive extends Subsystem {
 	// later when we have the real robot
 	Encoder rightEncoder1 = new Encoder(RobotMap.Digital.rightEncoder1A, RobotMap.Digital.rightEncoder1B);
 
-	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopVictor, "Drive", "LeftTopPID"); // specify
-	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotVictor, "Drive", "LeftBotPID");
-	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopVictor, "Drive", "RightTopPID");
-	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotVictor, "Drive", "RightBotPID");// or
-																													// bot
-																													// motors
+	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopCanTalon, "Drive", "LeftTopPID"); // specify
+	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotCanTalon, "Drive", "LeftBotPID");
+	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopCanTalon, "Drive", "RightTopPID");
+	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotCanTalon, "Drive", "RightBotPID");// or
+																														// bot
+																														// motors
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 
@@ -132,6 +138,23 @@ public class Drive extends Subsystem {
 			isShiftingOK = true;
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
 			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis()); // if not trying to go straight, //
+		} else {
+			isShiftingOK = false;
+			stop();
+		}
+	}
+
+	public void driveWithJoysticksBackward() {
+		// integrate gyro into drive. i.e. correct for imperfect forward motion
+		// with a proportional controller
+		double rightPower = -Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
+		boolean areJoysticksSimilar = false;
+		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
+			isShiftingOK = true;
+			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
+			SmartDashboard.putNumber("Right Power", rightPower);
+			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
+			tankDrive.tankDrive(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis());
 		} else {
 			isShiftingOK = false;
 			stop();
