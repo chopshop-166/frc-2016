@@ -5,13 +5,13 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
-//import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team166.robot.PIDSpeedController;
+import org.usfirst.frc.team166.robot.MultiSpeedController;
 import org.usfirst.frc.team166.robot.Robot;
 import org.usfirst.frc.team166.robot.RobotMap;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
@@ -21,9 +21,10 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes 2.1306818181...
-	double gyroConstant = -0.3 / 10.0;
-	double driveSpeedModifierConstant = .7;
+	final double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes 2.1306818181...
+	final double gyroConstant = -0.3 / 10.0;
+	final double driveSpeedModifierConstant = .7;
+
 	double gyroVal = 0;
 
 	boolean highGear;
@@ -33,15 +34,16 @@ public class Drive extends Subsystem {
 	double highGearValue = 0.0;
 	double lowGearValue = 1.0;
 
-	// TalonSRX leftTopVictor = new TalonSRX(RobotMap.Pwm.leftTopDrive);
-	// TalonSRX leftBotVictor = new TalonSRX(RobotMap.Pwm.leftBotDrive);
-	// TalonSRX rightTopVictor = new TalonSRX(RobotMap.Pwm.rightTopDrive);
-	// TalonSRX rightBotVictor = new TalonSRX(RobotMap.Pwm.rightBotDrive);
+	CANTalon leftTopMotor = new CANTalon(RobotMap.CAN.leftTopDrive);
+	CANTalon leftBotMotor = new CANTalon(RobotMap.CAN.leftBotDrive);
+	CANTalon rightTopMotor = new CANTalon(RobotMap.CAN.rightTopDrive);
+	CANTalon rightBotMotor = new CANTalon(RobotMap.CAN.rightBotDrive);
 
-	CANTalon leftTopCanTalon = new CANTalon(RobotMap.CAN.leftTopDrive);
-	CANTalon leftBotCanTalon = new CANTalon(RobotMap.CAN.leftBotDrive);
-	CANTalon rightTopCanTalon = new CANTalon(RobotMap.CAN.rightTopDrive);
-	CANTalon rightBotCanTalon = new CANTalon(RobotMap.CAN.rightBotDrive);
+	MultiSpeedController leftDrive = new MultiSpeedController(new SpeedController[] { leftTopMotor, leftBotMotor },
+			"Drive", "Left Multi Drive");
+
+	MultiSpeedController rightDrive = new MultiSpeedController(new SpeedController[] { rightTopMotor, rightBotMotor },
+			"Drive", "Right Multi Drive");
 
 	Servo leftTransmissionServo = new Servo(RobotMap.Pwm.leftTransmissionServoPort);
 	Servo rightTransmissionServo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);
@@ -49,18 +51,13 @@ public class Drive extends Subsystem {
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
 
-	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopCanTalon, "Drive", "LeftTopPID"); // specify
-	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder, leftBotCanTalon, "Drive", "LeftBotPID");
-	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopCanTalon, "Drive", "RightTopPID");
-	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder, rightBotCanTalon, "Drive", "RightBotPID");// or
-																													// bot
-																													// motors
+	// PIDSpeedController leftPID = new PIDSpeedController(leftEncoder, leftDrive, "Drive", "Left PID");
+	// PIDSpeedController rightPID = new PIDSpeedController(rightEncoder, rightDrive, "Drive", "Right PID");
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 
-	RobotDrive tankDrive = new RobotDrive(leftTopPID, leftBotPID, rightTopPID, rightBotPID);
-
-	// RobotDrive tankDrive = new RobotDrive(leftTopVictor, leftBotVictor, rightTopVictor, rightBotVictor);
+	RobotDrive tankDrive = new RobotDrive(leftDrive, rightDrive);
+	// RobotDrive tankDrive = new RobotDrive(leftPID, rightPID);
 
 	public Drive() {
 		leftEncoder.setDistancePerPulse(distancePerPulse);
@@ -219,10 +216,8 @@ public class Drive extends Subsystem {
 		double d = 0.000001;
 		double f = 1;
 
-		leftTopPID.setConstants(p, i, d, f);
-		leftBotPID.setConstants(p, i, d, f);
-		rightTopPID.setConstants(p, i, d, f);
-		rightBotPID.setConstants(p, i, d, f);
+		// leftPID.setConstants(p, i, d, f);
+		// rightPID.setConstants(p, i, d, f);
 	}
 
 	@Override
