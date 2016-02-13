@@ -1,6 +1,9 @@
 language: java
 jdk: oraclejdk8
+before_install:
+  - curl -sLo - https://github.com/github/git-lfs/releases/download/v1.1.1/git-lfs-linux-amd64-1.1.1.tar.gz | tar xzvf -
+  - (cd git-lfs-*; ./install.sh)
 install:
-  - git clone https://github.com/chopshop-166/wpilib-mirror.git ~/wpilib
+  - git clone https://github.com/chopshop-166/wpilib-mirror.git -b lfs ~/wpilib
   - (cd ~/wpilib && git lfs fetch)
 script: ant jar
