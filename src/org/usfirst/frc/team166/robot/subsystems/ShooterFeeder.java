@@ -11,19 +11,19 @@ import org.usfirst.frc.team166.robot.RobotMap;
 /**
  *
  */
-public class IntakeRoller extends Subsystem {
+public class ShooterFeeder extends Subsystem {
 	static final double TicksperRotation = 1024.0;
-	Encoder RollerEncoder;
-	Victor RollerCIM;
-	AnalogInput IntakeSensor;
+	Encoder feederEncoder;
+	Victor feederVictor;
+	AnalogInput feederIRSensor;
 
 	double rotationAmount;
 
-	public IntakeRoller() {
-		RollerEncoder = new Encoder(RobotMap.Digital.RollerEncoderA, RobotMap.Digital.RollerEncoderB);
-		RollerCIM = new Victor(RobotMap.Pwm.RollerVictor);
-		IntakeSensor = new AnalogInput(RobotMap.Analog.IntakeSensor);
-		RollerEncoder.setDistancePerPulse(1 / TicksperRotation);// we only care about rotation
+	public ShooterFeeder() {
+		feederEncoder = new Encoder(RobotMap.Digital.feederEncoderA, RobotMap.Digital.feederEncoderB);
+		feederVictor = new Victor(RobotMap.Pwm.feederVictor);
+		feederIRSensor = new AnalogInput(RobotMap.Analog.feederIRSensor);
+		feederEncoder.setDistancePerPulse(1 / TicksperRotation);// we only care about rotation
 
 	}
 
@@ -33,23 +33,23 @@ public class IntakeRoller extends Subsystem {
 	}
 
 	public boolean hasRotatedDesiredRotations() {
-		return Math.abs(RollerEncoder.getDistance()) >= rotationAmount;
+		return Math.abs(feederEncoder.getDistance()) >= rotationAmount;
 	}
 
-	public void StartRoller() {
-		double intakeVal = IntakeSensor.getVoltage();
+	public void startFeeder() {
+		double intakeVal = feederIRSensor.getVoltage();
 		if (intakeVal >= 1.0) {
-			RollerCIM.set(Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerMotorSpeed, .4));
+			feederVictor.set(Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerMotorSpeed, .4));
 		}
 
 	}
 
 	public void ResetEncoder() {
-		RollerEncoder.reset();
+		feederEncoder.reset();
 	}
 
-	public void RollerStop() {
-		RollerCIM.stopMotor();
+	public void feederStop() {
+		feederVictor.stopMotor();
 
 	}
 

@@ -22,7 +22,7 @@ public class Vision extends Subsystem {
 	public double getXOffset() {
 		// returns the offset from the center of the largest vision target (a value between -1 and 1)
 
-		xPos = NetworkTable.getTable("Vision").getNumber("xPos", screenCenter);
+		xPos = NetworkTable.getTable("Vision").getNumber("xPosition", screenCenter);
 		xOffset = (xPos - screenCenter) * xOffsetMultiplier;
 		return (xOffset);
 	}

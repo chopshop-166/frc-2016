@@ -9,9 +9,9 @@ import org.usfirst.frc.team166.robot.RobotMap;
 /**
  *
  */
-public class RunRollerSystem extends Command {
+public class RunFeederSystem extends Command {
 
-	public RunRollerSystem() {
+	public RunFeederSystem() {
 		requires(Robot.intakeRoller);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -28,7 +28,7 @@ public class RunRollerSystem extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.intakeRoller.StartRoller();
+		Robot.intakeRoller.startFeeder();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -41,7 +41,7 @@ public class RunRollerSystem extends Command {
 	@Override
 	protected void end() {
 		Robot.intakeRoller.ResetEncoder();
-		Robot.intakeRoller.RollerStop();
+		Robot.intakeRoller.feederStop();
 
 	}
 

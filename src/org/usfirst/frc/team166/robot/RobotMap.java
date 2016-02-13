@@ -48,7 +48,7 @@ public class RobotMap {
 
 		public static final int IntakeVictor = 9;
 		public static final int IntakeVictor2 = 10;
-		public static final int RollerVictor = 11;
+		public static final int feederVictor = 11;
 	}
 
 	// Encoder (Digital Input) Channels
@@ -69,15 +69,15 @@ public class RobotMap {
 
 		public static final int ShooterRightChannelA = 21;
 		public static final int ShooterRightChannelB = 22;
-		public static final int RollerEncoderA = 23;
-		public static final int RollerEncoderB = 24;
+		public static final int feederEncoderA = 23;
+		public static final int feederEncoderB = 24;
 
 	}
 
 	// Analog Inputs
 	public static class Analog {
 		public static int gyroPort = 0;
-		public static final int IntakeSensor = 1;
+		public static final int feederIRSensor = 1;
 		public static final int ShooterPotAngle = 2; // NEEDS A COMMENT
 	}
 
