@@ -24,7 +24,7 @@ public class MultiSpeedController implements SpeedController, LiveWindowSendable
 
 	@Override
 	public void pidWrite(double output) {
-		// Never Used
+		set(output);
 	}
 
 	@Override
