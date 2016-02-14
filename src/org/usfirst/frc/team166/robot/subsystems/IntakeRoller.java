@@ -12,45 +12,40 @@ import org.usfirst.frc.team166.robot.RobotMap;
  *
  */
 public class IntakeRoller extends Subsystem {
-	static final double TicksperRotation = 1024.0;
-	Encoder RollerEncoder;
-	Victor RollerCIM;
-	AnalogInput IntakeSensor;
+	static final double TicksPerRotation = 1024.0;
+	Encoder encoder;
+	Victor motor;
+	AnalogInput intakeSensor;
 
 	double rotationAmount;
 
 	public IntakeRoller() {
-		RollerEncoder = new Encoder(RobotMap.Digital.RollerEncoderA, RobotMap.Digital.RollerEncoderB);
-		RollerCIM = new Victor(RobotMap.Pwm.RollerVictor);
-		IntakeSensor = new AnalogInput(RobotMap.Analog.IntakeSensor);
-		RollerEncoder.setDistancePerPulse(1 / TicksperRotation);// we only care about rotation
-
+		encoder = new Encoder(RobotMap.Digital.RollerEncoderA, RobotMap.Digital.RollerEncoderB);
+		motor = new Victor(RobotMap.Pwm.RollerVictor);
+		intakeSensor = new AnalogInput(RobotMap.Analog.IntakeSensor);
+		encoder.setDistancePerPulse(1 / TicksPerRotation);// we only care about rotation
 	}
 
 	public void setDesiredRotation(double rotations) {
 		rotationAmount = Math.abs(rotations);
-
 	}
 
 	public boolean hasRotatedDesiredRotations() {
-		return Math.abs(RollerEncoder.getDistance()) >= rotationAmount;
+		return Math.abs(encoder.getDistance()) >= rotationAmount;
 	}
 
-	public void StartRoller() {
-		double intakeVal = IntakeSensor.getVoltage();
-		if (intakeVal >= 1.0) {
-			RollerCIM.set(Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerMotorSpeed, .4));
-		}
-
+	public void start() {
+		motor.set(Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerMotorSpeed, .4));
 	}
 
-	public void ResetEncoder() {
-		RollerEncoder.reset();
+	public boolean isBallAtSensor() {
+		return (intakeSensor.getVoltage() >= (Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeSensorThreshold,
+				1.0)));
 	}
 
-	public void RollerStop() {
-		RollerCIM.stopMotor();
-
+	public void stop() {
+		motor.stopMotor();
+		encoder.reset();
 	}
 
 	// Put methods for controlling this subsystem
