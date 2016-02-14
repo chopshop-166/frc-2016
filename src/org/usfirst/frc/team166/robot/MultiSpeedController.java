@@ -67,7 +67,6 @@ public class MultiSpeedController implements SpeedController, LiveWindowSendable
 		return _isInverted;
 	}
 
-	@Override
 	public void stopMotor() {
 		for (SpeedController sc : _controllers) {
 			sc.stopMotor();

@@ -16,6 +16,7 @@ public class AimShooter extends PIDSubsystem {
 
 	Victor motor;
 	AnalogInput pot;
+	double minAngle = 45.0;
 
 	// Initialize your subsystem here
 	public AimShooter() {
@@ -47,7 +48,11 @@ public class AimShooter extends PIDSubsystem {
 	}
 
 	public void setAngle(double angle) {
-		setSetpoint(convertAngleToDisplacement(angle));
+		if (angle <= minAngle) {
+			setSetpoint(convertAngleToDisplacement(minAngle));
+		} else {
+			setSetpoint(convertAngleToDisplacement(angle));
+		}
 	}
 
 	@Override

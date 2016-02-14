@@ -108,6 +108,7 @@ public class RobotMap {
 
 		public static final String IntakeRollerRotations = "IntakeRollerRotations";
 		public static final String IntakeRollerMotorSpeed = "IntakeRollerMotorSpeed";
+		public static final String IntakeSensorThreshold = "IntakeSensorThreshold";
 	}
 
 }
