@@ -7,8 +7,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.commands.Autonomous;
+import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
 import org.usfirst.frc.team166.robot.commands.roller.RunRollerSystem;
-import org.usfirst.frc.team166.robot.commands.shooter.Aim;
+import org.usfirst.frc.team166.robot.subsystems.AimShooter;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.IntakeRoller;
@@ -25,6 +26,7 @@ public class Robot extends IterativeRobot {
 	public static Drive drive;
 	public static Intake intake;
 	public static Shooter shooter;
+	public static AimShooter aimShooter;
 	public static Vision vision;
 	public static IntakeRoller intakeRoller;
 	public static OI oi;
@@ -39,6 +41,7 @@ public class Robot extends IterativeRobot {
 		drive = new Drive();
 		intake = new Intake();
 		shooter = new Shooter();
+		aimShooter = new AimShooter();
 		vision = new Vision();
 		intakeRoller = new IntakeRoller();
 		oi = new OI();

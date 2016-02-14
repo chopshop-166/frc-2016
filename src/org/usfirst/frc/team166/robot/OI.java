@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team166.robot.commands.LoadingProcess;
+import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticksBackward;
 import org.usfirst.frc.team166.robot.commands.drive.HighGear;
@@ -13,7 +14,6 @@ import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
-import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 
 /**
  * This class is the glue that binds the controls on the physical operator interface to the commands and command groups
