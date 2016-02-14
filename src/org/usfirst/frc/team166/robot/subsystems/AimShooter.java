@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.usfirst.frc.team166.robot.RobotMap;
 import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
@@ -17,6 +18,7 @@ public class AimShooter extends PIDSubsystem {
 	Victor motor;
 	AnalogInput pot;
 	double minAngle = 45.0;
+	double midAngle = 90.0;
 
 	// Initialize your subsystem here
 	public AimShooter() {
@@ -48,10 +50,14 @@ public class AimShooter extends PIDSubsystem {
 	}
 
 	public void setAngle(double angle) {
-		if (angle <= minAngle) {
-			setSetpoint(convertAngleToDisplacement(minAngle));
+		if (NetworkTable.getTable("Vision").getBoolean("isLargeTargetFound", false)) {
+			if (angle <= minAngle) {
+				setSetpoint(convertAngleToDisplacement(minAngle));
+			} else {
+				setSetpoint(convertAngleToDisplacement(angle));
+			}
 		} else {
-			setSetpoint(convertAngleToDisplacement(angle));
+			setSetpoint(convertAngleToDisplacement(midAngle));
 		}
 	}
 
