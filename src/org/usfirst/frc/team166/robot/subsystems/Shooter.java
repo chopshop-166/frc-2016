@@ -61,7 +61,11 @@ public class Shooter extends Subsystem {
 	}
 
 	public void setAngle(double angle) {
-		shooterAnglePID.setSetpoint(convertAngleToDisplacement(angle));
+		if (angle <= 45) {
+			shooterAnglePID.setSetpoint(convertAngleToDisplacement(45));
+		} else {
+			shooterAnglePID.setSetpoint(convertAngleToDisplacement(angle));
+		}
 	}
 
 	public void updatePIDConstants() {

@@ -1,17 +1,24 @@
 import cv2
 import numpy
 import math
+import time
+from networktables import *
 
-from pynetworktables import *
+NetworkTable.setIPAddress("roborio-166-frc.local")
+NetworkTable.setClientMode()
+NetworkTable.initialize()
 
-NetworkTable.SetIPAddress("10.1.66.2") #Connect to network tables on robot
-NetworkTable.SetClientMode()
-NetworkTable.Initialize()
 
-visionDataTable = NetworkTable.GetTable("visionDataTable") #Connect specifically to vision NetworkTable
+visionDataTable = NetworkTable.getTable("VisionDataTable") #Connect specifically to vision NetworkTable
 
-visionDataTable.PutBoolean("isHot",False) #Define default values for Network Table Variables
-visionDataTable.PutNumber("skinnyOffset",0.0)
+while not visionDataTable.isConnected():
+    time.sleep(.1)
+
+print("We are Connected")
+
+visionDataTable.putNumber("shooterAngle",45.0) #Define default values for Network Table Variables
+visionDataTable.putNumber("xPosition",0.0)
+print("Initialized Values")
 
 def find_distance(x1,y1,x2,y2):
     root = math.sqrt(  ((x2 - x1) ** 2) + ((y2 - y1) ** 2)  )
@@ -25,15 +32,17 @@ def threshold_range(im, lo, hi):
     unused, t2 = cv2.threshold(im, hi, 255, type=cv2.THRESH_BINARY_INV)
     return cv2.bitwise_and(t1, t2)
 def findDistanceToTarget(width):
-    #distance = (-15.26*math.log(width)+82.857)
-    distance = (44.139 * math.exp((-0.012 * width)))
+    #note that the width is multiplied by 2 because of resolution change on the image
+    #this change allows the new resolution to fit with the correct model
+    
+    distance = (44.139 * math.exp((-0.012 * (2 * width))))
     return distance
+
 def findAngle(distance):
-    angle = math.degrees(math.atan(6.5/distance))
+    angle = math.degrees(math.atan(7/distance))
     return angle;
 
 vc = cv2.VideoCapture()
-
 
 if not vc.open('http://10.1.66.11/mjpg/video.mjpg'): #connect to Axis Camera
 #if not vc.open(0): #connect to Webcam
@@ -47,6 +56,10 @@ while cv2.waitKey(10) <= 0:
         break
 
     #image processing
+
+    scale = 0.1  # whatever scale you want
+    img = (img * scale).astype(numpy.uint8)
+
     hsv = cv2.cvtColor(img,cv2.cv.CV_BGR2HSV) # Convert original color image to hsv image
 
     h, s, v = cv2.split(hsv) #Split hsv image into hue/saturation/value images
@@ -68,7 +81,7 @@ while cv2.waitKey(10) <= 0:
 
     cv2.drawContours(color, simplecontours, -1, (0,0,255), thickness = 2)
 
-    x =[]
+    x = []
     y = []
     w = []
     h = []
@@ -99,7 +112,10 @@ while cv2.waitKey(10) <= 0:
                    cv2.putText(color, tempstring, (xtemp + wtemp,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
                    cv2.putText(color, "%d" %(wtemp), (xtemp + (wtemp/2),ytemp + htemp + 30), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
                    cv2.putText(color, "%d" %(htemp), (xtemp - 30 ,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-                   cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget(w[maxAreaIndex])), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
-                   cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget(w[maxAreaIndex]))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
-              
+                   cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget((w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+                   cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget((w[maxAreaIndex])))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+
+    visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))
+    visionDataTable.putNumber("xPosition", x[maxAreaIndex])
+    
     cv2.imshow("Cameras are awesome :D", color)
