@@ -11,7 +11,7 @@ public class TurnToGoal extends Command {
 
 	public TurnToGoal() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.shooter);
+		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time

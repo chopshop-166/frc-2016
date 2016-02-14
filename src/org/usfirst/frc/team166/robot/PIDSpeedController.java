@@ -63,14 +63,13 @@ public class PIDSpeedController implements SpeedController {
 
 	@Override
 	public void setInverted(boolean isInverted) {
-		}
+	}
 
 	@Override
 	public boolean getInverted() {
 		return false;
 	}
 
-	@Override
 	public void stopMotor() {
 		controller.disable();
 	}

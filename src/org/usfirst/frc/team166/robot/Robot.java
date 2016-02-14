@@ -11,8 +11,8 @@ import org.usfirst.frc.team166.robot.commands.roller.RunFeederSystem;
 import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
-import org.usfirst.frc.team166.robot.subsystems.ShooterFeeder;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
+import org.usfirst.frc.team166.robot.subsystems.ShooterFeeder;
 import org.usfirst.frc.team166.robot.subsystems.Vision;
 
 /**
@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Shooter shooter;
 	public static Vision vision;
-	public static ShooterFeeder intakeRoller;
+	public static ShooterFeeder shooterFeeder;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 		intake = new Intake();
 		shooter = new Shooter();
 		vision = new Vision();
-		intakeRoller = new ShooterFeeder();
+		shooterFeeder = new ShooterFeeder();
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
