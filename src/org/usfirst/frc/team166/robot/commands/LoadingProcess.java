@@ -17,8 +17,9 @@ public class LoadingProcess extends CommandGroup {
 		addSequential(new LowerRake());
 		addSequential(new IntakeMotorForward());
 		addSequential(new RunRollerSystem());
-		addSequential(new RaiseRake());
 		addSequential(new IntakeMotorStop());
+		addSequential(new RaiseRake());
+
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
