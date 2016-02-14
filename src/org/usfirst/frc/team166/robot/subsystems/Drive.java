@@ -210,6 +210,11 @@ public class Drive extends Subsystem {
 		driveDistance(distance);
 	}
 
+	public void turn(double leftVal, double rightVal) {
+		tankDrive.tankDrive(leftVal, rightVal);
+
+	}
+
 	public void setPIDConstants() {
 		// double p = 1;
 		// double i = 2;

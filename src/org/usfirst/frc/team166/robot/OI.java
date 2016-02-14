@@ -3,7 +3,6 @@ package org.usfirst.frc.team166.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team166.robot.commands.LoadingProcess;
 import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticksBackward;
@@ -13,6 +12,7 @@ import org.usfirst.frc.team166.robot.commands.drive.Neutral;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
+import org.usfirst.frc.team166.robot.commands.intake.LoadingProcess;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 
 /**

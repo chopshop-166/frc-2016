@@ -34,7 +34,8 @@ public class RunRollerSystem extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return Robot.intakeRoller.hasRotatedDesiredRotations() || isTimedOut();// get rid of || is Timed out once we get
+		return Robot.intakeRoller.hasRotatedDesiredRotations() || isTimedOut();// get rid of || is Timed out once we
+																				// get
 																				// and encoder
 	}
 
@@ -43,7 +44,6 @@ public class RunRollerSystem extends Command {
 	protected void end() {
 		Robot.intakeRoller.ResetEncoder();
 		Robot.intakeRoller.RollerStop();
-
 	}
 
 	// Called when another command which requires one or more of the same
