@@ -69,11 +69,11 @@ public class OI {
 	}
 
 	public double getLeftYAxis() {
-		return -leftStick.getRawAxis(1);
+		return leftStick.getRawAxis(1);
 	}
 
 	public double getRightYAxis() {
-		return -rightStick.getRawAxis(1);
+		return rightStick.getRawAxis(1);
 	}
 
 	public double getZAxis() {

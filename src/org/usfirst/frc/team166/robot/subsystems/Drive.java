@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.MultiSpeedController;
+import org.usfirst.frc.team166.robot.PIDSpeedController;
 import org.usfirst.frc.team166.robot.Robot;
 import org.usfirst.frc.team166.robot.RobotMap;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
@@ -21,7 +22,9 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	final double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes 2.1306818181...
+	// final double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes
+	// 2.1306818181...
+	final double distancePerPulse = 1.0 / 2500;
 	final double gyroConstant = -0.3 / 10.0;
 	final double driveSpeedModifierConstant = .7;
 
@@ -51,19 +54,20 @@ public class Drive extends Subsystem {
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
 
-	// PIDSpeedController leftPID = new PIDSpeedController(leftEncoder, leftDrive, "Drive", "Left PID");
-	// PIDSpeedController rightPID = new PIDSpeedController(rightEncoder, rightDrive, "Drive", "Right PID");
+	PIDSpeedController leftPID = new PIDSpeedController(leftEncoder, leftDrive, "Drive", "Left PID");
+	PIDSpeedController rightPID = new PIDSpeedController(rightEncoder, rightDrive, "Drive", "Right PID");
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 
-	RobotDrive tankDrive = new RobotDrive(leftDrive, rightDrive);
-	// RobotDrive tankDrive = new RobotDrive(leftPID, rightPID);
+	// RobotDrive tankDrive = new RobotDrive(leftDrive, rightDrive);
+	RobotDrive tankDrive = new RobotDrive(leftPID, rightPID);
 
 	public Drive() {
 		leftEncoder.setDistancePerPulse(distancePerPulse);
 		rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
+		setPIDConstants();
 	}
 
 	public double getGyroOffset() {
@@ -91,8 +95,8 @@ public class Drive extends Subsystem {
 			rightTransmissionServo.set(highGearValue);
 			highGear = true;
 			neutral = false;
-			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
-			rightEncoder.setDistancePerPulse(3 * distancePerPulse);
+			leftEncoder.setDistancePerPulse(distancePerPulse);
+			rightEncoder.setDistancePerPulse(distancePerPulse);
 		}
 	}
 
@@ -102,8 +106,8 @@ public class Drive extends Subsystem {
 			rightTransmissionServo.set(lowGearValue);
 			highGear = false;
 			neutral = false;
-			leftEncoder.setDistancePerPulse(distancePerPulse);
-			rightEncoder.setDistancePerPulse(distancePerPulse);
+			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
+			rightEncoder.setDistancePerPulse(3 * distancePerPulse);
 		}
 	}
 
@@ -120,7 +124,8 @@ public class Drive extends Subsystem {
 		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
 			isShiftingOK = true;
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
-			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis()); // if not trying to go straight, //
+			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis(), true); // if not trying to go
+																							// straight, //
 		} else {
 			isShiftingOK = false;
 			stop();
@@ -137,7 +142,7 @@ public class Drive extends Subsystem {
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
 			SmartDashboard.putNumber("Right Power", rightPower);
 			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
-			tankDrive.tankDrive(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis());
+			tankDrive.tankDrive(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis(), true);
 		} else {
 			isShiftingOK = false;
 			stop();
@@ -211,13 +216,13 @@ public class Drive extends Subsystem {
 		// double d = 0;
 		// double f = 1;
 
-		double p = 0.000001;
+		double p = .3;
 		double i = 0.000001;
 		double d = 0.000001;
 		double f = 1;
 
-		// leftPID.setConstants(p, i, d, f);
-		// rightPID.setConstants(p, i, d, f);
+		leftPID.setConstants(p, i, d, f);
+		rightPID.setConstants(p, i, d, f);
 	}
 
 	@Override
