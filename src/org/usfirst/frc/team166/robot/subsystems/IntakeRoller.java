@@ -35,10 +35,12 @@ public class IntakeRoller extends Subsystem {
 	}
 
 	public void start() {
-		double intakeVal = intakeSensor.getVoltage();
-		if (intakeVal >= 1.0) {
-			motor.set(Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerMotorSpeed, .4));
-		}
+		motor.set(Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerMotorSpeed, .4));
+	}
+
+	public boolean isBallAtSensor() {
+		return (intakeSensor.getVoltage() >= (Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeSensorThreshold,
+				1.0)));
 	}
 
 	public void stop() {
