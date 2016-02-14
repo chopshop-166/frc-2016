@@ -32,10 +32,6 @@ public class RobotMap {
 
 	// PWM Channels
 	public static class Pwm {
-		public static int leftTopDrive = 1;
-		public static int leftBotDrive = 2;
-		public static int rightTopDrive = 0;
-		public static int rightBotDrive = 3;
 
 		// public static int rollerPort = 6; unused?
 
@@ -49,6 +45,13 @@ public class RobotMap {
 		public static final int IntakeVictor = 9;
 		public static final int IntakeVictor2 = 10;
 		public static final int RollerVictor = 11;
+	}
+
+	public static class CAN {
+		public static int leftTopDrive = 1;
+		public static int leftBotDrive = 2;
+		public static int rightTopDrive = 3;
+		public static int rightBotDrive = 4;
 	}
 
 	// Encoder (Digital Input) Channels

@@ -5,13 +5,13 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
-//import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team166.robot.PIDSpeedController;
+import org.usfirst.frc.team166.robot.MultiSpeedController;
 import org.usfirst.frc.team166.robot.Robot;
 import org.usfirst.frc.team166.robot.RobotMap;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
@@ -21,9 +21,10 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes 2.1306818181...
-	double gyroConstant = -0.3 / 10.0;
-	double driveSpeedModifierConstant = .7;
+	final double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes 2.1306818181...
+	final double gyroConstant = -0.3 / 10.0;
+	final double driveSpeedModifierConstant = .7;
+
 	double gyroVal = 0;
 
 	boolean highGear;
@@ -33,50 +34,36 @@ public class Drive extends Subsystem {
 	double highGearValue = 0.0;
 	double lowGearValue = 1.0;
 
-	// TalonSRX leftTopVictor = new TalonSRX(RobotMap.Pwm.leftTopDrive);
-	// TalonSRX leftBotVictor = new TalonSRX(RobotMap.Pwm.leftBotDrive);
-	// TalonSRX rightTopVictor = new TalonSRX(RobotMap.Pwm.rightTopDrive);
-	// TalonSRX rightBotVictor = new TalonSRX(RobotMap.Pwm.rightBotDrive);
+	CANTalon leftTopMotor = new CANTalon(RobotMap.CAN.leftTopDrive);
+	CANTalon leftBotMotor = new CANTalon(RobotMap.CAN.leftBotDrive);
+	CANTalon rightTopMotor = new CANTalon(RobotMap.CAN.rightTopDrive);
+	CANTalon rightBotMotor = new CANTalon(RobotMap.CAN.rightBotDrive);
 
-	CANTalon leftTopCanTalon = new CANTalon(0); // These values are CAN IDs, they might be different.
-	CANTalon leftBotCanTalon = new CANTalon(1);
-	CANTalon rightTopCanTalon = new CANTalon(2);
-	CANTalon rightBotCanTalon = new CANTalon(3);
+	MultiSpeedController leftDrive = new MultiSpeedController(new SpeedController[] { leftTopMotor, leftBotMotor },
+			"Drive", "Left Multi Drive");
+
+	MultiSpeedController rightDrive = new MultiSpeedController(new SpeedController[] { rightTopMotor, rightBotMotor },
+			"Drive", "Right Multi Drive");
 
 	Servo leftTransmissionServo = new Servo(RobotMap.Pwm.leftTransmissionServoPort);
-	Servo rightTransmissionServo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);// dont be dumb by putting double
-																						// 1s
+	Servo rightTransmissionServo = new Servo(RobotMap.Pwm.rightTransmissionServoPort);
 
 	Encoder leftEncoder = new Encoder(RobotMap.Digital.leftEncoderA, RobotMap.Digital.leftEncoderB);// more
 	Encoder rightEncoder = new Encoder(RobotMap.Digital.rightEncoderA, RobotMap.Digital.rightEncoderB);
 
-	Encoder leftEncoder1 = new Encoder(RobotMap.Digital.leftEncoder1A, RobotMap.Digital.leftEncoder1B); // delete these
-	// later when we have the real robot
-	Encoder rightEncoder1 = new Encoder(RobotMap.Digital.rightEncoder1A, RobotMap.Digital.rightEncoder1B);
-
-	PIDSpeedController leftTopPID = new PIDSpeedController(leftEncoder, leftTopCanTalon, "Drive", "LeftTopPID"); // specify
-	PIDSpeedController leftBotPID = new PIDSpeedController(leftEncoder1, leftBotCanTalon, "Drive", "LeftBotPID");
-	PIDSpeedController rightTopPID = new PIDSpeedController(rightEncoder, rightTopCanTalon, "Drive", "RightTopPID");
-	PIDSpeedController rightBotPID = new PIDSpeedController(rightEncoder1, rightBotCanTalon, "Drive", "RightBotPID");// or
-																														// bot
-																														// motors
+	// PIDSpeedController leftPID = new PIDSpeedController(leftEncoder, leftDrive, "Drive", "Left PID");
+	// PIDSpeedController rightPID = new PIDSpeedController(rightEncoder, rightDrive, "Drive", "Right PID");
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
 
-	RobotDrive tankDrive = new RobotDrive(leftTopPID, leftBotPID, rightTopPID, rightBotPID);
-
-	// RobotDrive tankDrive = new RobotDrive(leftTopVictor, leftBotVictor, rightTopVictor, rightBotVictor);
+	RobotDrive tankDrive = new RobotDrive(leftDrive, rightDrive);
+	// RobotDrive tankDrive = new RobotDrive(leftPID, rightPID);
 
 	public Drive() {
 		leftEncoder.setDistancePerPulse(distancePerPulse);
 		rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
-
-		leftEncoder1.setDistancePerPulse(distancePerPulse);
-		rightEncoder1.setDistancePerPulse(distancePerPulse);
-		leftEncoder1.setPIDSourceType(PIDSourceType.kRate); // delete these later
-		rightEncoder1.setPIDSourceType(PIDSourceType.kRate);
 	}
 
 	public double getGyroOffset() {
@@ -106,8 +93,6 @@ public class Drive extends Subsystem {
 			neutral = false;
 			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
 			rightEncoder.setDistancePerPulse(3 * distancePerPulse);
-			leftEncoder1.setDistancePerPulse(3 * distancePerPulse); // delete this later
-			rightEncoder1.setDistancePerPulse(3 * distancePerPulse);
 		}
 	}
 
@@ -119,8 +104,6 @@ public class Drive extends Subsystem {
 			neutral = false;
 			leftEncoder.setDistancePerPulse(distancePerPulse);
 			rightEncoder.setDistancePerPulse(distancePerPulse);
-			leftEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
-			rightEncoder1.setDistancePerPulse(distancePerPulse); // delete this later
 		}
 	}
 
@@ -238,10 +221,8 @@ public class Drive extends Subsystem {
 		double d = 0.000001;
 		double f = 1;
 
-		leftTopPID.setConstants(p, i, d, f);
-		leftBotPID.setConstants(p, i, d, f);
-		rightTopPID.setConstants(p, i, d, f);
-		rightBotPID.setConstants(p, i, d, f);
+		// leftPID.setConstants(p, i, d, f);
+		// rightPID.setConstants(p, i, d, f);
 	}
 
 	@Override
