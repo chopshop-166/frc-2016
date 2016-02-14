@@ -9,10 +9,10 @@ import org.usfirst.frc.team166.robot.RobotMap;
 /**
  *
  */
-public class RunFeederSystem extends Command {
+public class RunRollerSystem extends Command {
 
-	public RunFeederSystem() {
-		requires(Robot.shooterFeeder);
+	public RunRollerSystem() {
+		requires(Robot.intakeRoller);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -21,20 +21,20 @@ public class RunFeederSystem extends Command {
 	@Override
 	protected void initialize() {
 		double value = Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerRotations, 5);
-		Robot.shooterFeeder.setDesiredRotation(value);
+		Robot.intakeRoller.setDesiredRotation(value);
 		setTimeout(value);// Get rid of this when we get an encoder
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.shooterFeeder.startFeeder();
+		Robot.intakeRoller.StartRoller();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return Robot.shooterFeeder.hasRotatedDesiredRotations() || isTimedOut();// get rid of || is Timed out once we
+		return Robot.intakeRoller.hasRotatedDesiredRotations() || isTimedOut();// get rid of || is Timed out once we
 																				// get
 																				// and encoder
 	}
@@ -42,9 +42,8 @@ public class RunFeederSystem extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.shooterFeeder.ResetEncoder();
-		Robot.shooterFeeder.feederStop();
-
+		Robot.intakeRoller.ResetEncoder();
+		Robot.intakeRoller.RollerStop();
 	}
 
 	// Called when another command which requires one or more of the same

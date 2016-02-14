@@ -7,9 +7,9 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class LowerIntake extends Command {
+public class LowerRake extends Command {
 
-	public LowerIntake() {
+	public LowerRake() {
 		requires(Robot.intake);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);

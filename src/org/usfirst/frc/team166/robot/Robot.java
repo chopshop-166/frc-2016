@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.commands.Autonomous;
-import org.usfirst.frc.team166.robot.commands.roller.RunFeederSystem;
+import org.usfirst.frc.team166.robot.commands.roller.RunRollerSystem;
 import org.usfirst.frc.team166.robot.commands.shooter.Aim;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
+import org.usfirst.frc.team166.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
-import org.usfirst.frc.team166.robot.subsystems.ShooterFeeder;
 import org.usfirst.frc.team166.robot.subsystems.Vision;
 
 /**
@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Shooter shooter;
 	public static Vision vision;
-	public static ShooterFeeder shooterFeeder;
+	public static IntakeRoller intakeRoller;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -40,12 +40,12 @@ public class Robot extends IterativeRobot {
 		intake = new Intake();
 		shooter = new Shooter();
 		vision = new Vision();
-		shooterFeeder = new ShooterFeeder();
+		intakeRoller = new IntakeRoller();
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
 		SmartDashboard.putData("Aim", new Aim());
-		SmartDashboard.putData("RunRollerSystem", new RunFeederSystem());
+		SmartDashboard.putData("RunRollerSystem", new RunRollerSystem());
 	}
 
 	@Override
