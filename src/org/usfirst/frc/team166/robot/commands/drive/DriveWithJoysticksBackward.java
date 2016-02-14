@@ -25,7 +25,7 @@ public class DriveWithJoysticksBackward extends Command {
 	@Override
 	protected void execute() {
 		Robot.drive.getRightEncoder();
-		Robot.drive.driveWithJoysticksBackward();
+		Robot.drive.driveWithJoysticks(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

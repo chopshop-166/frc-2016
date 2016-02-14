@@ -24,7 +24,7 @@ public class DriveWithGyro extends Command {
 	@Override
 	protected void execute() {
 		Robot.drive.getRightEncoder();
-		Robot.drive.driveWithGyro();
+		Robot.drive.driveWithGyro(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
