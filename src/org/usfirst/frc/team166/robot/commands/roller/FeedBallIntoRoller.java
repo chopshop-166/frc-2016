@@ -9,9 +9,9 @@ import org.usfirst.frc.team166.robot.RobotMap;
 /**
  *
  */
-public class RunRollerSystem extends Command {
+public class FeedBallIntoRoller extends Command {
 
-	public RunRollerSystem() {
+	public FeedBallIntoRoller() {
 		requires(Robot.intakeRoller);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);

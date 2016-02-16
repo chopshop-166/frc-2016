@@ -17,7 +17,7 @@ while not visionDataTable.isConnected():
 print("We are Connected")
 
 visionDataTable.putNumber("shooterAngle",45.0) #Define default values for Network Table Variables
-visionDataTable.putNumber("xPos",0.0)
+visionDataTable.putNumber("xPosition",0.0)
 print("Initialized Values")
 
 def find_distance(x1,y1,x2,y2):
@@ -32,9 +32,12 @@ def threshold_range(im, lo, hi):
     unused, t2 = cv2.threshold(im, hi, 255, type=cv2.THRESH_BINARY_INV)
     return cv2.bitwise_and(t1, t2)
 def findDistanceToTarget(width):
-    #distance = (-15.26*math.log(width)+82.857)
-    distance = (44.139 * math.exp((-0.012 * width)))
+    #note that the width is multiplied by 2 because of resolution change on the image
+    #this change allows the new resolution to fit with the correct model
+    
+    distance = (44.139 * math.exp((-0.012 * (2 * width))))
     return distance
+
 def findAngle(distance):
     angle = math.degrees(math.atan(7/distance))
     return angle;
@@ -78,7 +81,7 @@ while cv2.waitKey(10) <= 0:
 
     cv2.drawContours(color, simplecontours, -1, (0,0,255), thickness = 2)
 
-    x =[]
+    x = []
     y = []
     w = []
     h = []
@@ -104,15 +107,17 @@ while cv2.waitKey(10) <= 0:
                #Keep in mind, x and y are the actual centers, but xtemp and ytemp is the upper left corner
                
                if(atemp > 1000):
+                   visionDataTable.putNumber("isLargeTargetFound", true)
                    cv2.circle(color,(xtemp + (wtemp/2) ,ytemp + (htemp/2)),2,(0,255,0),thickness = -1)
                    tempstring = " (%d,%d)" % (xtemp, ytemp)
                    cv2.putText(color, tempstring, (xtemp + wtemp,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
                    cv2.putText(color, "%d" %(wtemp), (xtemp + (wtemp/2),ytemp + htemp + 30), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
                    cv2.putText(color, "%d" %(htemp), (xtemp - 30 ,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-                   cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget(2 * (w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
-                   cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget(2* (w[maxAreaIndex])))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
-
-    visionDataTable.putNumber("ShooterAngle", findAngle(findDistanceToTarget(2* (w[maxAreaIndex]))))
-    visionDataTable.putNumber("XPosition", xtemp)
+                   cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget((w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+                   cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget((w[maxAreaIndex])))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+                else:
+                    visionDataTable.putNumber("isLargeTargetFound", false)
+    visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))
+    visionDataTable.putNumber("xPosition", x[maxAreaIndex])
     
     cv2.imshow("Cameras are awesome :D", color)
