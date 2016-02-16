@@ -88,6 +88,8 @@ public class RobotMap {
 	public static class Solenoid {
 		public static final int IntakeSolenoidForwards = 0;
 		public static final int IntakeSolenoidBackwards = 1;
+		public static final int AManipulatorForward = 2;
+		public static final int AManipulatorReverse = 3;
 	}
 
 	// Prefs

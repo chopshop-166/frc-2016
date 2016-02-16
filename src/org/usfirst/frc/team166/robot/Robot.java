@@ -8,13 +8,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.commands.Autonomous;
 import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
-import org.usfirst.frc.team166.robot.commands.roller.RunRollerSystem;
+import org.usfirst.frc.team166.robot.commands.roller.FeedBallIntoRoller;
+import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
 import org.usfirst.frc.team166.robot.subsystems.Vision;
+import org.usfirst.frc.team166.robot.triggers.CopilotLeftTrigger;
+import org.usfirst.frc.team166.robot.triggers.CopilotRightTrigger;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -23,12 +26,18 @@ import org.usfirst.frc.team166.robot.subsystems.Vision;
  */
 public class Robot extends IterativeRobot {
 
+	// subsystems
 	public static Drive drive;
 	public static Intake intake;
 	public static Shooter shooter;
 	public static AimShooter aimShooter;
 	public static Vision vision;
 	public static IntakeRoller intakeRoller;
+	public static AManipulators aManipulators;
+
+	// triggers
+	public static CopilotLeftTrigger copilotLeftTrigger;
+	public static CopilotRightTrigger copilotRightTrigger;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -44,11 +53,17 @@ public class Robot extends IterativeRobot {
 		aimShooter = new AimShooter();
 		vision = new Vision();
 		intakeRoller = new IntakeRoller();
+		aManipulators = new AManipulators();
+
+		// triggers
+		copilotRightTrigger = new CopilotRightTrigger();
+		copilotLeftTrigger = new CopilotLeftTrigger();
+
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
 		SmartDashboard.putData("Aim", new Aim());
-		SmartDashboard.putData("RunRollerSystem", new RunRollerSystem());
+		SmartDashboard.putData("RunRollerSystem", new FeedBallIntoRoller());
 	}
 
 	@Override
