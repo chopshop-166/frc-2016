@@ -79,12 +79,12 @@ public class Drive extends Subsystem {
 		return gyroVal;
 	}
 
-	public void driveWithGyro() {
-		double rightPower = Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
-		double leftPower = Robot.oi.getLeftYAxis() * driveSpeedModifierConstant;
+	public void driveWithGyro(double left, double right) {
+		double rightPower = right * driveSpeedModifierConstant;
+		double leftPower = left * driveSpeedModifierConstant;
 		double power = 0;
 		power = (rightPower + leftPower) / 2;
-		if (Math.abs(Robot.oi.getRightYAxis()) > .1) {
+		if (Math.abs(right) > .1 || Math.abs(left) > .1) {
 			tankDrive.tankDrive(power + getGyroOffset(), power - getGyroOffset());
 		}
 	}
@@ -95,8 +95,8 @@ public class Drive extends Subsystem {
 			rightTransmissionServo.set(highGearValue);
 			highGear = true;
 			neutral = false;
-			leftEncoder.setDistancePerPulse(distancePerPulse);
-			rightEncoder.setDistancePerPulse(distancePerPulse);
+			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
+			rightEncoder.setDistancePerPulse(3 * distancePerPulse);
 		}
 	}
 
@@ -106,8 +106,8 @@ public class Drive extends Subsystem {
 			rightTransmissionServo.set(lowGearValue);
 			highGear = false;
 			neutral = false;
-			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
-			rightEncoder.setDistancePerPulse(3 * distancePerPulse);
+			leftEncoder.setDistancePerPulse(distancePerPulse);
+			rightEncoder.setDistancePerPulse(distancePerPulse);
 		}
 	}
 
@@ -117,32 +117,14 @@ public class Drive extends Subsystem {
 		neutral = true;
 	}
 
-	public void driveWithJoysticks() {
+	public void driveWithJoysticks(double left, double right) {
 		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
 
-		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
+		if ((Math.abs(left) > .1) || (Math.abs(right) > .1)) {
 			isShiftingOK = true;
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
-			tankDrive.tankDrive(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis(), true); // if not trying to go
-																							// straight, //
-		} else {
-			isShiftingOK = false;
-			stop();
-		}
-	}
-
-	public void driveWithJoysticksBackward() {
-		// integrate gyro into drive. i.e. correct for imperfect forward motion
-		// with a proportional controller
-		double rightPower = -Robot.oi.getRightYAxis() * driveSpeedModifierConstant;
-		boolean areJoysticksSimilar = false;
-		if ((Math.abs(Robot.oi.getLeftYAxis()) > .1) || (Math.abs(Robot.oi.getRightYAxis()) > .1)) {
-			isShiftingOK = true;
-			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
-			SmartDashboard.putNumber("Right Power", rightPower);
-			SmartDashboard.putBoolean("areJoysticksSimilar", areJoysticksSimilar);
-			tankDrive.tankDrive(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis(), true);
+			tankDrive.tankDrive(left, right);
 		} else {
 			isShiftingOK = false;
 			stop();
