@@ -16,6 +16,8 @@ import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
 import org.usfirst.frc.team166.robot.subsystems.Vision;
+import org.usfirst.frc.team166.robot.triggers.CopilotLeftTrigger;
+import org.usfirst.frc.team166.robot.triggers.CopilotRightTrigger;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -24,6 +26,7 @@ import org.usfirst.frc.team166.robot.subsystems.Vision;
  */
 public class Robot extends IterativeRobot {
 
+	// subsystems
 	public static Drive drive;
 	public static Intake intake;
 	public static Shooter shooter;
@@ -31,6 +34,10 @@ public class Robot extends IterativeRobot {
 	public static Vision vision;
 	public static IntakeRoller intakeRoller;
 	public static AManipulators aManipulators;
+
+	// triggers
+	public static CopilotLeftTrigger copilotLeftTrigger;
+	public static CopilotRightTrigger copilotRightTrigger;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -47,6 +54,11 @@ public class Robot extends IterativeRobot {
 		vision = new Vision();
 		intakeRoller = new IntakeRoller();
 		aManipulators = new AManipulators();
+
+		// triggers
+		copilotRightTrigger = new CopilotRightTrigger();
+		copilotLeftTrigger = new CopilotLeftTrigger();
+
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
