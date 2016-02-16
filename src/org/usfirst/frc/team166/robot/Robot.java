@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.commands.Autonomous;
 import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
-import org.usfirst.frc.team166.robot.commands.roller.RunRollerSystem;
+import org.usfirst.frc.team166.robot.commands.roller.FeedBallIntoRoller;
+import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
@@ -29,6 +30,7 @@ public class Robot extends IterativeRobot {
 	public static AimShooter aimShooter;
 	public static Vision vision;
 	public static IntakeRoller intakeRoller;
+	public static AManipulators aManipulators;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -44,11 +46,12 @@ public class Robot extends IterativeRobot {
 		aimShooter = new AimShooter();
 		vision = new Vision();
 		intakeRoller = new IntakeRoller();
+		aManipulators = new AManipulators();
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
 		SmartDashboard.putData("Aim", new Aim());
-		SmartDashboard.putData("RunRollerSystem", new RunRollerSystem());
+		SmartDashboard.putData("RunRollerSystem", new FeedBallIntoRoller());
 	}
 
 	@Override
