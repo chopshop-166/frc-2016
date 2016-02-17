@@ -57,7 +57,7 @@ public class OI {
 
 		// The Following commands are mapped from buttons on a joystick and may
 		// need to be changed if the copilot's controller turns out to be an
-		// Xbox controler
+		// Xbox controller
 		CPbutton1.whileHeld(new Aim());
 		CPbutton2.whileHeld(new IntakeMotorForward());
 		CPbutton2.whenReleased(new IntakeMotorStop());
@@ -68,8 +68,6 @@ public class OI {
 		Robot.copilotLeftTrigger.whenActive(new LoadingProcess());
 		Robot.copilotRightTrigger.whenActive(new AutoShoot());
 
-		// The Following commands are mapped from buttons on a joystick and may need to be changed if the
-		// copiolits controller turns out to be an Xbox controler
 	}
 
 	public double getLeftYAxis() {
