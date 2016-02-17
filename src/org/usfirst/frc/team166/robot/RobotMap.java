@@ -67,11 +67,11 @@ public class RobotMap {
 		public static int rightEncoder1A = 4; // rear right
 		public static int rightEncoder1B = 5;
 
-		public static final int ShooterLeftChannelA = 19;
-		public static final int ShooterLeftChannelB = 20;
+		public static final int ShooterLeftChannelA = 6;
+		public static final int ShooterLeftChannelB = 7;
 
-		public static final int ShooterRightChannelA = 21;
-		public static final int ShooterRightChannelB = 22;
+		public static final int ShooterRightChannelA = 4;
+		public static final int ShooterRightChannelB = 5;
 		public static final int RollerEncoderA = 23;
 		public static final int RollerEncoderB = 24;
 
