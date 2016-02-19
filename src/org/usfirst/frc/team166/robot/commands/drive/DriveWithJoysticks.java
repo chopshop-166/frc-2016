@@ -24,7 +24,6 @@ public class DriveWithJoysticks extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.getRightEncoder();
 		Robot.drive.driveWithJoysticks(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
 	}
 
@@ -44,5 +43,6 @@ public class DriveWithJoysticks extends Command {
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
+
 	}
 }

@@ -2,7 +2,10 @@ package org.usfirst.frc.team166.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
 import org.usfirst.frc.team166.robot.commands.drive.TurnToGoal;
+import org.usfirst.frc.team166.robot.commands.roller.MoveBallIntoShooter;
+import org.usfirst.frc.team166.robot.commands.roller.StopRoller;
 
 /**
  *
@@ -21,6 +24,9 @@ public class AutoShoot extends CommandGroup {
 		// addSequential(new Command2());
 		// Command1 and Command2 will run in parallel.
 		addParallel(new TurnToGoal());
+		addParallel(new Aim());
+		addSequential(new MoveBallIntoShooter(), 1);
+		addSequential(new StopRoller());
 
 	}
 }

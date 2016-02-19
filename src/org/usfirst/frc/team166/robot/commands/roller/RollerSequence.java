@@ -1,6 +1,7 @@
 package org.usfirst.frc.team166.robot.commands.roller;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.Robot;
 
@@ -24,6 +25,7 @@ public class RollerSequence extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		SmartDashboard.putNumber("Intake IR Voltage", Robot.intakeRoller.getIRVoltage());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
