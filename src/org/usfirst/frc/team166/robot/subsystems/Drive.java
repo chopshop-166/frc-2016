@@ -63,8 +63,9 @@ public class Drive extends Subsystem {
 	RobotDrive tankDrive = new RobotDrive(leftPID, rightPID);
 
 	public Drive() {
-		leftEncoder.setDistancePerPulse(distancePerPulse);
-		rightEncoder.setDistancePerPulse(distancePerPulse);
+		initializeGear();
+		// leftEncoder.setDistancePerPulse(distancePerPulse);
+		// rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 		setPIDConstants();
@@ -79,13 +80,23 @@ public class Drive extends Subsystem {
 		return gyroVal;
 	}
 
+	public void initializeGear() {
+		if (leftTransmissionServo.get() > .6) {
+			leftEncoder.setDistancePerPulse(distancePerPulse);
+			rightEncoder.setDistancePerPulse(distancePerPulse);
+		} else {
+			leftEncoder.setDistancePerPulse(distancePerPulse * 2.5);
+			rightEncoder.setDistancePerPulse(distancePerPulse * 2.5);
+		}
+	}
+
 	public void driveWithGyro(double left, double right) {
 		double rightPower = right * driveSpeedModifierConstant;
 		double leftPower = left * driveSpeedModifierConstant;
 		double power = 0;
 		power = (rightPower + leftPower) / 2;
-		if (Math.abs(right) > .1 || Math.abs(left) > .1) {
-			tankDrive.tankDrive(power + getGyroOffset(), power - getGyroOffset());
+		if (Math.abs(right) > .05 || Math.abs(left) > .05) {
+			tankDrive.tankDrive(power - getGyroOffset(), power + getGyroOffset());
 		}
 	}
 
@@ -95,8 +106,9 @@ public class Drive extends Subsystem {
 			rightTransmissionServo.set(highGearValue);
 			highGear = true;
 			neutral = false;
-			leftEncoder.setDistancePerPulse(3 * distancePerPulse);
-			rightEncoder.setDistancePerPulse(3 * distancePerPulse);
+			leftEncoder.setDistancePerPulse(distancePerPulse);
+			rightEncoder.setDistancePerPulse(distancePerPulse);
+			SmartDashboard.putBoolean("isHighGear", highGear);
 		}
 	}
 
@@ -106,8 +118,8 @@ public class Drive extends Subsystem {
 			rightTransmissionServo.set(lowGearValue);
 			highGear = false;
 			neutral = false;
-			leftEncoder.setDistancePerPulse(distancePerPulse);
-			rightEncoder.setDistancePerPulse(distancePerPulse);
+			leftEncoder.setDistancePerPulse(distancePerPulse * 2.5);
+			rightEncoder.setDistancePerPulse(distancePerPulse * 2.5);
 		}
 	}
 
@@ -121,7 +133,7 @@ public class Drive extends Subsystem {
 		// integrate gyro into drive. i.e. correct for imperfect forward motion
 		// with a proportional controller
 
-		if ((Math.abs(left) > .1) || (Math.abs(right) > .1)) {
+		if ((Math.abs(left) > .05) || (Math.abs(right) > .05)) {
 			isShiftingOK = true;
 			SmartDashboard.putNumber("Gyro Offset", getGyroOffset());
 			tankDrive.tankDrive(left, right);
@@ -132,6 +144,8 @@ public class Drive extends Subsystem {
 	}
 
 	public void stop() {
+		leftPID.reset();
+		rightPID.reset();
 		tankDrive.tankDrive(0, 0);
 	}
 
@@ -203,9 +217,9 @@ public class Drive extends Subsystem {
 		// double d = 0;
 		// double f = 1;
 
-		double p = .3;
-		double i = 0.000001;
-		double d = 0.000001;
+		double p = 0.01;
+		double i = 0.0;
+		double d = 0.0;
 		double f = 1;
 
 		leftPID.setConstants(p, i, d, f);
