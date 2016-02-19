@@ -18,7 +18,7 @@ public class MoveBallIntoShooter extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.intakeRoller.startRoller();
+		Robot.intakeRoller.startRoller(1.0);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

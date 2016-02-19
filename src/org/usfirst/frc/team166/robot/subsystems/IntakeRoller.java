@@ -1,7 +1,6 @@
 package org.usfirst.frc.team166.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,8 +21,8 @@ public class IntakeRoller extends Subsystem {
 
 	}
 
-	public void startRoller() {
-		motor.set(Preferences.getInstance().getDouble("RollerForward", 1.0));
+	public void startRoller(double speed) {
+		motor.set(speed);
 	}
 
 	public void stopRoller() {
@@ -39,7 +38,7 @@ public class IntakeRoller extends Subsystem {
 	}
 
 	public boolean isBallLoaded() {
-		return (intakeSensor.getVoltage() >= 2.0);
+		return (intakeSensor.getVoltage() >= 1.0);
 	}
 
 	public boolean isBallShot() {
