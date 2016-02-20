@@ -1,6 +1,7 @@
 package org.usfirst.frc.team166.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.Robot;
 
@@ -24,8 +25,8 @@ public class DriveWithJoysticks extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.getRightEncoder();
 		Robot.drive.driveWithJoysticks(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
+		SmartDashboard.putNumber("POT Angle", Robot.aimShooter.getShooterAngle());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -44,5 +45,6 @@ public class DriveWithJoysticks extends Command {
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
+
 	}
 }

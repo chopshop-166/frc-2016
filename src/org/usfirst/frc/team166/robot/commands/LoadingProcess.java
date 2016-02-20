@@ -6,6 +6,7 @@ import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
 import org.usfirst.frc.team166.robot.commands.intake.LowerRake;
 import org.usfirst.frc.team166.robot.commands.intake.RaiseRake;
+import org.usfirst.frc.team166.robot.commands.roller.RollerSequence;
 
 /**
  *
@@ -15,7 +16,7 @@ public class LoadingProcess extends CommandGroup {
 	public LoadingProcess() {
 		addSequential(new LowerRake());
 		addSequential(new IntakeMotorForward());
-		addSequential(new LoadingProcess());
+		addSequential(new RollerSequence());
 		addSequential(new IntakeMotorStop());
 		addSequential(new RaiseRake());
 

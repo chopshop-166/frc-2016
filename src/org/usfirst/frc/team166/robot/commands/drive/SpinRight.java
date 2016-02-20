@@ -1,43 +1,42 @@
-package org.usfirst.frc.team166.robot.commands.roller;
+package org.usfirst.frc.team166.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.Robot;
 
 /**
  *
  */
-public class RollerSequence extends Command {
+public class SpinRight extends Command {
 
-	public RollerSequence() {
-		requires(Robot.intakeRoller);
+	public SpinRight() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.intakeRoller.startRoller(.25);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		SmartDashboard.putNumber("Intake IR Voltage", Robot.intakeRoller.getIRVoltage());
+		Robot.drive.spinRight();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return Robot.intakeRoller.isBallLoaded();
+		return false;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.intakeRoller.stopRoller();
+		Robot.drive.stop();
 	}
 
 	// Called when another command which requires one or more of the same

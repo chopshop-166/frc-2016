@@ -44,8 +44,8 @@ def findAngle(distance):
 
 vc = cv2.VideoCapture()
 
-if not vc.open('http://10.1.66.11/mjpg/video.mjpg'): #connect to Axis Camera
-#if not vc.open(0): #connect to Webcam
+#if not vc.open('http://10.1.66.11/mjpg/video.mjpg'): #connect to Axis Camera
+if not vc.open(0): #connect to Webcam
     print "Could not connect to camera"
     exit(1)
 while cv2.waitKey(10) <= 0:
@@ -107,7 +107,6 @@ while cv2.waitKey(10) <= 0:
                #Keep in mind, x and y are the actual centers, but xtemp and ytemp is the upper left corner
                
                if(atemp > 1000):
-                   visionDataTable.putNumber("isLargeTargetFound", true)
                    cv2.circle(color,(xtemp + (wtemp/2) ,ytemp + (htemp/2)),2,(0,255,0),thickness = -1)
                    tempstring = " (%d,%d)" % (xtemp, ytemp)
                    cv2.putText(color, tempstring, (xtemp + wtemp,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
@@ -115,9 +114,7 @@ while cv2.waitKey(10) <= 0:
                    cv2.putText(color, "%d" %(htemp), (xtemp - 30 ,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
                    cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget((w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
                    cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget((w[maxAreaIndex])))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
-                else:
-                    visionDataTable.putNumber("isLargeTargetFound", false)
-    visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))
-    visionDataTable.putNumber("xPosition", x[maxAreaIndex])
-    
+                   visionDataTable.putBoolean("isLargeTargetFound", False)
+                   visionDataTable.putNumber("xPosition", x[maxAreaIndex])
+                   visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))  
     cv2.imshow("Cameras are awesome :D", color)
