@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 import org.usfirst.frc.team166.robot.PIDSpeedController;
 import org.usfirst.frc.team166.robot.RobotMap;
@@ -18,8 +17,9 @@ public class AimShooter extends Subsystem {
 
 	Victor motor;
 	AnalogInput pot;
-	double angleToDisplacementConstant = 4096.0 / (180.0 * 4.66); // derived from gear ratio of 4.66 and max pot val of
-	double displacementToAngleConstant = (180.0 * 4.66) / 4096.0; // 1000
+	double degreesPerVolt = 1 / .0927;
+	double voltsPerDegree = .0927;
+	double zeroDegreeVoltage = .558;
 	double minAngle = 45.0;
 	double midAngle = 90.0;
 
@@ -48,24 +48,28 @@ public class AimShooter extends Subsystem {
 	}
 
 	private double convertAngleToDisplacement(double angle) {
-		double displacement = angle * angleToDisplacementConstant;
+		double displacement = ((angle - 45) * voltsPerDegree) - zeroDegreeVoltage;
 		return (displacement);
 	}
 
 	public void setAngle(double angle) {
-		if (NetworkTable.getTable("Vision").getBoolean("isLargeTargetFound", false)) {
-			if (angle <= minAngle) {
-				anglePID.set(convertAngleToDisplacement(minAngle));
-			} else {
-				anglePID.set(convertAngleToDisplacement(angle));
-			}
+		anglePID.set(convertAngleToDisplacement(Math.max(angle, minAngle)));
+	}
+
+	public double getShooterAngle() {
+		return (45 + ((pot.getVoltage() - zeroDegreeVoltage) * degreesPerVolt));
+	}
+
+	public void moveToAngle(double angle) {
+		if (angle > getShooterAngle()) {
+			motor.set(.3);
 		} else {
-			anglePID.set(convertAngleToDisplacement(minAngle));
+			motor.set(-.75);
 		}
 	}
 
-	public double getPotVal() {
-		return ((pot.getValue()) * displacementToAngleConstant);
+	public void stop() {
+		motor.set(0.0);
 	}
 
 	@Override

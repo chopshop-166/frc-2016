@@ -12,19 +12,27 @@ public class Vision extends Subsystem {
 	double defaultShooterAngle = 45.0;
 	double xOffset = 0;
 	double xPos = 0;
+	NetworkTable visionTable;
+
+	public Vision() {
+		visionTable = NetworkTable.getTable("visionDataTable");
+	}
 
 	public double getDesiredShooterAngle() {
 		// returns the desired shooter angle as calculated in the python code
 
-		return (NetworkTable.getTable("visionDataTable").getNumber("shooterAngle", defaultShooterAngle));
+		return (visionTable.getNumber("shooterAngle", defaultShooterAngle));
 	}
 
 	public double getXOffset() {
 		// returns the offset from the center of the largest vision target (a value between -1 and 1)
-
-		xPos = NetworkTable.getTable("Vision").getNumber("xPos", screenCenter);
+		xPos = visionTable.getNumber("xPos", screenCenter);
 		xOffset = (xPos - screenCenter) * xOffsetMultiplier;
 		return (xOffset);
+	}
+
+	public double getXPos() {
+		return visionTable.getNumber("xPos", screenCenter);
 	}
 
 	@Override
