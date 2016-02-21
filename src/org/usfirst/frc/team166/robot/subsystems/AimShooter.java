@@ -19,7 +19,7 @@ public class AimShooter extends Subsystem {
 	AnalogInput pot;
 	double degreesPerVolt = 1 / .0927;
 	double voltsPerDegree = .0927;
-	double zeroDegreeVoltage = .558;
+	double zeroDegreeVoltage = .63;
 	double minAngle = 45.0;
 	double midAngle = 90.0;
 
@@ -48,7 +48,7 @@ public class AimShooter extends Subsystem {
 	}
 
 	private double convertAngleToDisplacement(double angle) {
-		double displacement = ((angle - 45) * voltsPerDegree) - zeroDegreeVoltage;
+		double displacement = ((angle - 45) * voltsPerDegree);
 		return (displacement);
 	}
 
@@ -60,11 +60,19 @@ public class AimShooter extends Subsystem {
 		return (45 + ((pot.getVoltage() - zeroDegreeVoltage) * degreesPerVolt));
 	}
 
-	public void moveToAngle(double angle) {
+	public void moveToAngle(int angle) {
 		if (angle > getShooterAngle()) {
-			motor.set(.3);
+			motor.set(.4);
 		} else {
-			motor.set(-.75);
+			motor.set(-.08);
+		}
+	}
+
+	public void maintainAngle(int angle) {
+		if (angle > (getShooterAngle() + 1)) {
+			moveToAngle(angle);
+		} else {
+			stop();
 		}
 	}
 
