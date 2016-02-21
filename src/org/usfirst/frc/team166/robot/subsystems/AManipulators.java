@@ -25,6 +25,14 @@ public class AManipulators extends Subsystem {
 		}
 	}
 
+	public void lowerAManipulators() {
+		aManipulatorSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+
+	public void raiseAManipulators() {
+		aManipulatorSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
