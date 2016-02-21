@@ -1,6 +1,7 @@
 package org.usfirst.frc.team166.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -30,11 +31,11 @@ public class Drive extends Subsystem {
 
 	double referenceAngle = 0;
 	public boolean isReversed = false;
-	double joyDeadZone = 0.025;
+	double joyDeadZone = 0.1;
 	double gyroVal = 0;
 	double joystickTurnOffset;
 	double autoTurnValue;
-	double turnSpeedScalar = 0.55;
+	double turnSpeedScalar = 0.35;
 	boolean highGear;
 	boolean neutral;
 	boolean isShiftingOK;
@@ -43,7 +44,7 @@ public class Drive extends Subsystem {
 
 	double highGearValue = 0.0;
 	double lowGearValue = 1.0;
-	double spinSpeed = .35;
+	double spinSpeed = .2;
 
 	CANTalon leftTopMotor = new CANTalon(RobotMap.CAN.leftTopDrive);
 	CANTalon leftBotMotor = new CANTalon(RobotMap.CAN.leftBotDrive);
@@ -66,9 +67,10 @@ public class Drive extends Subsystem {
 	PIDSpeedController rightPID = new PIDSpeedController(rightEncoder, rightDrive, "Drive", "Right PID");
 
 	Gyro gyro = new AnalogGyro(RobotMap.Analog.gyroPort);
+	AnalogInput frontUltrasonic = new AnalogInput(RobotMap.Analog.frontUltrasonic);
 
-	// RobotDrive tankDrive = new RobotDrive(leftDrive, rightDrive);
-	RobotDrive tankDrive = new RobotDrive(leftPID, rightPID);
+	RobotDrive tankDrive = new RobotDrive(leftDrive, rightDrive);
+	// RobotDrive tankDrive = new RobotDrive(leftPID, rightPID);
 
 	public Drive() {
 		initializeGear();
@@ -76,16 +78,46 @@ public class Drive extends Subsystem {
 		// rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
-		setPIDConstants();
 	}
 
-	public double getGyroOffset() {
-		gyroVal = Robot.drive.getGyro() * gyroConstant;
-		if (Math.abs(gyroVal) > (1.0 - driveSpeedModifierConstant)) {
-			gyroVal = (1.0 - driveSpeedModifierConstant) * Math.abs(gyroVal) / gyroVal; // sets gyroVal to either 1 or
-			// -1
+	public void driveWithJoysticks(double left, double right) {
+
+		SmartDashboard.putBoolean("isReversed", isReversed);
+
+		if (((right > joyDeadZone) && (left > joyDeadZone)) || ((right < -joyDeadZone) && (left < -joyDeadZone))) {
+			// The joysticks have the same sign and are out of the deadzone
+			if (isReversed) {
+				// if the reverse mode is enabled
+				tankDrive.tankDrive(-(right + left) / 2, -(right + left) / 2, false);
+				// drives straight in reverse
+			} else {
+				// if the reverse mode is NOT enabled
+				tankDrive.tankDrive((right + left) / 2, (right + left) / 2, false);
+				// drives straight forward
+			}
+			SmartDashboard.putString("Drive State", "Straight");
+			isShiftingOK = true;
+			// it's okay to shift
+		} else if ((Math.abs(right) > joyDeadZone) || (Math.abs(left) > joyDeadZone)) {
+			// the joysticks have opposite signs and are out of the deadzone
+			if (isReversed) {
+				// if reverse mode is enabled
+				joystickTurnOffset = (left - right) * turnSpeedScalar;
+				tankDrive.tankDrive(joystickTurnOffset, -joystickTurnOffset, false);
+				// turns at the value of the left joystick minus the right joystick
+			} else {
+				joystickTurnOffset = (right - left) * turnSpeedScalar;
+				tankDrive.tankDrive(-joystickTurnOffset, joystickTurnOffset, false);
+				// turns at the value of the right joystick minus the left joystick
+
+			}
+			SmartDashboard.putString("Drive State", "Turning");
+			isGyroReset = false;
+			isShiftingOK = true;
+		} else {
+			SmartDashboard.putString("Drive State", "Stopped");
+			// the joysticks are within the deadzone
 		}
-		return gyroVal;
 	}
 
 	public void initializeGear() {
@@ -98,37 +130,27 @@ public class Drive extends Subsystem {
 		}
 	}
 
-	public void driveWithGyro(double left, double right) {
-		double rightPower = right * driveSpeedModifierConstant;
-		double leftPower = left * driveSpeedModifierConstant;
-		double power = 0;
-		power = (rightPower + leftPower) / 1.5;
-		if (Math.abs(right) > .05 || Math.abs(left) > .05) {
-			tankDrive.tankDrive(power - getGyroOffset(), power + getGyroOffset());
-		}
-	}
-
 	public void highGear() {
-		if (isShiftingOK == true) {
-			leftTransmissionServo.set(highGearValue);
-			rightTransmissionServo.set(highGearValue);
-			highGear = true;
-			neutral = false;
-			leftEncoder.setDistancePerPulse(distancePerPulse);
-			rightEncoder.setDistancePerPulse(distancePerPulse);
-			SmartDashboard.putBoolean("isHighGear", highGear);
-		}
+		// if (isShiftingOK == true) {
+		leftTransmissionServo.set(highGearValue);
+		rightTransmissionServo.set(highGearValue);
+		highGear = true;
+		neutral = false;
+		leftEncoder.setDistancePerPulse(distancePerPulse);
+		rightEncoder.setDistancePerPulse(distancePerPulse);
+		SmartDashboard.putBoolean("isHighGear", highGear);
+		// }
 	}
 
 	public void lowGear() {
-		if (isShiftingOK == true) {
-			leftTransmissionServo.set(lowGearValue);
-			rightTransmissionServo.set(lowGearValue);
-			highGear = false;
-			neutral = false;
-			leftEncoder.setDistancePerPulse(distancePerPulse * 2.5);
-			rightEncoder.setDistancePerPulse(distancePerPulse * 2.5);
-		}
+		// if (isShiftingOK == true) {
+		leftTransmissionServo.set(lowGearValue);
+		rightTransmissionServo.set(lowGearValue);
+		highGear = false;
+		neutral = false;
+		leftEncoder.setDistancePerPulse(distancePerPulse * 2.5);
+		rightEncoder.setDistancePerPulse(distancePerPulse * 2.5);
+		// }
 	}
 
 	public void neutral() {
@@ -137,138 +159,104 @@ public class Drive extends Subsystem {
 		neutral = true;
 	}
 
-	public void driveWithJoysticks(double left, double right) {
-
-		SmartDashboard.putBoolean("isReversed", isReversed);
-		// integrate gyro into drive. i.e. correct for imperfect forward motion
-		// with a proportional controller
-		if (((right > joyDeadZone) && (left > joyDeadZone)) || ((right < -joyDeadZone) && (left < -joyDeadZone))) { // straight
-			if (isReversed) {
-				tankDrive.tankDrive(-(right + left) / 2, -(right + left) / 2);
-			} else {
-				tankDrive.tankDrive((right + left) / 2, (right + left) / 2);
-			}
-			SmartDashboard.putString("Drive State", "Straight");
-			isShiftingOK = true;
-		} else if ((Math.abs(right) > joyDeadZone) || (Math.abs(left) > joyDeadZone)) { // spinning
-
-			if (isReversed) {
-				joystickTurnOffset = left - right;
-				tankDrive.tankDrive(joystickTurnOffset * turnSpeedScalar, -joystickTurnOffset * turnSpeedScalar);
-			} else {
-				joystickTurnOffset = right - left;
-				tankDrive.tankDrive(-joystickTurnOffset * turnSpeedScalar, joystickTurnOffset * turnSpeedScalar);
-			}
-			SmartDashboard.putString("Drive State", "Turning");
-			isGyroReset = false;
-			isShiftingOK = true;
+	public void spinRight() {
+		// spins the robot to the right at the minimum speed required to turn
+		if (isReversed) {
+			// if the robot is in reverse mode
+			tankDrive.tankDrive(spinSpeed, -spinSpeed, false);
 		} else {
-			resetGyro();
-			SmartDashboard.putString("Drive State", "Stopped");
+			// if the robot is NOT in reverse mode
+			tankDrive.tankDrive(-spinSpeed, spinSpeed, false);
 		}
+	}
 
+	public void spinLeft() {
+		// spins the robot to the left at the minimum speed required to turn
+		if (isReversed) {
+			// if the robot is in reverse mode
+			tankDrive.tankDrive(-spinSpeed, spinSpeed, false);
+		} else {
+			// if the robot is NOT in reverse mode
+			tankDrive.tankDrive(spinSpeed, -spinSpeed, false);
+		}
+	}
+
+	public void turnToGoal(double offset) {
+		double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.0)), .2));
+		if (offset > 0) {
+			leftTopMotor.set(-turnToGoalSpeed);
+			leftBotMotor.set(-turnToGoalSpeed);
+			rightTopMotor.set(-turnToGoalSpeed);
+			rightBotMotor.set(-turnToGoalSpeed);
+		} else {
+			leftTopMotor.set(turnToGoalSpeed);
+			leftBotMotor.set(turnToGoalSpeed);
+			rightTopMotor.set(turnToGoalSpeed);
+			rightBotMotor.set(turnToGoalSpeed);
+		}
+	}
+
+	public void driveWithGyro(double left, double right) {
+		double rightPower = right * driveSpeedModifierConstant;
+		double leftPower = left * driveSpeedModifierConstant;
+		double power = 0;
+		power = (rightPower + leftPower) / 1.5;
+		if (Math.abs(right) > .05 || Math.abs(left) > .05) {
+			tankDrive.tankDrive(power - getGyroOffset(), power + getGyroOffset(), false);
+		}
+	}
+
+	public double getGyroOffset() {
+		gyroVal = Robot.drive.getGyro() * gyroConstant;
+		if (Math.abs(gyroVal) > (1.0 - driveSpeedModifierConstant)) {
+			gyroVal = (1.0 - driveSpeedModifierConstant) * Math.abs(gyroVal) / gyroVal; // sets gyroVal to either 1 or
+			// -1
+		}
+		return gyroVal;
 	}
 
 	public void stop() {
-		leftPID.reset();
-		rightPID.reset();
+		// stops the drive motors
 		tankDrive.tankDrive(0, 0);
 	}
 
-	public void resetGyro() {
-		gyro.reset();
-		referenceAngle = 0;
-		isGyroReset = true;
-	}
-
 	public void resetEncoders() {
+		// resets the encoders
 		leftEncoder.reset();
 		rightEncoder.reset();
 	}
 
 	public double getLeftEncoder() {
+		// returns the rate of the left encoder
 		SmartDashboard.putNumber("Left Encoder", leftEncoder.getRate());
 		return leftEncoder.getRate();
 	}
 
 	public double getRightEncoder() {
+		// returns the rate of the right encoder
 		SmartDashboard.putNumber("Right Encoder", rightEncoder.getRate());
 		return rightEncoder.getRate();
 	}
 
-	public double getDistance() {
-		return (((getLeftEncoder() + getRightEncoder()) / 2.0) / 1024.0) / 31.4;
+	public double getEncoderDistance() {
+		// returns the average of the distance traveled by the left and right encoders
+		return ((rightEncoder.getDistance() + leftEncoder.getDistance()) / 2);
 	}
 
 	public double getGyro() {
+		// gets the gyro angle
 		return gyro.getAngle() + referenceAngle;
 	}
 
-	public void turnAngle(double angle) {
-		double power = (angle - getGyro()) / angle;
-		if (getGyro() < angle - 7.0) {
-			tankDrive.tankDrive(power, -power);
-
-			// rightMotor(-power);
-			// leftMotor(power);
-		} else if (getGyro() > angle + 7) {
-			tankDrive.tankDrive(-power, power);
-			// rightMotor(power);
-			// leftMotor(-power);
-		} else if (getGyro() >= angle - 7 && getGyro() <= angle + 7) {
-			tankDrive.tankDrive(0, 0);
-		}
+	public void resetGyro() {
+		// resets the gyro
+		gyro.reset();
+		referenceAngle = 0;
+		isGyroReset = true;
 	}
 
-	public void spinRight() {
-		if (isReversed) {
-			tankDrive.tankDrive(spinSpeed, -spinSpeed);
-		} else {
-			tankDrive.tankDrive(-spinSpeed, spinSpeed);
-		}
-
-	}
-
-	public void spinLeft() {
-		if (isReversed) {
-			tankDrive.tankDrive(-spinSpeed, spinSpeed);
-		} else {
-			tankDrive.tankDrive(spinSpeed, -spinSpeed);
-		}
-	}
-
-	public void driveDistance(double distance) { // inches
-		double power = (distance - getDistance()) / distance;
-		if (getDistance() <= (Math.PI * distance) - 4) {
-			tankDrive.tankDrive(power, power);
-		} else {
-			tankDrive.tankDrive(0, 0);
-		}
-	}
-
-	public void driveDirection(double angle, double distance) {
-		turnAngle(angle);
-		driveDistance(distance);
-	}
-
-	public void turn(double leftVal, double rightVal) {
-		tankDrive.tankDrive(leftVal, rightVal);
-
-	}
-
-	public void setPIDConstants() {
-		// double p = 1;
-		// double i = 2;
-		// double d = 0;
-		// double f = 1;
-
-		double p = 0.05;
-		double i = 0.0;
-		double d = 0.0;
-		double f = 1;
-
-		leftPID.setConstants(p, i, d, f);
-		rightPID.setConstants(p, i, d, f);
+	public double getFrontUltrasonicVoltage() {
+		return frontUltrasonic.getVoltage();
 	}
 
 	@Override

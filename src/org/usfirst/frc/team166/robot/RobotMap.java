@@ -75,6 +75,7 @@ public class RobotMap {
 		public static int gyroPort = 0;
 		public static final int IntakeSensor = 1;
 		public static final int ShooterPotAngle = 2;
+		public static final int frontUltrasonic = 3;
 	}
 
 	// Solenoids

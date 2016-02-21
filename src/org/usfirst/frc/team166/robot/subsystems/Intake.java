@@ -60,20 +60,20 @@ public class Intake extends Subsystem {
 	// Solenoid Methods
 
 	public void lowerRake() {
-		Actuator.set(DoubleSolenoid.Value.kReverse);
+		Actuator.set(DoubleSolenoid.Value.kForward);
 
 	}
 
 	public void raiseRake() {
-		Actuator.set(DoubleSolenoid.Value.kForward);
+		Actuator.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	public void toggleIntakeSolenoid() {
 		Value SolenoidVal = Actuator.get();
-		if (SolenoidVal == Value.kForward) {
-			raiseRake();
-		} else {
+		if (SolenoidVal == Value.kReverse) {
 			lowerRake();
+		} else {
+			raiseRake();
 
 		}
 	}

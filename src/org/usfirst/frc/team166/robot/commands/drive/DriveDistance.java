@@ -1,43 +1,38 @@
 package org.usfirst.frc.team166.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.Robot;
 
 /**
  *
  */
-public class DriveWithJoysticks extends Command {
+public class DriveDistance extends Command {
+	double mySpeed;
+	double myDistance;
 
-	public DriveWithJoysticks() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
+	public DriveDistance(double speed, double distance) {
+		mySpeed = speed;
+		myDistance = distance;
 		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.drive.resetEncoders();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.driveWithJoysticks(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
-		Robot.aimShooter.maintainAngle(45);
-
-		SmartDashboard.putNumber("POT Angle", Robot.aimShooter.getShooterAngle());
-		SmartDashboard.putNumber("X Offset", Robot.vision.getXOffset());
-		SmartDashboard.putNumber("X Position", Robot.vision.getXPos());
-
-		SmartDashboard.putNumber("Front Ultrasonic Distance", Robot.drive.getFrontUltrasonicVoltage());
-
+		Robot.drive.driveWithGyro(mySpeed, mySpeed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
+		// return (Robot.drive.getDistance() >= myDistance);
 		return false;
 	}
 
@@ -51,6 +46,5 @@ public class DriveWithJoysticks extends Command {
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
-
 	}
 }
