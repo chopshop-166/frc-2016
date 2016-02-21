@@ -6,11 +6,13 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team166.robot.commands.LoadingProcess;
 import org.usfirst.frc.team166.robot.commands.TestShoot;
 import org.usfirst.frc.team166.robot.commands.aManipulators.ToggleAManipulators;
-import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
-import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticksBackward;
+import org.usfirst.frc.team166.robot.commands.aimShooter.Aim;
 import org.usfirst.frc.team166.robot.commands.drive.HighGear;
 import org.usfirst.frc.team166.robot.commands.drive.LowGear;
 import org.usfirst.frc.team166.robot.commands.drive.Neutral;
+import org.usfirst.frc.team166.robot.commands.drive.SpinLeft;
+import org.usfirst.frc.team166.robot.commands.drive.SpinRight;
+import org.usfirst.frc.team166.robot.commands.drive.ToggleDriveDirection;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorForward;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorReverse;
 import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
@@ -34,6 +36,8 @@ public class OI {
 		JoystickButton rightJoyTrigger = new JoystickButton(rightStick, 1);
 		JoystickButton leftJoyTrigger = new JoystickButton(leftStick, 1);
 		JoystickButton rightJoyButton2 = new JoystickButton(rightStick, 2);
+		JoystickButton rightJoyButton4 = new JoystickButton(rightStick, 4);
+		JoystickButton rightJoyButton5 = new JoystickButton(rightStick, 5);
 		JoystickButton rightJoyButton3 = new JoystickButton(rightStick, 3);
 		JoystickButton rightJoyButton7 = new JoystickButton(rightStick, 7);
 
@@ -47,11 +51,14 @@ public class OI {
 		JoystickButton CPbutton8 = new JoystickButton(copilotController, 8);
 
 		// Buttons
-		leftJoyTrigger.whileHeld(new DriveWithGyro());
-		rightJoyTrigger.whileHeld(new DriveWithJoysticksBackward());
+		// leftJoyTrigger.whileHeld(new DriveWithGyro());
+		leftJoyTrigger.whenPressed(new Aim());
+		rightJoyTrigger.whenPressed(new ToggleDriveDirection());
 
 		rightJoyButton3.whenPressed(new HighGear());
 		rightJoyButton2.whenPressed(new LowGear());
+		rightJoyButton4.whileHeld(new SpinLeft());
+		rightJoyButton5.whileHeld(new SpinRight());
 		rightJoyButton7.whenPressed(new Neutral());
 
 		// The Following commands are mapped from buttons on a joystick and may

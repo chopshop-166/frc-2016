@@ -19,6 +19,7 @@ public class MoveBallIntoShooter extends Command {
 	@Override
 	protected void initialize() {
 		Robot.intakeRoller.startRoller(1.0);
+		Robot.intake.intakeMotorForward();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,6 +37,7 @@ public class MoveBallIntoShooter extends Command {
 	@Override
 	protected void end() {
 		Robot.intakeRoller.stopRoller();
+		Robot.intake.intakeMotorStop();
 	}
 
 	// Called when another command which requires one or more of the same
