@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Vision extends Subsystem {
-	double screenCenter = 160;
+	double screenCenter = 143;
 	double xOffsetMultiplier = 1.0 / 160.0;
 	double defaultShooterAngle = 45.0;
 	double xOffset = 0;

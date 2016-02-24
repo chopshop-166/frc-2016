@@ -10,7 +10,6 @@ import org.usfirst.frc.team166.robot.Robot;
  *
  */
 public class Aim extends Command {
-
 	double desiredAngle = Preferences.getInstance().getDouble("testAngle", 46);
 
 	public Aim() {
@@ -26,9 +25,11 @@ public class Aim extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+
 		SmartDashboard.putNumber("Desired Angle", Robot.vision.getDesiredShooterAngle());
 		SmartDashboard.putNumber("POT Angle", Robot.aimShooter.getShooterAngle());
 		Robot.aimShooter.moveToAngle(Robot.vision.getDesiredShooterAngle());
+		// Robot.aimShooter.moveToAngle(desiredAngle);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -36,6 +37,7 @@ public class Aim extends Command {
 	protected boolean isFinished() {
 		// return ((Math.abs(Robot.vision.getDesiredShooterAngle() - Robot.aimShooter.getShooterAngle())) < 5.0);
 		return ((Math.abs(Robot.vision.getDesiredShooterAngle() - Robot.aimShooter.getShooterAngle())) < .25);
+		// return ((Math.abs(desiredAngle - Robot.aimShooter.getShooterAngle())) < .25);
 	}
 
 	// Called once after isFinished returns true
