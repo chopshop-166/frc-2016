@@ -44,7 +44,7 @@ public class Drive extends Subsystem {
 
 	double highGearValue = 0.0;
 	double lowGearValue = 1.0;
-	double spinSpeed = .14;
+	double spinSpeed = .2;
 
 	CANTalon leftTopMotor = new CANTalon(RobotMap.CAN.leftTopDrive);
 	CANTalon leftBotMotor = new CANTalon(RobotMap.CAN.leftBotDrive);

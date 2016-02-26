@@ -11,16 +11,16 @@ import org.usfirst.frc.team166.robot.commands.intake.RaiseRake;
 /**
  *
  */
-public class Autonomous extends CommandGroup {
+public class MidRightAuto extends CommandGroup {
 
-	public Autonomous() {
+	public MidRightAuto() {
 		addSequential(new LowerRake());
 		addSequential(new LowerAManipulators());
 		addSequential(new DriveDistance(.9, 170));
 		addSequential(new RaiseRake());
-		addSequential(new TurnAngle(45));
+		addSequential(new TurnAngle(-20));
 		// addSequential(new DriveDistance(.7, 112));
-		addSequential(new DriveDistance(.7, 36));
+		addSequential(new DriveDistance(.7, 25));
 		addSequential(new MediumRangeShot());
 	}
 }
