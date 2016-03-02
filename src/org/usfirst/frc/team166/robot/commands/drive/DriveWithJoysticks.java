@@ -32,6 +32,7 @@ public class DriveWithJoysticks extends Command {
 		SmartDashboard.putNumber("X Position", Robot.vision.getXPos());
 
 		SmartDashboard.putNumber("Front Ultrasonic Distance", Robot.drive.getFrontUltrasonicVoltage());
+		SmartDashboard.putNumber("Distance Traveled", Robot.drive.getEncoderDistance());
 
 	}
 

@@ -23,9 +23,9 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	// final double distancePerPulse = 12 / 56320.0; // this makes perfect cents // no it doesn't it makes
-	// 2.1306818181...
-	final double distancePerPulse = 1.0 / 2500;
+	final double distancePerPulse = (Math.PI * 10.25) / 1024.0;
+	// final double distancePerPulse = (12 / 56320.0) * (Math.PI * 10.25);
+	// final double distancePerPulse = 1 / 1000.0;
 	final double gyroConstant = -0.3 / 10.0;
 	final double driveSpeedModifierConstant = .7;
 
@@ -74,6 +74,7 @@ public class Drive extends Subsystem {
 
 	public Drive() {
 		initializeGear();
+		// setPIDConstants();
 		// leftEncoder.setDistancePerPulse(distancePerPulse);
 		// rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
@@ -92,7 +93,7 @@ public class Drive extends Subsystem {
 				// drives straight in reverse
 			} else {
 				// if the reverse mode is NOT enabled
-				tankDrive.tankDrive((right + left) / 2, (right + left) / 2, false);
+				tankDrive.tankDrive((right + left) / 2, ((right + left) / 2) * .9, false);
 				// drives straight forward
 			}
 			SmartDashboard.putString("Drive State", "Straight");
@@ -163,10 +164,10 @@ public class Drive extends Subsystem {
 		// spins the robot to the right at the minimum speed required to turn
 		if (isReversed) {
 			// if the robot is in reverse mode
-			tankDrive.tankDrive(spinSpeed, -spinSpeed, false);
+			tankDrive.tankDrive(spinSpeed * 3, -spinSpeed * 3, false);
 		} else {
 			// if the robot is NOT in reverse mode
-			tankDrive.tankDrive(-spinSpeed, spinSpeed, false);
+			tankDrive.tankDrive(-spinSpeed * 3, spinSpeed * 3, false);
 		}
 	}
 
@@ -174,15 +175,16 @@ public class Drive extends Subsystem {
 		// spins the robot to the left at the minimum speed required to turn
 		if (isReversed) {
 			// if the robot is in reverse mode
-			tankDrive.tankDrive(-spinSpeed, spinSpeed, false);
+			tankDrive.tankDrive(-spinSpeed * 3, spinSpeed * 3, false);
 		} else {
 			// if the robot is NOT in reverse mode
-			tankDrive.tankDrive(spinSpeed, -spinSpeed, false);
+			tankDrive.tankDrive(spinSpeed * 3, -spinSpeed * 3, false);
 		}
 	}
 
 	public void turnToGoal(double offset) {
-		double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.0)), .2));
+		// double turnToGoalSpeed = (Math.max(Math.abs((offset / 2.2)), .15));
+		double turnToGoalSpeed = spinSpeed;
 		if (offset > 0) {
 			leftTopMotor.set(-turnToGoalSpeed);
 			leftBotMotor.set(-turnToGoalSpeed);
@@ -202,7 +204,11 @@ public class Drive extends Subsystem {
 		double power = 0;
 		power = (rightPower + leftPower) / 1.5;
 		if (Math.abs(right) > .05 || Math.abs(left) > .05) {
-			tankDrive.tankDrive(power - getGyroOffset(), power + getGyroOffset(), false);
+			if (isReversed) {
+				tankDrive.tankDrive(-power - getGyroOffset(), -power + getGyroOffset(), false);
+			} else {
+				tankDrive.tankDrive(power - getGyroOffset(), power + getGyroOffset(), false);
+			}
 		}
 	}
 
@@ -218,6 +224,16 @@ public class Drive extends Subsystem {
 	public void stop() {
 		// stops the drive motors
 		tankDrive.tankDrive(0, 0);
+	}
+
+	public void setPIDConstants() {
+		double p = 0.025;
+		double i = 0.0;
+		double d = 0.0;
+		double f = 1.0;
+
+		rightPID.setConstants(p, i, d, f);
+		leftPID.setConstants(p, i, d, f);
 	}
 
 	public void resetEncoders() {
@@ -240,7 +256,7 @@ public class Drive extends Subsystem {
 
 	public double getEncoderDistance() {
 		// returns the average of the distance traveled by the left and right encoders
-		return ((rightEncoder.getDistance() + leftEncoder.getDistance()) / 2);
+		return (-1 * (rightEncoder.getDistance()));
 	}
 
 	public double getGyro() {

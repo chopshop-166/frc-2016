@@ -11,7 +11,7 @@ public class TurnAngle extends Command {
 	double desiredAngle;
 
 	public TurnAngle(double angle) {
-		desiredAngle = angle;
+		desiredAngle = -angle;
 		requires(Robot.drive);
 	}
 
