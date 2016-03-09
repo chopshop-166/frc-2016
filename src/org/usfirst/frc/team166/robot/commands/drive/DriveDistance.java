@@ -13,7 +13,7 @@ public class DriveDistance extends Command {
 	double myDistance;
 
 	public DriveDistance(double speed, double distance) {
-		mySpeed = -speed;
+		mySpeed = -speed; // negative because speed is reversed for these motors
 		myDistance = distance;
 		requires(Robot.drive);
 	}
