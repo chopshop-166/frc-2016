@@ -4,8 +4,14 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team166.robot.commands.Autonomous;
+import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
+import org.usfirst.frc.team166.robot.commands.FarRightAuto;
+import org.usfirst.frc.team166.robot.commands.MidAuto;
+import org.usfirst.frc.team166.robot.commands.MidLeftAuto;
+import org.usfirst.frc.team166.robot.commands.MidRightAuto;
 import org.usfirst.frc.team166.robot.commands.drive.LowGear;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
@@ -32,6 +38,7 @@ public class Robot extends IterativeRobot {
 	public static Vision vision;
 	public static IntakeRoller intakeRoller;
 	public static AManipulators aManipulators;
+	private static SendableChooser autoChooser;
 
 	// triggers
 	public static CopilotLeftTrigger copilotLeftTrigger;
@@ -54,17 +61,28 @@ public class Robot extends IterativeRobot {
 		intakeRoller = new IntakeRoller();
 		aManipulators = new AManipulators();
 
+		// autochooser
+		autoChooser = new SendableChooser();
+
 		// triggers
 		copilotRightTrigger = new CopilotRightTrigger();
 		copilotLeftTrigger = new CopilotLeftTrigger();
 
 		oi = new OI();
 		// instantiate the command used for the autonomous period
-		autonomousCommand = new Autonomous();
 		lowGearCommand = new LowGear();
-		// SmartDashboard.putData("Aim", new Aim());
-		// SmartDashboard.putData("RunRollerSystem", new RollerSequence());
-		// SmartDashboard.putData("LadingProcess", new LoadingProcess());
+
+		// auto chooser commands
+		autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
+		autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
+		autoChooser.addObject("MidAuto", new MidAuto());
+		autoChooser.addObject("MidRightAuto", new MidRightAuto());
+		autoChooser.addObject("FarRightAuto", new FarRightAuto());
+
+		SmartDashboard.putData("Autonomous", autoChooser);
+
+		autonomousCommand = (Command) autoChooser.getSelected();
+		// autonomousCommand = new FarLeftAuto();
 	}
 
 	@Override

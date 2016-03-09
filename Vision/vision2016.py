@@ -39,13 +39,13 @@ def findDistanceToTarget(width):
     return distance
 
 def findAngle(distance):
-    angle = math.degrees(math.atan(7/distance))
+    angle = (.1183*(distance **2 ) - (3.468 * distance) + 69.203)
     return angle;
 
 vc = cv2.VideoCapture()
 
-#if not vc.open('http://10.1.66.11/mjpg/video.mjpg'): #connect to Axis Camera
-if not vc.open(0): #connect to Webcam
+if not vc.open('http://10.1.66.11/mjpg/video.mjpg'): #connect to Axis Camera
+#if not vc.open(0): #connect to Webcam
     print "Could not connect to camera"
     exit(1)
 while cv2.waitKey(10) <= 0:
@@ -108,11 +108,11 @@ while cv2.waitKey(10) <= 0:
                
                if(atemp > 1000):
                    cv2.circle(color,(xtemp + (wtemp/2) ,ytemp + (htemp/2)),2,(0,255,0),thickness = -1)
-                   tempstring = " (%d,%d)" % (xtemp, ytemp)
+                   tempstring = " (%d,%d)" % (x[maxAreaIndex], y[maxAreaIndex])
                    cv2.putText(color, tempstring, (xtemp + wtemp,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
                    cv2.putText(color, "%d" %(wtemp), (xtemp + (wtemp/2),ytemp + htemp + 30), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
                    cv2.putText(color, "%d" %(htemp), (xtemp - 30 ,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-                   cv2.putText(color, "Distance To Target: %d" %(findDistanceToTarget((w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+                   cv2.putText(color, "Distance To Target: %.2f" %(findDistanceToTarget((w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
                    cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget((w[maxAreaIndex])))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
                    visionDataTable.putBoolean("isLargeTargetFound", False)
                    visionDataTable.putNumber("xPosition", x[maxAreaIndex])
