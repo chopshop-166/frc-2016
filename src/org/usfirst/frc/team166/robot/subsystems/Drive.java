@@ -23,7 +23,7 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveWithJoysticks;
  */
 public class Drive extends Subsystem {
 
-	final double distancePerPulse = (Math.PI * 10.25) / 1024.0;
+	final double distancePerPulse = (Math.PI * 10.25) / 1024.0; // calculated based on wheel diameter and encoder specs
 	// final double distancePerPulse = (12 / 56320.0) * (Math.PI * 10.25);
 	// final double distancePerPulse = 1 / 1000.0;
 	final double gyroConstant = -0.3 / 10.0;
@@ -255,7 +255,7 @@ public class Drive extends Subsystem {
 	}
 
 	public double getEncoderDistance() {
-		// returns the average of the distance traveled by the left and right encoders
+		// returns the distance traveled by the right encoder
 		return (-1 * (rightEncoder.getDistance()));
 	}
 

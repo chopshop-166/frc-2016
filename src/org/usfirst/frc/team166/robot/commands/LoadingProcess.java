@@ -1,5 +1,6 @@
 package org.usfirst.frc.team166.robot.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team166.robot.commands.aimShooter.AimToAngle;
@@ -8,6 +9,7 @@ import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
 import org.usfirst.frc.team166.robot.commands.intake.LowerRake;
 import org.usfirst.frc.team166.robot.commands.intake.RaiseRake;
 import org.usfirst.frc.team166.robot.commands.roller.RollerSequence;
+import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
 
 /**
  *
@@ -21,5 +23,6 @@ public class LoadingProcess extends CommandGroup {
 		addSequential(new RollerSequence());
 		addSequential(new IntakeMotorStop());
 		addSequential(new RaiseRake());
+		addSequential(new SetShooterSpeed(Preferences.getInstance().getDouble("ShooterSpeed", 0.0)));
 	}
 }

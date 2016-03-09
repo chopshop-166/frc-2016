@@ -22,6 +22,7 @@ public class AimShooter extends Subsystem {
 	double zeroDegreeVoltage = .852;
 	double minAngle = 41.5;
 	double midAngle = 90.0;
+	double angleZero = 40;
 
 	PIDSpeedController anglePID;
 
@@ -48,7 +49,7 @@ public class AimShooter extends Subsystem {
 	}
 
 	private double convertAngleToDisplacement(double angle) {
-		double displacement = ((angle - 40) * voltsPerDegree);
+		double displacement = ((angle - angleZero) * voltsPerDegree);
 		return (displacement);
 	}
 
@@ -57,7 +58,7 @@ public class AimShooter extends Subsystem {
 	}
 
 	public double getShooterAngle() {
-		return (40 + ((pot.getVoltage() - zeroDegreeVoltage) * degreesPerVolt));
+		return (angleZero + ((pot.getVoltage() - zeroDegreeVoltage) * degreesPerVolt));
 	}
 
 	public void moveToAngle(double angle) {
