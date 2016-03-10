@@ -12,6 +12,8 @@ import org.usfirst.frc.team166.robot.commands.FarRightAuto;
 import org.usfirst.frc.team166.robot.commands.MidAuto;
 import org.usfirst.frc.team166.robot.commands.MidLeftAuto;
 import org.usfirst.frc.team166.robot.commands.MidRightAuto;
+import org.usfirst.frc.team166.robot.commands.PaperWeightAuto;
+import org.usfirst.frc.team166.robot.commands.UberAuto;
 import org.usfirst.frc.team166.robot.commands.drive.LowGear;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
@@ -78,6 +80,8 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("MidAuto", new MidAuto());
 		autoChooser.addObject("MidRightAuto", new MidRightAuto());
 		autoChooser.addObject("FarRightAuto", new FarRightAuto());
+		autoChooser.addObject("Uber Auto", new UberAuto());
+		autoChooser.addObject("Paper Weight", new PaperWeightAuto());
 
 		SmartDashboard.putData("Autonomous", autoChooser);
 

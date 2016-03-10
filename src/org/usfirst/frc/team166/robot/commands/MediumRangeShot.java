@@ -19,7 +19,6 @@ public class MediumRangeShot extends CommandGroup {
 		addSequential(new SetShooterSpeed(Preferences.getInstance().getDouble("ShooterSpeed", 0.0)));
 		addSequential(new TurnToGoal());
 		addSequential(new Aim());
-		addSequential(new WaitCommand(1.5));
 		addSequential(new MoveBallIntoShooter());
 		addSequential(new WaitCommand(.5));
 		addSequential(new SetShooterSpeed(0.0));

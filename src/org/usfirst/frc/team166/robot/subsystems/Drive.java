@@ -29,6 +29,7 @@ public class Drive extends Subsystem {
 	final double gyroConstant = -0.3 / 10.0;
 	final double driveSpeedModifierConstant = .7;
 
+	public double turnToGoalAngle = 0;
 	double referenceAngle = 0;
 	public boolean isReversed = false;
 	double joyDeadZone = 0.1;
