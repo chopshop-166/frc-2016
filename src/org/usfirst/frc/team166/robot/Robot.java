@@ -5,15 +5,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
-import org.usfirst.frc.team166.robot.commands.FarRightAuto;
 import org.usfirst.frc.team166.robot.commands.MidAuto;
-import org.usfirst.frc.team166.robot.commands.MidLeftAuto;
-import org.usfirst.frc.team166.robot.commands.MidRightAuto;
-import org.usfirst.frc.team166.robot.commands.PaperWeightAuto;
-import org.usfirst.frc.team166.robot.commands.UberAuto;
 import org.usfirst.frc.team166.robot.commands.drive.LowGear;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
@@ -22,8 +15,6 @@ import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
 import org.usfirst.frc.team166.robot.subsystems.Vision;
-import org.usfirst.frc.team166.robot.triggers.CopilotLeftTrigger;
-import org.usfirst.frc.team166.robot.triggers.CopilotRightTrigger;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -43,8 +34,8 @@ public class Robot extends IterativeRobot {
 	private static SendableChooser autoChooser;
 
 	// triggers
-	public static CopilotLeftTrigger copilotLeftTrigger;
-	public static CopilotRightTrigger copilotRightTrigger;
+	// public static CopilotLeftTrigger copilotLeftTrigger;
+	// public static CopilotRightTrigger copilotRightTrigger;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -64,29 +55,31 @@ public class Robot extends IterativeRobot {
 		aManipulators = new AManipulators();
 
 		// autochooser
-		autoChooser = new SendableChooser();
+		// autoChooser = new SendableChooser();
 
 		// triggers
-		copilotRightTrigger = new CopilotRightTrigger();
-		copilotLeftTrigger = new CopilotLeftTrigger();
+		// copilotRightTrigger = new CopilotRightTrigger();
+		// copilotLeftTrigger = new CopilotLeftTrigger();
 
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		lowGearCommand = new LowGear();
 
 		// auto chooser commands
-		autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
-		autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
-		autoChooser.addObject("MidAuto", new MidAuto());
-		autoChooser.addObject("MidRightAuto", new MidRightAuto());
-		autoChooser.addObject("FarRightAuto", new FarRightAuto());
-		autoChooser.addObject("Uber Auto", new UberAuto());
-		autoChooser.addObject("Paper Weight", new PaperWeightAuto());
+		// autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
+		// autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
+		// autoChooser.addObject("MidAuto", new MidAuto());
+		// autoChooser.addObject("MidRightAuto", new MidRightAuto());
+		// autoChooser.addObject("FarRightAuto", new FarRightAuto());
+		// autoChooser.addObject("Uber Auto", new UberAuto());
+		// autoChooser.addObject("Paper Weight", new PaperWeightAuto());
+		//
+		// SmartDashboard.putData("Autonomous", autoChooser);
 
-		SmartDashboard.putData("Autonomous", autoChooser);
-
-		autonomousCommand = (Command) autoChooser.getSelected();
-		// autonomousCommand = new FarLeftAuto();
+		// autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand = new MidAuto();
+		// CameraServer.getInstance().startAutomaticCapture("cam3");
+		// autonomousCommand = new FarLeftAuto
 	}
 
 	@Override

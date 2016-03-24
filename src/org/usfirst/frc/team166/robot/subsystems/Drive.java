@@ -45,7 +45,7 @@ public class Drive extends Subsystem {
 
 	double highGearValue = 0.0;
 	double lowGearValue = 1.0;
-	double spinSpeed = .2;
+	double spinSpeed = .15;
 
 	CANTalon leftTopMotor = new CANTalon(RobotMap.CAN.leftTopDrive);
 	CANTalon leftBotMotor = new CANTalon(RobotMap.CAN.leftBotDrive);
@@ -184,8 +184,28 @@ public class Drive extends Subsystem {
 	}
 
 	public void turnToGoal(double offset) {
-		// double turnToGoalSpeed = (Math.max(Math.abs((offset / 2.2)), .15));
-		double turnToGoalSpeed = spinSpeed;
+		double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.2)), .15));
+		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
+
+		// double turnToGoalSpeed = spinSpeed;
+		if (offset > 0) {
+			leftTopMotor.set(-turnToGoalSpeed);
+			leftBotMotor.set(-turnToGoalSpeed);
+			rightTopMotor.set(-turnToGoalSpeed);
+			rightBotMotor.set(-turnToGoalSpeed);
+		} else {
+			leftTopMotor.set(turnToGoalSpeed);
+			leftBotMotor.set(turnToGoalSpeed);
+			rightTopMotor.set(turnToGoalSpeed);
+			rightBotMotor.set(turnToGoalSpeed);
+		}
+	}
+
+	public void turnToGoalParallel(double offset) {
+		double turnToGoalSpeed = Math.abs((offset / 3.2));
+		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
+
+		// double turnToGoalSpeed = spinSpeed;
 		if (offset > 0) {
 			leftTopMotor.set(-turnToGoalSpeed);
 			leftBotMotor.set(-turnToGoalSpeed);
