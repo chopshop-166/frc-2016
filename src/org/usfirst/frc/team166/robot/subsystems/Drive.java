@@ -184,7 +184,7 @@ public class Drive extends Subsystem {
 	}
 
 	public void turnToGoal(double offset) {
-		double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.2)), .15));
+		double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.2)), .18));
 		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
 
 		// double turnToGoalSpeed = spinSpeed;
@@ -202,7 +202,7 @@ public class Drive extends Subsystem {
 	}
 
 	public void turnToGoalParallel(double offset) {
-		double turnToGoalSpeed = Math.abs((offset / 3.2));
+		double turnToGoalSpeed = Math.abs((offset / 7.0));
 		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
 
 		// double turnToGoalSpeed = spinSpeed;

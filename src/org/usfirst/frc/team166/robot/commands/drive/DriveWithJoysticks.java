@@ -25,7 +25,6 @@ public class DriveWithJoysticks extends Command {
 	@Override
 	protected void execute() {
 		Robot.drive.driveWithJoysticks(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
-		Robot.aimShooter.maintainAngle(45);
 
 		SmartDashboard.putNumber("POT Angle", Robot.aimShooter.getShooterAngle());
 		SmartDashboard.putNumber("X Offset", Robot.vision.getXOffset());

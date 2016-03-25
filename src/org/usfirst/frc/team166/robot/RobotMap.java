@@ -84,6 +84,8 @@ public class RobotMap {
 		public static final int IntakeSolenoidBackwards = 1;
 		public static final int AManipulatorForward = 2;
 		public static final int AManipulatorReverse = 3;
+		public static final int ShooterLockForward = 4;
+		public static final int ShooterLockReverse = 5;
 	}
 
 	// Prefs

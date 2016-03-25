@@ -18,19 +18,19 @@ public class AManipulators extends Subsystem {
 
 	public void toggleAManipulators() {
 		Value solenoidVal = aManipulatorSolenoid.get();
-		if (solenoidVal == Value.kForward) {
-			aManipulatorSolenoid.set(DoubleSolenoid.Value.kReverse);
-		} else {
+		if (solenoidVal == Value.kReverse) {
 			aManipulatorSolenoid.set(DoubleSolenoid.Value.kForward);
+		} else {
+			aManipulatorSolenoid.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
 
 	public void lowerAManipulators() {
-		aManipulatorSolenoid.set(DoubleSolenoid.Value.kForward);
+		aManipulatorSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	public void raiseAManipulators() {
-		aManipulatorSolenoid.set(DoubleSolenoid.Value.kReverse);
+		aManipulatorSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
 	@Override

@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
-import org.usfirst.frc.team166.robot.commands.MidAuto;
+import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
+import org.usfirst.frc.team166.robot.commands.MoveActuatorsDown;
+import org.usfirst.frc.team166.robot.commands.MoveActuatorsUp;
 import org.usfirst.frc.team166.robot.commands.drive.LowGear;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
@@ -14,7 +16,10 @@ import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
+import org.usfirst.frc.team166.robot.subsystems.ShooterLock;
 import org.usfirst.frc.team166.robot.subsystems.Vision;
+import org.usfirst.frc.team166.robot.triggers.POVDownTrigger;
+import org.usfirst.frc.team166.robot.triggers.POVUpTrigger;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -22,6 +27,8 @@ import org.usfirst.frc.team166.robot.subsystems.Vision;
  * this project, you must also update the manifest file in the resource directory.
  */
 public class Robot extends IterativeRobot {
+
+	public static OI oi;
 
 	// subsystems
 	public static Drive drive;
@@ -31,12 +38,12 @@ public class Robot extends IterativeRobot {
 	public static Vision vision;
 	public static IntakeRoller intakeRoller;
 	public static AManipulators aManipulators;
+	public static ShooterLock shooterLock;
 	private static SendableChooser autoChooser;
 
 	// triggers
-	// public static CopilotLeftTrigger copilotLeftTrigger;
-	// public static CopilotRightTrigger copilotRightTrigger;
-	public static OI oi;
+	private POVUpTrigger povUpTrigger = new POVUpTrigger();
+	private POVDownTrigger povDownTrigger = new POVDownTrigger();
 
 	Command autonomousCommand;
 	Command lowGearCommand;
@@ -53,13 +60,10 @@ public class Robot extends IterativeRobot {
 		vision = new Vision();
 		intakeRoller = new IntakeRoller();
 		aManipulators = new AManipulators();
+		shooterLock = new ShooterLock();
 
 		// autochooser
 		// autoChooser = new SendableChooser();
-
-		// triggers
-		// copilotRightTrigger = new CopilotRightTrigger();
-		// copilotLeftTrigger = new CopilotLeftTrigger();
 
 		oi = new OI();
 		// instantiate the command used for the autonomous period
@@ -77,9 +81,13 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putData("Autonomous", autoChooser);
 
 		// autonomousCommand = (Command) autoChooser.getSelected();
-		autonomousCommand = new MidAuto();
+		autonomousCommand = new FarLeftAuto();
+		// autonomousCommand = new MidAuto();
 		// CameraServer.getInstance().startAutomaticCapture("cam3");
 		// autonomousCommand = new FarLeftAuto
+
+		povUpTrigger.whenActive(new MoveActuatorsUp());
+		povDownTrigger.whenActive(new MoveActuatorsDown());
 	}
 
 	@Override

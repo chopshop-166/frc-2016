@@ -7,10 +7,10 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class CopilotLeftTrigger extends Trigger {
+public class POVUpTrigger extends Trigger {
 
 	@Override
 	public boolean get() {
-		return (Robot.oi.getCopilotLeftTrigger() > .75);
+		return (Robot.oi.getCopilotLeftJoyUpDownAxis() > .75);
 	}
 }

@@ -74,8 +74,6 @@ public class OI {
 		CPbutton5.whenPressed(new ToggleIntakeSolenoid());
 		CPbutton6.whenPressed(new ToggleAManipulators());
 		CPbutton7.whenPressed(new SetShooterSpeed(1.0));
-		// Robot.copilotLeftTrigger.whenActive(new LoadingProcess());
-		// Robot.copilotRightTrigger.whenActive(new TestShoot());
 
 	}
 
@@ -93,6 +91,10 @@ public class OI {
 
 	public double getCopilotLeftTrigger() {
 		return copilotController.getRawAxis(2);
+	}
+
+	public double getCopilotLeftJoyUpDownAxis() {
+		return -copilotController.getRawAxis(1);
 	}
 
 }

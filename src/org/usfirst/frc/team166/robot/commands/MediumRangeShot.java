@@ -10,6 +10,7 @@ import org.usfirst.frc.team166.robot.commands.drive.TurnToGoal;
 import org.usfirst.frc.team166.robot.commands.drive.TurnToGoalParallel;
 import org.usfirst.frc.team166.robot.commands.roller.MoveBallIntoShooter;
 import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
+import org.usfirst.frc.team166.robot.commands.shooterLock.UnlockShooter;
 
 /**
  *
@@ -18,6 +19,7 @@ public class MediumRangeShot extends CommandGroup {
 
 	public MediumRangeShot() {
 
+		addSequential(new UnlockShooter());
 		addSequential(new SetShooterSpeed(Preferences.getInstance().getDouble("ShooterSpeed", 0.0)));
 		addSequential(new TurnToGoal());
 		addParallel(new TurnToGoalParallel());

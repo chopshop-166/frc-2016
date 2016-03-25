@@ -9,6 +9,7 @@ import org.usfirst.frc.team166.robot.commands.intake.IntakeMotorStop;
 import org.usfirst.frc.team166.robot.commands.intake.LowerRake;
 import org.usfirst.frc.team166.robot.commands.roller.RollerSequence;
 import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
+import org.usfirst.frc.team166.robot.commands.shooterLock.UnlockShooter;
 
 /**
  *
@@ -16,6 +17,7 @@ import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
 public class AutoLoadingProcess extends CommandGroup {
 
 	public AutoLoadingProcess() {
+		addSequential(new UnlockShooter());
 		addParallel(new AimToAngle(45));
 		addSequential(new LowerRake());
 		addSequential(new IntakeMotorForward());

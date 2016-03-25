@@ -38,11 +38,11 @@ public class IntakeRoller extends Subsystem {
 	}
 
 	public boolean isBallLoaded() {
-		return (intakeSensor.getVoltage() >= 1.0);
+		return (intakeSensor.getVoltage() >= 2.0);
 	}
 
 	public boolean isBallShot() {
-		return (intakeSensor.getVoltage() <= 1.0);
+		return (intakeSensor.getVoltage() <= 2.0);
 	}
 
 	// Put methods for controlling this subsystem
