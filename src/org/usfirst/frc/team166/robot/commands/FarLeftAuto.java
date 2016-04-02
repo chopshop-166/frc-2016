@@ -12,7 +12,7 @@ import org.usfirst.frc.team166.robot.commands.intake.RaiseRake;
 public class FarLeftAuto extends CommandGroup {
 
 	public FarLeftAuto() {
-		addSequential(new MoveActuatorsDown());
+		addSequential(new MoveActuatorsDown(), 2);
 		addSequential(new DriveDistance(.9, 170));
 		addSequential(new RaiseRake());
 		addSequential(new TurnAngle(45));

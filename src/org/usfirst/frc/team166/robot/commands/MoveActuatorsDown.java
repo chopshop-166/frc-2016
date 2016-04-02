@@ -20,6 +20,6 @@ public class MoveActuatorsDown extends CommandGroup {
 		addSequential(new UnlockShooter());
 		addSequential(new LowerAManipulators());
 		addSequential(new LowerRake());
-		addSequential(new AimToAngle(41));
+		addSequential(new AimToAngle(42));
 	}
 }
