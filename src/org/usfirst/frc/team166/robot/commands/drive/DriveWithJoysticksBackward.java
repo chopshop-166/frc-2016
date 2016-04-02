@@ -18,14 +18,13 @@ public class DriveWithJoysticksBackward extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.drive.setPIDConstants();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
 		Robot.drive.getRightEncoder();
-		Robot.drive.driveWithJoysticksBackward();
+		Robot.drive.driveWithJoysticks(-Robot.oi.getRightYAxis(), -Robot.oi.getLeftYAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

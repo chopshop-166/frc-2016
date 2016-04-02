@@ -32,23 +32,26 @@ public class RobotMap {
 
 	// PWM Channels
 	public static class Pwm {
-		public static int leftTopDrive = 1;
-		public static int leftBotDrive = 2;
-		public static int rightTopDrive = 0;
-		public static int rightBotDrive = 3;
 
 		// public static int rollerPort = 6; unused?
 
-		public static final int LeftShooterMotor = 5;
-		public static final int RightShooterMotor = 4;
-		public static final int ShooterAngleMotor = 6;
+		public static final int LeftShooterMotor = 4;
+		public static final int RightShooterMotor = 3;
+		public static final int ShooterAngleMotor = 2;
 
 		public static final int leftTransmissionServoPort = 7;
 		public static final int rightTransmissionServoPort = 8;
 
-		public static final int IntakeVictor = 9;
-		public static final int IntakeVictor2 = 10;
-		public static final int RollerVictor = 11;
+		public static final int MainIntakeVictor = 1;
+		public static final int CrossIntakeVictor = 5;
+		public static final int RollerVictor = 0;
+	}
+
+	public static class CAN {
+		public static int leftTopDrive = 3;
+		public static int leftBotDrive = 4;
+		public static int rightTopDrive = 1;
+		public static int rightBotDrive = 2;
 	}
 
 	// Encoder (Digital Input) Channels
@@ -59,18 +62,11 @@ public class RobotMap {
 		public static int rightEncoderA = 0; // front right
 		public static int rightEncoderB = 1;
 
-		public static int leftEncoder1A = 17; // rear left
-		public static int leftEncoder1B = 18;
-		public static int rightEncoder1A = 4; // rear right
-		public static int rightEncoder1B = 5;
+		public static final int ShooterLeftChannelA = 6;
+		public static final int ShooterLeftChannelB = 7;
 
-		public static final int ShooterLeftChannelA = 19;
-		public static final int ShooterLeftChannelB = 20;
-
-		public static final int ShooterRightChannelA = 21;
-		public static final int ShooterRightChannelB = 22;
-		public static final int RollerEncoderA = 23;
-		public static final int RollerEncoderB = 24;
+		public static final int ShooterRightChannelA = 4;
+		public static final int ShooterRightChannelB = 5;
 
 	}
 
@@ -78,13 +74,16 @@ public class RobotMap {
 	public static class Analog {
 		public static int gyroPort = 0;
 		public static final int IntakeSensor = 1;
-		public static final int ShooterPotAngle = 2; // NEEDS A COMMENT
+		public static final int ShooterPotAngle = 2;
+		public static final int frontUltrasonic = 3;
 	}
 
 	// Solenoids
 	public static class Solenoid {
 		public static final int IntakeSolenoidForwards = 0;
 		public static final int IntakeSolenoidBackwards = 1;
+		public static final int AManipulatorForward = 2;
+		public static final int AManipulatorReverse = 3;
 	}
 
 	// Prefs
@@ -105,6 +104,7 @@ public class RobotMap {
 
 		public static final String IntakeRollerRotations = "IntakeRollerRotations";
 		public static final String IntakeRollerMotorSpeed = "IntakeRollerMotorSpeed";
+		public static final String IntakeSensorThreshold = "IntakeSensorThreshold";
 	}
 
 }

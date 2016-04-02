@@ -1,18 +1,16 @@
 package org.usfirst.frc.team166.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.Robot;
 
 /**
  *
  */
-public class DriveWithJoysticks extends Command {
+public class TurnToGoal extends Command {
 
-	public DriveWithJoysticks() {
+	public TurnToGoal() {
 		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
 		requires(Robot.drive);
 	}
 
@@ -24,34 +22,24 @@ public class DriveWithJoysticks extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.driveWithJoysticks(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
-		Robot.aimShooter.maintainAngle(45);
-
-		SmartDashboard.putNumber("POT Angle", Robot.aimShooter.getShooterAngle());
-		SmartDashboard.putNumber("X Offset", Robot.vision.getXOffset());
-		SmartDashboard.putNumber("X Position", Robot.vision.getXPos());
-
-		SmartDashboard.putNumber("Front Ultrasonic Distance", Robot.drive.getFrontUltrasonicVoltage());
-		SmartDashboard.putNumber("Distance Traveled", Robot.drive.getEncoderDistance());
-
+		// Robot.drive.turn(-2 * Robot.vision.getXOffset(), 2 * Robot.vision.getXOffset());
+		Robot.drive.turnToGoal(Robot.vision.getXOffset());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return (Math.abs(Robot.vision.getXOffset()) < .05);
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.drive.stop();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
-
 	}
 }

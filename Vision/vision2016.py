@@ -44,7 +44,8 @@ def findAngle(distance):
 
 vc = cv2.VideoCapture()
 
-if not vc.open('http://10.1.66.12/mjpg/video.mjpg'): #connect to Axis Camera
+if not vc.open('http://10.1.66.11/mjpg/video.mjpg'): #connect to Axis Camera
+
 #if not vc.open(0): #connect to Webcam
     print "Could not connect to camera"
     exit(1)
@@ -62,6 +63,7 @@ while cv2.waitKey(10) <= 0:
     #image processing
 
     scale = 1.0  # whatever scale you want (was .1)
+
     img = (img * scale).astype(numpy.uint8)
 
     hsv = cv2.cvtColor(img,cv2.cv.CV_BGR2HSV) # Convert original color image to hsv image
@@ -128,4 +130,5 @@ while cv2.waitKey(10) <= 0:
                    visionDataTable.putNumber("xPosition", x[maxAreaIndex])
                    visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))
                    visionDataTable.putNumber("distanceToTarget", findDistanceToTarget(w[maxAreaIndex]))
+                   visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))  
     cv2.imshow("Cameras are awesome :D", color)

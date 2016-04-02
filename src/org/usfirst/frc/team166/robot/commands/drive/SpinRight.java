@@ -1,33 +1,30 @@
-package org.usfirst.frc.team166.robot.commands.shooter;
+package org.usfirst.frc.team166.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team166.robot.Robot;
-import org.usfirst.frc.team166.robot.RobotMap;
 
 /**
  *
  */
-public class Aim extends Command {
+public class SpinRight extends Command {
 
-	public Aim() {
-		requires(Robot.shooter);
+	public SpinRight() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.shooter.setSpeed(Preferences.getInstance().getDouble(RobotMap.Prefs.ShooterSpeed, 0));
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.shooter.setAngle(Robot.vision.getDesiredShooterAngle());
-
+		Robot.drive.spinRight();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -39,13 +36,12 @@ public class Aim extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.shooter.setSpeed(0);
+		Robot.drive.stop();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	@Override
 	protected void interrupted() {
-		Robot.shooter.setSpeed(0);
 	}
 }

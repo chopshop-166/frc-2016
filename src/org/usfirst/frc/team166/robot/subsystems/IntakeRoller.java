@@ -1,10 +1,9 @@
 package org.usfirst.frc.team166.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.RobotMap;
 
@@ -12,45 +11,38 @@ import org.usfirst.frc.team166.robot.RobotMap;
  *
  */
 public class IntakeRoller extends Subsystem {
-	static final double TicksperRotation = 1024.0;
-	Encoder RollerEncoder;
-	Victor RollerCIM;
-	AnalogInput IntakeSensor;
-
-	double rotationAmount;
+	static final double TicksPerRotation = 1024.0;
+	Victor motor;
+	AnalogInput intakeSensor;
 
 	public IntakeRoller() {
-		RollerEncoder = new Encoder(RobotMap.Digital.RollerEncoderA, RobotMap.Digital.RollerEncoderB);
-		RollerCIM = new Victor(RobotMap.Pwm.RollerVictor);
-		IntakeSensor = new AnalogInput(RobotMap.Analog.IntakeSensor);
-		RollerEncoder.setDistancePerPulse(1 / TicksperRotation);// we only care about rotation
+		motor = new Victor(RobotMap.Pwm.RollerVictor);
+		intakeSensor = new AnalogInput(RobotMap.Analog.IntakeSensor);
 
 	}
 
-	public void setDesiredRotation(double rotations) {
-		rotationAmount = Math.abs(rotations);
-
+	public void startRoller(double speed) {
+		motor.set(speed);
 	}
 
-	public boolean hasRotatedDesiredRotations() {
-		return Math.abs(RollerEncoder.getDistance()) >= rotationAmount;
+	public void stopRoller() {
+		motor.stopMotor();
 	}
 
-	public void StartRoller() {
-		double intakeVal = IntakeSensor.getVoltage();
-		if (intakeVal >= 1.0) {
-			RollerCIM.set(Preferences.getInstance().getDouble(RobotMap.Prefs.IntakeRollerMotorSpeed, .4));
-		}
-
+	public void printIRVoltage() {
+		SmartDashboard.putNumber("Intake Sensor", TicksPerRotation);
 	}
 
-	public void ResetEncoder() {
-		RollerEncoder.reset();
+	public double getIRVoltage() {
+		return intakeSensor.getVoltage();
 	}
 
-	public void RollerStop() {
-		RollerCIM.stopMotor();
+	public boolean isBallLoaded() {
+		return (intakeSensor.getVoltage() >= 1.0);
+	}
 
+	public boolean isBallShot() {
+		return (intakeSensor.getVoltage() <= 1.0);
 	}
 
 	// Put methods for controlling this subsystem

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team166.robot.commands.drive;
+package org.usfirst.frc.team166.robot.commands.roller;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,30 +7,29 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class DriveWithGyro extends Command {
+public class StopRoller extends Command {
 
-	public DriveWithGyro() {
+	public StopRoller() {
+		requires(Robot.intakeRoller);
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.drive);
+		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.drive.resetGyro();
+		Robot.intakeRoller.stopRoller();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.getRightEncoder();
-		Robot.drive.driveWithGyro(Robot.oi.getLeftYAxis(), Robot.oi.getRightYAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true
