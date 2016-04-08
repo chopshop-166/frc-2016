@@ -30,7 +30,7 @@ public class TurnToGoal extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (Math.abs(Robot.vision.getXOffset()) < .05);
+		return (Math.abs(Robot.vision.getXOffset()) < .07);
 		// return false;
 	}
 

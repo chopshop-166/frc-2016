@@ -1,6 +1,5 @@
 package org.usfirst.frc.team166.robot.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -21,7 +20,7 @@ public class MediumRangeShot extends CommandGroup {
 
 		addSequential(new UnlockShooter());
 		// addSequential(new LowerRake());
-		addSequential(new SetShooterSpeed(Preferences.getInstance().getDouble("ShooterSpeed", 0.0)));
+		addSequential(new SetShooterSpeed(.9));
 		addSequential(new TurnToGoal());
 		addParallel(new TurnToGoalParallel());
 		addSequential(new Aim());

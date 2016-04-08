@@ -5,10 +5,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team166.robot.commands.AllDownMidAuto;
+import org.usfirst.frc.team166.robot.commands.AllUpMidAuto;
 import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsDown;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsUp;
+import org.usfirst.frc.team166.robot.commands.PaperWeightAuto;
 import org.usfirst.frc.team166.robot.commands.drive.LowGear;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
@@ -63,28 +67,31 @@ public class Robot extends IterativeRobot {
 		shooterLock = new ShooterLock();
 
 		// autochooser
-		// autoChooser = new SendableChooser();
+		autoChooser = new SendableChooser();
 
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		lowGearCommand = new LowGear();
 
 		// auto chooser commands
-		// autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
+		autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
+		autoChooser.addObject("Paper Weight", new PaperWeightAuto());
+		autoChooser.addObject("All Up Mid Auto", new AllUpMidAuto());
+		autoChooser.addObject("All Down Mid Auto", new AllDownMidAuto());
+
 		// autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
-		// autoChooser.addObject("MidAuto", new MidAuto());
 		// autoChooser.addObject("MidRightAuto", new MidRightAuto());
 		// autoChooser.addObject("FarRightAuto", new FarRightAuto());
 		// autoChooser.addObject("Uber Auto", new UberAuto());
-		// autoChooser.addObject("Paper Weight", new PaperWeightAuto());
-		//
-		// SmartDashboard.putData("Autonomous", autoChooser);
 
-		// autonomousCommand = (Command) autoChooser.getSelected();
-		autonomousCommand = new FarLeftAuto();
-		// autonomousCommand = new MidAuto();
-		// CameraServer.getInstance().startAutomaticCapture("cam3");
-		// autonomousCommand = new FarLeftAuto
+		//
+		SmartDashboard.putData("Autonomous", autoChooser);
+
+		// AUTONOMOUS SELECTION
+		// autonomousCommand = new FarLeftAuto();
+		// autonomousCommand = new PaperWeightAuto();
+		// autonomousCommand = new AllUpMidAuto();
+		// autonomousCommand = new AllDownMidAuto();
 
 		povUpTrigger.whenActive(new MoveActuatorsUp());
 		povDownTrigger.whenActive(new MoveActuatorsDown());
@@ -98,9 +105,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
+		autonomousCommand = (Command) autoChooser.getSelected();
 		if (autonomousCommand != null)
-			lowGearCommand.start();
-		autonomousCommand.start();
+			autonomousCommand.start();
 	}
 
 	/**
@@ -118,8 +125,7 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)
-			lowGearCommand.start();
-		autonomousCommand.cancel();
+			autonomousCommand.cancel();
 	}
 
 	/**

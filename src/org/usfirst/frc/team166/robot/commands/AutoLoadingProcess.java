@@ -1,6 +1,5 @@
 package org.usfirst.frc.team166.robot.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc.team166.robot.commands.aimShooter.AimToAngle;
@@ -23,6 +22,6 @@ public class AutoLoadingProcess extends CommandGroup {
 		addSequential(new IntakeMotorForward());
 		addSequential(new RollerSequence());
 		addSequential(new IntakeMotorStop());
-		addSequential(new SetShooterSpeed(Preferences.getInstance().getDouble("ShooterSpeed", 0.0)));
+		addSequential(new SetShooterSpeed(.9));
 	}
 }

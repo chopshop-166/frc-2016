@@ -24,7 +24,7 @@ public class TurnToGoalParallel extends Command {
 	@Override
 	protected void execute() {
 		// Robot.drive.turn(-2 * Robot.vision.getXOffset(), 2 * Robot.vision.getXOffset());
-		if (Math.abs(Robot.vision.getXOffset()) > .05) {
+		if (Math.abs(Robot.vision.getXOffset()) > .035) {
 			Robot.drive.turnToGoalParallel(Robot.vision.getXOffset());
 		} else {
 			Robot.drive.stop();
