@@ -23,7 +23,7 @@ public class TurnToGoalSlowParallel extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		if (Math.abs(Robot.vision.getXOffset()) > .015) {
+		if (Math.abs(Robot.vision.getXOffset()) > .02) {
 			Robot.drive.turnToGoalParallel(Robot.vision.getXOffset());
 		} else {
 			Robot.drive.stop();

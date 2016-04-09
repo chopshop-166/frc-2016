@@ -7,12 +7,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team166.robot.commands.FarRightAuto;
-import org.usfirst.frc.team166.robot.commands.MidLeftAuto;
-import org.usfirst.frc.team166.robot.commands.MidRightAuto;
+import org.usfirst.frc.team166.robot.commands.AllDownMidAuto;
+import org.usfirst.frc.team166.robot.commands.AllUpMidAuto;
+import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsDown;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsUp;
-import org.usfirst.frc.team166.robot.commands.UberAuto;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
@@ -70,15 +69,15 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		// auto chooser commands
-		// autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
-		// autoChooser.addObject("Paper Weight", null);
-		// autoChooser.addObject("All Up Mid Auto", new AllUpMidAuto());
-		// autoChooser.addObject("All Down Mid Auto", new AllDownMidAuto());
+		autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
+		autoChooser.addObject("Paper Weight", null);
+		autoChooser.addObject("All Up Mid Auto", new AllUpMidAuto());
+		autoChooser.addObject("All Down Mid Auto", new AllDownMidAuto());
 
-		autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
-		autoChooser.addObject("MidRightAuto", new MidRightAuto());
-		autoChooser.addObject("FarRightAuto", new FarRightAuto());
-		autoChooser.addObject("Uber Auto", new UberAuto());
+		// autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
+		// autoChooser.addObject("MidRightAuto", new MidRightAuto());
+		// autoChooser.addObject("FarRightAuto", new FarRightAuto());
+		// autoChooser.addObject("Uber Auto", new UberAuto());
 
 		// Hard code for auto
 		// autonomousCommand = new FarLeftAuto();

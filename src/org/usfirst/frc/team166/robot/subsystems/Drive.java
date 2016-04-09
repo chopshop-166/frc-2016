@@ -203,7 +203,7 @@ public class Drive extends Subsystem {
 	}
 
 	public void turnToGoalParallel(double offset) {
-		double turnToGoalSpeed = .14; // used to be .16
+		double turnToGoalSpeed = .135; // used to be .16
 		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
 
 		// double turnToGoalSpeed = spinSpeed;
