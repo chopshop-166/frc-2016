@@ -14,7 +14,7 @@ import org.usfirst.frc.team166.robot.commands.drive.HighGear;
 import org.usfirst.frc.team166.robot.commands.drive.SpinLeft;
 import org.usfirst.frc.team166.robot.commands.drive.SpinRight;
 import org.usfirst.frc.team166.robot.commands.drive.ToggleDriveDirection;
-import org.usfirst.frc.team166.robot.commands.drive.TurnToGoal;
+import org.usfirst.frc.team166.robot.commands.drive.TurnToGoalFast;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
 
@@ -53,7 +53,7 @@ public class OI {
 
 		// Buttons
 		leftJoyTrigger.whileHeld(new DriveWithGyro());
-		leftJoyButton3.whenPressed(new TurnToGoal());
+		leftJoyButton3.whenPressed(new TurnToGoalFast());
 		rightJoyTrigger.whenPressed(new ToggleDriveDirection());
 
 		rightJoyButton3.whenPressed(new HighGear());

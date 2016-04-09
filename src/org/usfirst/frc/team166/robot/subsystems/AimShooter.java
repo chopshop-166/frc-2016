@@ -19,7 +19,7 @@ public class AimShooter extends Subsystem {
 	AnalogInput pot;
 	double degreesPerVolt = 1 / .0927;
 	double voltsPerDegree = .0927;
-	double zeroDegreeVoltage = .398;
+	double zeroDegreeVoltage = .530;
 	double minAngle = 41.5;
 	double midAngle = 90.0;
 	double hardStopAngle = 41.5;

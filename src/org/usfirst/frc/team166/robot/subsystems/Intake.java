@@ -38,8 +38,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void intakeMotorStop() {
-		IntakeCIM.set(Preferences.getInstance().getDouble("Stop", 0));
-		IntakeCIM2.set(Preferences.getInstance().getDouble("Stop2", 0));
+		IntakeCIM.set(0.0);
+		IntakeCIM2.set(0.0);
 	}
 
 	// public void ToggleIntakeMotor() {

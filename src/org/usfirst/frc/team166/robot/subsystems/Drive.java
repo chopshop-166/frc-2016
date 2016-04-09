@@ -90,11 +90,11 @@ public class Drive extends Subsystem {
 			// The joysticks have the same sign and are out of the deadzone
 			if (isReversed) {
 				// if the reverse mode is enabled
-				tankDrive.tankDrive(-(right + left) / 2, -(right + left) / 2, false);
+				tankDrive.tankDrive((-(right + left) / 2.0), (-(right + left) / 2.0), false);
 				// drives straight in reverse
 			} else {
 				// if the reverse mode is NOT enabled
-				tankDrive.tankDrive((right + left) / 2, ((right + left) / 2) * .9, false);
+				tankDrive.tankDrive(((right + left) / 2.0), ((right + left) / 2.0), false);
 				// drives straight forward
 			}
 			SmartDashboard.putString("Drive State", "Straight");
@@ -184,7 +184,8 @@ public class Drive extends Subsystem {
 	}
 
 	public void turnToGoal(double offset) {
-		double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.2)), .25)); // was .18
+		// double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.2)), .2)); // was .25 at 3:16pm
+		double turnToGoalSpeed = .18; // Trying constant to avoid overshooting
 		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
 
 		// double turnToGoalSpeed = spinSpeed;
@@ -202,7 +203,7 @@ public class Drive extends Subsystem {
 	}
 
 	public void turnToGoalParallel(double offset) {
-		double turnToGoalSpeed = .16;
+		double turnToGoalSpeed = .14; // used to be .16
 		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
 
 		// double turnToGoalSpeed = spinSpeed;

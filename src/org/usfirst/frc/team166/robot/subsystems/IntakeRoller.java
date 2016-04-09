@@ -26,6 +26,7 @@ public class IntakeRoller extends Subsystem {
 	}
 
 	public void stopRoller() {
+		motor.set(0.0);
 		motor.stopMotor();
 	}
 

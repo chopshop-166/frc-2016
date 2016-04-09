@@ -15,7 +15,7 @@ public class AllUpMidAuto extends CommandGroup {
 
 		addSequential(new SetShooterSpeed(.9));
 		addSequential(new MoveActuatorsUp());
-		addSequential(new DriveDistance(.9, 110));
+		addSequential(new DriveDistance(.9, 140));
 		addSequential(new UnlockShooter());
 		addSequential(new MediumRangeShot());
 	}

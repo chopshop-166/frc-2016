@@ -7,9 +7,9 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class TurnToGoal extends Command {
+public class TurnToGoalSlowParallel extends Command {
 
-	public TurnToGoal() {
+	public TurnToGoalSlowParallel() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drive);
 	}
@@ -23,15 +23,20 @@ public class TurnToGoal extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		// Robot.drive.turn(-2 * Robot.vision.getXOffset(), 2 * Robot.vision.getXOffset());
-		Robot.drive.turnToGoal(Robot.vision.getXOffset());
+		if (Math.abs(Robot.vision.getXOffset()) > .015) {
+			Robot.drive.turnToGoalParallel(Robot.vision.getXOffset());
+		} else {
+			Robot.drive.stop();
+		}
+		// Robot.drive.turnToGoalParallel(Robot.vision.getXOffset());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (Math.abs(Robot.vision.getXOffset()) < .07);
-		// return false;
+		// return (Math.abs(Robot.vision.getXOffset()) < .05);
+		// return (Math.abs(Robot.vision.getXOffset()) < .03);
+		return false;
 	}
 
 	// Called once after isFinished returns true
