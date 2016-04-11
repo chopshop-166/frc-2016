@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.commands.AllDownMidAuto;
+import org.usfirst.frc.team166.robot.commands.AllDownPositionTwoAuto;
 import org.usfirst.frc.team166.robot.commands.AllUpMidAuto;
+import org.usfirst.frc.team166.robot.commands.AllUpPositionTwoAuto;
 import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsDown;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsUp;
@@ -73,6 +75,8 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Paper Weight", null);
 		autoChooser.addObject("All Up Mid Auto", new AllUpMidAuto());
 		autoChooser.addObject("All Down Mid Auto", new AllDownMidAuto());
+		autoChooser.addObject("All Down Position 2 Auto", new AllDownPositionTwoAuto());
+		autoChooser.addObject("All Up Position 2 Auto", new AllUpPositionTwoAuto());
 
 		// autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
 		// autoChooser.addObject("MidRightAuto", new MidRightAuto());

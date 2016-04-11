@@ -7,20 +7,23 @@ import org.usfirst.frc.team166.robot.commands.drive.DriveDistance;
 import org.usfirst.frc.team166.robot.commands.drive.TurnAngle;
 import org.usfirst.frc.team166.robot.commands.intake.LowerRake;
 import org.usfirst.frc.team166.robot.commands.intake.RaiseRake;
+import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
 
 /**
  *
  */
-public class FarRightAuto extends CommandGroup {
+public class AllDownPositionTwoAuto extends CommandGroup {
 
-	public FarRightAuto() {
-		addSequential(new LowerRake());
-		addSequential(new LowerAManipulators());
-		addSequential(new DriveDistance(.9, 170));
+	public AllDownPositionTwoAuto() {
+		addSequential(new SetShooterSpeed(.9));
+		addSequential(new MoveActuatorsDown(), 2);
+		addSequential(new DriveDistance(.9, 70));
 		addSequential(new RaiseRake());
-		addSequential(new TurnAngle(20));
+		addSequential(new DriveDistance(.9, 50));
+		// addSequential(new WaitCommand(1));
+		addSequential(new TurnAngle(30));
 		// addSequential(new DriveDistance(.7, 112));
-		addSequential(new DriveDistance(.7, 25));
+		addSequential(new DriveDistance(.7, 10));
 		addSequential(new MediumRangeShot());
 	}
 }

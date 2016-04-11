@@ -37,6 +37,7 @@ public class Drive extends Subsystem {
 	double joystickTurnOffset;
 	double autoTurnValue;
 	double turnSpeedScalar = 0.35;
+	double gyroRateModifier = 0;
 	boolean highGear;
 	boolean neutral;
 	boolean isShiftingOK;
@@ -220,6 +221,24 @@ public class Drive extends Subsystem {
 		}
 	}
 
+	public void turnToGoalWithGyro(double offset) {
+		double turnToGoalSpeed = .18; // used to be .16
+		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
+
+		// double turnToGoalSpeed = spinSpeed;
+		if (offset > 0) {
+			leftTopMotor.set(-turnToGoalSpeed);
+			leftBotMotor.set(-turnToGoalSpeed);
+			rightTopMotor.set(-turnToGoalSpeed);
+			rightBotMotor.set(-turnToGoalSpeed);
+		} else {
+			leftTopMotor.set(turnToGoalSpeed);
+			leftBotMotor.set(turnToGoalSpeed);
+			rightTopMotor.set(turnToGoalSpeed);
+			rightBotMotor.set(turnToGoalSpeed);
+		}
+	}
+
 	public void driveWithGyro(double left, double right) {
 		double rightPower = right * driveSpeedModifierConstant;
 		double leftPower = left * driveSpeedModifierConstant;
@@ -241,6 +260,17 @@ public class Drive extends Subsystem {
 			// -1
 		}
 		return gyroVal;
+	}
+
+	public double getGyroRateModifier(double spinSpeed) {
+		// if ((gyro.getRate() / 45) > 1) {
+		// gyroRateModifier = 1;
+		// } else if ((gyro.getRate() / 45) < -1) {
+		// gyroRateModifier = -1;
+		// } else {
+		// gyroRateModifier = (gyro.getRate() / 45);
+		// }
+		return gyroRateModifier;
 	}
 
 	public void stop() {
