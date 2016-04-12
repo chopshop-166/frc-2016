@@ -2,6 +2,7 @@ package org.usfirst.frc.team166.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+import org.usfirst.frc.team166.robot.commands.aManipulators.LowerAManipulators;
 import org.usfirst.frc.team166.robot.commands.drive.DriveDistance;
 import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
 import org.usfirst.frc.team166.robot.commands.shooterLock.UnlockShooter;
@@ -9,13 +10,17 @@ import org.usfirst.frc.team166.robot.commands.shooterLock.UnlockShooter;
 /**
  *
  */
-public class AllUpMidAuto extends CommandGroup {
+public class MidCDFAuto extends CommandGroup {
 
-	public AllUpMidAuto() {
+	public MidCDFAuto() {
 
 		addSequential(new SetShooterSpeed(.9));
 		addSequential(new MoveActuatorsUp());
-		addSequential(new DriveDistance(.9, 150));
+		addSequential(new DriveDistance(.9, 35));
+		addSequential(new DriveDistance(.4, 12));
+		addSequential(new LowerAManipulators(), 2);
+		addSequential(new DriveDistance(.4, 48));
+		addSequential(new DriveDistance(.9, 55));
 		addSequential(new UnlockShooter());
 		addSequential(new MediumRangeShot());
 	}
