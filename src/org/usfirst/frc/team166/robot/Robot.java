@@ -7,21 +7,23 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team166.robot.commands.AllDownMidAuto;
+import org.usfirst.frc.team166.robot.commands.AllDownPositionTwoAuto;
+import org.usfirst.frc.team166.robot.commands.AllUpMidAuto;
+import org.usfirst.frc.team166.robot.commands.AllUpPositionTwoAuto;
 import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
-import org.usfirst.frc.team166.robot.commands.FarRightAuto;
-import org.usfirst.frc.team166.robot.commands.MidAuto;
-import org.usfirst.frc.team166.robot.commands.MidLeftAuto;
-import org.usfirst.frc.team166.robot.commands.MidRightAuto;
-import org.usfirst.frc.team166.robot.commands.drive.LowGear;
+import org.usfirst.frc.team166.robot.commands.MoveActuatorsDown;
+import org.usfirst.frc.team166.robot.commands.MoveActuatorsUp;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
 import org.usfirst.frc.team166.robot.subsystems.AimShooter;
 import org.usfirst.frc.team166.robot.subsystems.Drive;
 import org.usfirst.frc.team166.robot.subsystems.Intake;
 import org.usfirst.frc.team166.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team166.robot.subsystems.Shooter;
+import org.usfirst.frc.team166.robot.subsystems.ShooterLock;
 import org.usfirst.frc.team166.robot.subsystems.Vision;
-import org.usfirst.frc.team166.robot.triggers.CopilotLeftTrigger;
-import org.usfirst.frc.team166.robot.triggers.CopilotRightTrigger;
+import org.usfirst.frc.team166.robot.triggers.POVDownTrigger;
+import org.usfirst.frc.team166.robot.triggers.POVUpTrigger;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -29,6 +31,8 @@ import org.usfirst.frc.team166.robot.triggers.CopilotRightTrigger;
  * this project, you must also update the manifest file in the resource directory.
  */
 public class Robot extends IterativeRobot {
+
+	public static OI oi;
 
 	// subsystems
 	public static Drive drive;
@@ -38,15 +42,14 @@ public class Robot extends IterativeRobot {
 	public static Vision vision;
 	public static IntakeRoller intakeRoller;
 	public static AManipulators aManipulators;
+	public static ShooterLock shooterLock;
 	private static SendableChooser autoChooser;
 
 	// triggers
-	public static CopilotLeftTrigger copilotLeftTrigger;
-	public static CopilotRightTrigger copilotRightTrigger;
-	public static OI oi;
+	private POVUpTrigger povUpTrigger = new POVUpTrigger();
+	private POVDownTrigger povDownTrigger = new POVDownTrigger();
 
 	Command autonomousCommand;
-	Command lowGearCommand;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any initialization code.
@@ -60,29 +63,36 @@ public class Robot extends IterativeRobot {
 		vision = new Vision();
 		intakeRoller = new IntakeRoller();
 		aManipulators = new AManipulators();
+		shooterLock = new ShooterLock();
 
 		// autochooser
 		autoChooser = new SendableChooser();
 
-		// triggers
-		copilotRightTrigger = new CopilotRightTrigger();
-		copilotLeftTrigger = new CopilotLeftTrigger();
-
 		oi = new OI();
-		// instantiate the command used for the autonomous period
-		lowGearCommand = new LowGear();
 
 		// auto chooser commands
 		autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
-		autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
-		autoChooser.addObject("MidAuto", new MidAuto());
-		autoChooser.addObject("MidRightAuto", new MidRightAuto());
-		autoChooser.addObject("FarRightAuto", new FarRightAuto());
+		autoChooser.addObject("Paper Weight", null);
+		autoChooser.addObject("All Up Mid Auto", new AllUpMidAuto());
+		autoChooser.addObject("All Down Mid Auto", new AllDownMidAuto());
+		autoChooser.addObject("All Down Position 2 Auto", new AllDownPositionTwoAuto());
+		autoChooser.addObject("All Up Position 2 Auto", new AllUpPositionTwoAuto());
+
+		// autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
+		// autoChooser.addObject("MidRightAuto", new MidRightAuto());
+		// autoChooser.addObject("FarRightAuto", new FarRightAuto());
+		// autoChooser.addObject("Uber Auto", new UberAuto());
+
+		// Hard code for auto
+		// autonomousCommand = new FarLeftAuto();
+		// autonomousCommand = new AllDownAuto();
+		// autonomousCommand = new AllUpAuto();
+		// autonomousCommand = new PaperWeightAuto();
 
 		SmartDashboard.putData("Autonomous", autoChooser);
 
-		autonomousCommand = (Command) autoChooser.getSelected();
-		// autonomousCommand = new FarLeftAuto();
+		povUpTrigger.whenActive(new MoveActuatorsUp());
+		povDownTrigger.whenActive(new MoveActuatorsDown());
 	}
 
 	@Override
@@ -93,9 +103,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
+		autonomousCommand = (Command) autoChooser.getSelected();
 		if (autonomousCommand != null)
-			lowGearCommand.start();
-		autonomousCommand.start();
+			autonomousCommand.start();
 	}
 
 	/**
@@ -113,8 +123,7 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)
-			lowGearCommand.start();
-		autonomousCommand.cancel();
+			autonomousCommand.cancel();
 	}
 
 	/**
@@ -122,7 +131,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		if (autonomousCommand != null)
+			autonomousCommand.cancel();
 	}
 
 	/**

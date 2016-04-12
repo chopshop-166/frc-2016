@@ -29,6 +29,7 @@ public class Drive extends Subsystem {
 	final double gyroConstant = -0.3 / 10.0;
 	final double driveSpeedModifierConstant = .7;
 
+	public double turnToGoalAngle = 0;
 	double referenceAngle = 0;
 	public boolean isReversed = false;
 	double joyDeadZone = 0.1;
@@ -36,6 +37,7 @@ public class Drive extends Subsystem {
 	double joystickTurnOffset;
 	double autoTurnValue;
 	double turnSpeedScalar = 0.35;
+	double gyroRateModifier = 0;
 	boolean highGear;
 	boolean neutral;
 	boolean isShiftingOK;
@@ -44,7 +46,7 @@ public class Drive extends Subsystem {
 
 	double highGearValue = 0.0;
 	double lowGearValue = 1.0;
-	double spinSpeed = .2;
+	double spinSpeed = .15;
 
 	CANTalon leftTopMotor = new CANTalon(RobotMap.CAN.leftTopDrive);
 	CANTalon leftBotMotor = new CANTalon(RobotMap.CAN.leftBotDrive);
@@ -74,6 +76,7 @@ public class Drive extends Subsystem {
 
 	public Drive() {
 		initializeGear();
+		// setPIDConstants();
 		// leftEncoder.setDistancePerPulse(distancePerPulse);
 		// rightEncoder.setDistancePerPulse(distancePerPulse);
 		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
@@ -88,11 +91,11 @@ public class Drive extends Subsystem {
 			// The joysticks have the same sign and are out of the deadzone
 			if (isReversed) {
 				// if the reverse mode is enabled
-				tankDrive.tankDrive(-(right + left) / 2, -(right + left) / 2, false);
+				tankDrive.tankDrive((-(right + left) / 2.0), (-(right + left) / 2.0), false);
 				// drives straight in reverse
 			} else {
 				// if the reverse mode is NOT enabled
-				tankDrive.tankDrive((right + left) / 2, ((right + left) / 2) * .9, false);
+				tankDrive.tankDrive(((right + left) / 2.0), ((right + left) / 2.0), false);
 				// drives straight forward
 			}
 			SmartDashboard.putString("Drive State", "Straight");
@@ -182,8 +185,29 @@ public class Drive extends Subsystem {
 	}
 
 	public void turnToGoal(double offset) {
-		// double turnToGoalSpeed = (Math.max(Math.abs((offset / 2.2)), .15));
-		double turnToGoalSpeed = spinSpeed;
+		// double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.2)), .2)); // was .25 at 3:16pm
+		double turnToGoalSpeed = .18; // Trying constant to avoid overshooting
+		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
+
+		// double turnToGoalSpeed = spinSpeed;
+		if (offset > 0) {
+			leftTopMotor.set(-turnToGoalSpeed);
+			leftBotMotor.set(-turnToGoalSpeed);
+			rightTopMotor.set(-turnToGoalSpeed);
+			rightBotMotor.set(-turnToGoalSpeed);
+		} else {
+			leftTopMotor.set(turnToGoalSpeed);
+			leftBotMotor.set(turnToGoalSpeed);
+			rightTopMotor.set(turnToGoalSpeed);
+			rightBotMotor.set(turnToGoalSpeed);
+		}
+	}
+
+	public void turnToGoalParallel(double offset) {
+		double turnToGoalSpeed = .135; // used to be .16
+		// double turnToGoalGain = Robot.vision.getDistanceToTarget() * Robot.vision.distanceToGoalMultiplier;
+
+		// double turnToGoalSpeed = spinSpeed;
 		if (offset > 0) {
 			leftTopMotor.set(-turnToGoalSpeed);
 			leftBotMotor.set(-turnToGoalSpeed);
@@ -255,7 +279,7 @@ public class Drive extends Subsystem {
 
 	public double getEncoderDistance() {
 		// returns the distance traveled by the right encoder
-		return (-1 * (rightEncoder.getDistance()));
+		return (-1 * (leftEncoder.getDistance()));
 	}
 
 	public double getGyro() {

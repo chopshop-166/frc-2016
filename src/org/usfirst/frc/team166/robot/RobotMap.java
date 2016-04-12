@@ -62,8 +62,8 @@ public class RobotMap {
 		public static int rightEncoderA = 0; // front right
 		public static int rightEncoderB = 1;
 
-		public static final int ShooterLeftChannelA = 6;
-		public static final int ShooterLeftChannelB = 7;
+		public static final int ShooterLeftChannelA = 8;
+		public static final int ShooterLeftChannelB = 9;
 
 		public static final int ShooterRightChannelA = 4;
 		public static final int ShooterRightChannelB = 5;
@@ -84,6 +84,8 @@ public class RobotMap {
 		public static final int IntakeSolenoidBackwards = 1;
 		public static final int AManipulatorForward = 2;
 		public static final int AManipulatorReverse = 3;
+		public static final int ShooterLockForward = 4;
+		public static final int ShooterLockReverse = 5;
 	}
 
 	// Prefs

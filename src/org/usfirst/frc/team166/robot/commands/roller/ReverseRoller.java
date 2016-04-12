@@ -1,4 +1,4 @@
-package org.usfirst.frc.team166.robot.commands.drive;
+package org.usfirst.frc.team166.robot.commands.roller;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,29 +7,28 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class TurnToGoal extends Command {
+public class ReverseRoller extends Command {
 
-	public TurnToGoal() {
+	public ReverseRoller() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.drive);
+		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.intakeRoller.startRoller(-1.0);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		// Robot.drive.turn(-2 * Robot.vision.getXOffset(), 2 * Robot.vision.getXOffset());
-		Robot.drive.turnToGoal(Robot.vision.getXOffset());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (Math.abs(Robot.vision.getXOffset()) < .05);
+		return true;
 	}
 
 	// Called once after isFinished returns true

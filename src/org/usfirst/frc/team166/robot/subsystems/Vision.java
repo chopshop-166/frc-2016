@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Vision extends Subsystem {
+	double distanceToGoalMultiplier = 0.2 / 10.0;
 	double screenCenter = 143;
 	double xOffsetMultiplier = 1.0 / 160.0;
 	double defaultShooterAngle = 45.0;
@@ -28,7 +29,7 @@ public class Vision extends Subsystem {
 			SmartDashboard.putString("Shot Distance", "Good");
 		}
 
-		return (int) (Math.max(angle, 45));
+		return (int) (Math.max(angle, 41));
 	}
 
 	public double getXOffset() {
@@ -40,6 +41,10 @@ public class Vision extends Subsystem {
 
 	public double getXPos() {
 		return visionTable.getNumber("xPosition", screenCenter);
+	}
+
+	public double getDistanceToTarget() {
+		return visionTable.getNumber("distanceToTarget", 0);
 	}
 
 	@Override
