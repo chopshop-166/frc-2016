@@ -24,11 +24,10 @@ visionDataTable = NetworkTable.getTable("VisionDataTable") #Connect specifically
 while not visionDataTable.isConnected():
     time.sleep(.1)
 
-print("We are Connected")
+print("Connected to NetworkTables")
 
 visionDataTable.putNumber("shooterAngle",45.0) #Define default values for Network Table Variables
 visionDataTable.putNumber("xPosition",0.0)
-print("Initialized Values")
 
 def find_distance(x1,y1,x2,y2):
     root = math.sqrt(  ((x2 - x1) ** 2) + ((y2 - y1) ** 2)  )
@@ -44,8 +43,8 @@ def threshold_range(im, lo, hi):
 def findDistanceToTarget(width):
     #note that the width is multiplied by 2 because of resolution change on the image
     #this change allows the new resolution to fit with the correct model
-
-    distance = (44.139 * math.exp((-0.012 * (2 * width))))
+    
+    distance = (44.139 * math.exp((-0.012 * (2 * width)))) + 1 - float((tiltAngle / 10))
     return distance
 
 def findAngle(distance):
@@ -59,26 +58,25 @@ if not vc.open('http://10.1.66.11/mjpg/video.mjpg'):
     print "Could not connect to camera"
     exit(1)
 
+print ("Connected to Camera")
+
+
 while cv2.waitKey(10) <= 0:
     success, img = vc.read()
     if not success:
         print ("Failure")
         break
 
-
-    cv2.imshow("Source", img)
     #image processing
 
-    scale = 1.0  # whatever scale you want (was .1)
-
+    # Changes the brightness of the image (0-1)
+    scale = 1.0  
     img = (img * scale).astype(numpy.uint8)
 
     # Convert original color image to hsv image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     h, s, v = cv2.split(hsv) #Split hsv image into hue/saturation/value images
-
-   # h = threshold_range(h, 40, 110) #Isolate only the green in the image
    
     h = threshold_range(h, 50, 80)
     s = threshold_range(s, 150, 255)
@@ -100,8 +98,6 @@ while cv2.waitKey(10) <= 0:
     # Change binary to color
     color = cv2.cvtColor(morphed, cv2.COLOR_GRAY2BGR)
 
-    cv2.drawContours(color, simplecontours, -1, (0,0,255), thickness = 2)
-
     x = []
     y = []
     w = []
@@ -109,6 +105,10 @@ while cv2.waitKey(10) <= 0:
     a = []
     maxArea = 0;
     maxAreaIndex = 0;
+
+    bottomLeftIndex = 0;
+    bottomRightIndex = 0;
+    minDist = 320**4
 
     for partCount, contour, in enumerate(simplecontours):
                (xtemp, ytemp, wtemp, htemp) = cv2.boundingRect(contour) #Determine x,y,w,h by drawing a rectangle on contour
@@ -123,21 +123,96 @@ while cv2.waitKey(10) <= 0:
                if (atemp > maxArea):
                    maxArea = atemp;
                    maxAreaIndex = partCount;
-
-
+                
                #Keep in mind, x and y are the actual centers, but xtemp and ytemp is the upper left corner
-               
-               if(atemp > 750):
-                   cv2.circle(color,(xtemp + (wtemp/2) ,ytemp + (htemp/2)),2,(0,255,0),thickness = -1)
-                   tempstring = " (%d,%d)" % (x[maxAreaIndex], y[maxAreaIndex])
-                   cv2.putText(color, tempstring, (xtemp + wtemp,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-                   cv2.putText(color, "%d" %(wtemp), (xtemp + (wtemp/2),ytemp + htemp + 30), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-                   cv2.putText(color, "%d" %(htemp), (xtemp - 30 ,ytemp + (htemp/2)), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
-                   cv2.putText(color, "Distance To Target: %.2f" %(findDistanceToTarget((w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
-                   cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget((w[maxAreaIndex])))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
-                   visionDataTable.putBoolean("isLargeTargetFound", False)
-                   visionDataTable.putNumber("xPosition", x[maxAreaIndex])
-                   visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))
-                   visionDataTable.putNumber("distanceToTarget", findDistanceToTarget(w[maxAreaIndex]))
-                   visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))  
-    cv2.imshow("Cameras are awesome :D", color)
+
+               if(atemp > 750) and not((abs((float(h[maxAreaIndex]) / float(w[maxAreaIndex])) - .7) < .25) and (float(cv2.contourArea(simplecontours[maxAreaIndex]) / maxArea) < .45)):
+                    cv2.putText(color, "BAD", (x[partCount],y[partCount]), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,255), thickness = 1)
+                   
+    #cv2.putText(color, "Area Ratio: %.2f" %(float(cv2.contourArea(simplecontours[maxAreaIndex]) / maxArea)), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+
+                   
+    if((maxArea > 750) and (abs((float(h[maxAreaIndex]) / float(w[maxAreaIndex])) - .7) < .35) and (float(cv2.contourArea(simplecontours[maxAreaIndex]) / maxArea) < .45)): #We have a good target, display numbers and send aiming data to roboRIO
+        #Draw Good Particle
+        cv2.drawContours(color, simplecontours, maxAreaIndex, (0,255,0), thickness = 2)
+
+        cv2.putText(color, "TARGET LOCKED", ((x[maxAreaIndex] - 50),(y[maxAreaIndex] - (h[maxAreaIndex]) / 2)), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,0), thickness = 1)
+
+        #Find bottom Vertices
+        for i in range(0,len(simplecontours[maxAreaIndex])):
+            #if((simplecontours[maxAreaIndex][i][0][0] < maxLeft) and (simplecontours[maxAreaIndex][i][0][1] > maxDown)):
+            dist = ((simplecontours[maxAreaIndex][i][0][0] ** 2) + ((240 - simplecontours[maxAreaIndex][i][0][1]) ** 2))
+            if(dist < minDist):
+                minDist = dist
+                bottomLeftIndex = i;
+        BLX = simplecontours[maxAreaIndex][bottomLeftIndex][0][0] #Bottom left X
+        BLY = simplecontours[maxAreaIndex][bottomLeftIndex][0][1] #Bottom left Y
+        
+        minDist = 320**4 #Reset min distance to a large number
+        
+        for i in range(0,len(simplecontours[maxAreaIndex])):
+            #if((simplecontours[maxAreaIndex][i][0][0] < maxLeft) and (simplecontours[maxAreaIndex][i][0][1] > maxDown)):
+            dist = (((320 - simplecontours[maxAreaIndex][i][0][0]) ** 2) + ((240 - simplecontours[maxAreaIndex][i][0][1]) ** 2))
+            if(dist < minDist):
+                minDist = dist
+                bottomRightIndex = i;
+
+
+        BRX = simplecontours[maxAreaIndex][bottomRightIndex][0][0] #Bottom right X
+        BRY = simplecontours[maxAreaIndex][bottomRightIndex][0][1] #Bottom right Y
+        deltaX = abs(BRX - BLX)
+        deltaY = abs(BRY - BLY)
+
+        if(deltaX > 0):
+            tiltAngle = math.degrees(math.atan(float(deltaY) / float(deltaX)))
+        else:
+            tiltAngle = 0
+
+        cv2.putText(color, "TiltAngle: %.2f" %(tiltAngle), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+
+
+        if(tiltAngle > 5):
+            #Draw circles on corners
+            cv2.circle(color,(BLX,BLY),6,(255,255,255),thickness = 1)
+            cv2.circle(color,(BRX,BRY),6,(255,255,255),thickness = 1)
+
+            #Draw target bottom line
+            cv2.line(color,(BLX,BLY),(BRX,BLY),(255,255,255),thickness = 2)
+        
+            #Draw horizontal line
+            if(BRY > BLY):
+                cv2.line(color,(BLX,BRY),(BRX,BRY),(255,255,255),thickness = 1)
+                #cv2.ellipse(color,
+            else:
+                cv2.line(color,(BLX,BLY),(BRX,BLY),(255,255,255),thickness = 1)
+            
+
+        #Print Data sent to networktables
+        cv2.putText(color, "Distance To Target: %.2f" %(findDistanceToTarget((w[maxAreaIndex]))), (0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+        #cv2.putText(color, "Angle: %d" % (findAngle(findDistanceToTarget((w[maxAreaIndex])))), (0,32), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+
+        #Display target Data
+        cv2.circle(color,(x[maxAreaIndex],y[maxAreaIndex]),2,(255,0,0),thickness = 1)
+        tempstring = " (%d,%d)" % (x[maxAreaIndex], y[maxAreaIndex])
+        cv2.putText(color, tempstring, (x[maxAreaIndex] + w[maxAreaIndex],y[maxAreaIndex]), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
+        #cv2.putText(color, "%d" %(w[maxAreaIndex]), (x[maxAreaIndex],y[maxAreaIndex] + h[maxAreaIndex] + 30), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
+        #cv2.putText(color, "%d" %(h[maxAreaIndex]), (x[maxAreaIndex] - 30 ,y[maxAreaIndex]), cv2.FONT_HERSHEY_PLAIN, 1, (255,0,255), thickness = 1)
+        #cv2.circle(color,(simplecontours[maxAreaIndex][0][0][0] ,simplecontours[maxAreaIndex][0][0][1]),4,(255,0,0),thickness = -1)
+        
+        #Write to NetworkTable
+        visionDataTable.putBoolean("isLargeTargetFound", True)
+        visionDataTable.putNumber("xPosition", x[maxAreaIndex])
+        visionDataTable.putNumber("shooterAngle", findAngle(findDistanceToTarget((w[maxAreaIndex]))))
+        visionDataTable.putNumber("distanceToTarget", findDistanceToTarget(w[maxAreaIndex]))
+       
+    else: #No good target, send safe default values to roboRIO
+        #cv2.putText(color, "No Good Target Found - DON'T FIRE!",(0,16), cv2.FONT_HERSHEY_PLAIN, 1, (0,255,255),thickness = 1)
+        visionDataTable.putBoolean("isLargeTargetFound", True)
+        visionDataTable.putNumber("xPosition", 143) #The "center" as described by the Java code. Will prevent robot from turning
+        visionDataTable.putNumber("shooterAngle", 45) #Safe angle that is around the other angles we use
+        visionDataTable.putNumber("distanceToTarget", 10)
+        
+
+    cv2.imshow("Chop Shop Vision 2016", color)
+
+cv2.destroyAllWindows()
