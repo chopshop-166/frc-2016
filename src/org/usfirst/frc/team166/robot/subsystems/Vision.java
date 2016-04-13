@@ -33,10 +33,17 @@ public class Vision extends Subsystem {
 	}
 
 	public double getXOffset() {
-		// returns the offset from the center of the largest vision target (a value between -1 and 1)
-		xPos = visionTable.getNumber("xPosition", screenCenter);
-		xOffset = (xPos - screenCenter) * xOffsetMultiplier;
-		return (xOffset);
+		if (isValidTarget()) {
+			xPos = visionTable.getNumber("xPosition", screenCenter);
+			xOffset = (xPos - screenCenter) * xOffsetMultiplier;
+			return (xOffset);
+		} else {
+			return (1.0); // SPIN (RIGHT) TO WINNNNN!!!!! :D xD -_-
+		}
+	}
+
+	public boolean isValidTarget() {
+		return (visionTable.getBoolean("isValidTarget", false));
 	}
 
 	public double getXPos() {

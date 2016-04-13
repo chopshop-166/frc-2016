@@ -16,10 +16,9 @@ public class MidCDFAuto extends CommandGroup {
 
 		addSequential(new SetShooterSpeed(.9));
 		addSequential(new MoveActuatorsUp());
-		addSequential(new DriveDistance(.9, 35));
-		addSequential(new DriveDistance(.4, 12));
+		addSequential(new DriveDistance(.5, 47));
 		addSequential(new LowerAManipulators(), 2);
-		addSequential(new DriveDistance(.4, 48));
+		addSequential(new DriveDistance(.7, 48));
 		addSequential(new DriveDistance(.9, 55));
 		addSequential(new UnlockShooter());
 		addSequential(new MediumRangeShot());

@@ -12,6 +12,7 @@ import org.usfirst.frc.team166.robot.commands.AllDownPositionTwoAuto;
 import org.usfirst.frc.team166.robot.commands.AllUpMidAuto;
 import org.usfirst.frc.team166.robot.commands.AllUpPositionTwoAuto;
 import org.usfirst.frc.team166.robot.commands.FarLeftAuto;
+import org.usfirst.frc.team166.robot.commands.MidCDFAuto;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsDown;
 import org.usfirst.frc.team166.robot.commands.MoveActuatorsUp;
 import org.usfirst.frc.team166.robot.subsystems.AManipulators;
@@ -71,12 +72,13 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		// auto chooser commands
-		autoChooser.addDefault("FarLeftAuto", new FarLeftAuto());
-		autoChooser.addObject("Paper Weight", null);
-		autoChooser.addObject("All Up Mid Auto", new AllUpMidAuto());
-		autoChooser.addObject("All Down Mid Auto", new AllDownMidAuto());
-		autoChooser.addObject("All Down Position 2 Auto", new AllDownPositionTwoAuto());
-		autoChooser.addObject("All Up Position 2 Auto", new AllUpPositionTwoAuto());
+		autoChooser.addObject("NOTHING", null);
+		autoChooser.addDefault("ONE: LOW", new FarLeftAuto());
+		autoChooser.addObject("MID: UP", new AllUpMidAuto());
+		autoChooser.addObject("MID: DOWN", new AllDownMidAuto());
+		autoChooser.addObject("MID: CDF", new MidCDFAuto());
+		autoChooser.addObject("TWO: DOWN (Untested)", new AllDownPositionTwoAuto());
+		autoChooser.addObject("TWO: UP (Untested)", new AllUpPositionTwoAuto());
 
 		// autoChooser.addObject("MidLeftAuto", new MidLeftAuto());
 		// autoChooser.addObject("MidRightAuto", new MidRightAuto());
