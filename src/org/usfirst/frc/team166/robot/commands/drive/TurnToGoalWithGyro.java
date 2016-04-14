@@ -9,8 +9,9 @@ import org.usfirst.frc.team166.robot.Robot;
  */
 public class TurnToGoalWithGyro extends Command {
 	double xOffset = 0.0;
-	double shotZone = .03;
-	double spinSpeed = .2;
+	double shotZone = .06;
+	double spinSpeed = .17;
+	double fastSpinSpeed = .2;
 
 	public TurnToGoalWithGyro() {
 		// Use requires() here to declare subsystem dependencies
@@ -27,12 +28,28 @@ public class TurnToGoalWithGyro extends Command {
 	@Override
 	protected void execute() {
 		xOffset = Robot.vision.getXOffset();
+
+		if (Math.abs(xOffset) > .3) {
+			spinSpeed = .25;
+		} else {
+			spinSpeed = .17;
+		}
+
 		if (xOffset > shotZone) {
-			Robot.drive.spinRight(spinSpeed);
+			if (!Robot.drive.isRobotSpinning()) {
+				Robot.drive.spinRight(fastSpinSpeed);
+			} else {
+				Robot.drive.spinRight(spinSpeed);
+			}
 		} else if (xOffset < -shotZone) {
-			Robot.drive.spinLeft(spinSpeed);
+			if (!Robot.drive.isRobotSpinning()) {
+				Robot.drive.spinLeft(fastSpinSpeed);
+			} else {
+				Robot.drive.spinLeft(spinSpeed);
+			}
 		} else {
 			Robot.drive.brake();
+			// Robot.drive.stop();
 		}
 	}
 

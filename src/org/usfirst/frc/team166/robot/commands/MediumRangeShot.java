@@ -35,6 +35,7 @@ public class MediumRangeShot extends CommandGroup {
 		addSequential(new SetShooterSpeed(.9));
 		addSequential(new TurnToGoalWithGyro());
 		addSequential(new Aim());
+		addSequential(new WaitCommand(.5));
 		addSequential(new MoveBallIntoShooter());
 		addSequential(new WaitCommand(.25));
 		addSequential(new SetShooterSpeed(0.0));

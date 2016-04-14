@@ -167,17 +167,17 @@ public class Drive extends Subsystem {
 	}
 
 	public void spinRight(double speed) {
-		leftTopMotor.set(speed);
-		leftBotMotor.set(speed);
-		rightTopMotor.set(speed);
-		rightBotMotor.set(speed);
-	}
-
-	public void spinLeft(double speed) {
 		leftTopMotor.set(-speed);
 		leftBotMotor.set(-speed);
 		rightTopMotor.set(-speed);
 		rightBotMotor.set(-speed);
+	}
+
+	public void spinLeft(double speed) {
+		leftTopMotor.set(speed);
+		leftBotMotor.set(speed);
+		rightTopMotor.set(speed);
+		rightBotMotor.set(speed);
 	}
 
 	public void turnToGoal(double offset) {
@@ -240,6 +240,10 @@ public class Drive extends Subsystem {
 		return gyroVal;
 	}
 
+	public void printGyroRate() {
+		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
+	}
+
 	public void brake() {
 		turnRate = gyro.getRate();
 		if (turnRate > alignSpeedDeadzone) {
@@ -260,21 +264,21 @@ public class Drive extends Subsystem {
 	}
 
 	public void brakeToRight() {
-		leftTopMotor.set(brakeSpeed);
-		leftBotMotor.set(brakeSpeed);
-		rightTopMotor.set(0.0);
-		rightBotMotor.set(0.0);
-		// rightTopMotor.set(brakeSpeed);
-		// rightBotMotor.set(brakeSpeed);
+		leftTopMotor.set(-brakeSpeed);
+		leftBotMotor.set(-brakeSpeed);
+		// rightTopMotor.set(0.0);
+		// rightBotMotor.set(0.0);
+		rightTopMotor.set(-brakeSpeed);
+		rightBotMotor.set(-brakeSpeed);
 	}
 
 	public void brakeToLeft() {
-		// leftTopMotor.set(-brakeSpeed);
-		// leftBotMotor.set(-brakeSpeed);
-		leftTopMotor.set(0.0);
-		leftBotMotor.set(0.0);
-		rightTopMotor.set(-brakeSpeed);
-		rightBotMotor.set(-brakeSpeed);
+		leftTopMotor.set(brakeSpeed);
+		leftBotMotor.set(brakeSpeed);
+		// leftTopMotor.set(0.0);
+		// leftBotMotor.set(0.0);
+		rightTopMotor.set(brakeSpeed);
+		rightBotMotor.set(brakeSpeed);
 	}
 
 	public void stop() {

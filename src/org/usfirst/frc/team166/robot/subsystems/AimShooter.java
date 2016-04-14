@@ -19,7 +19,7 @@ public class AimShooter extends Subsystem {
 	AnalogInput pot;
 	double degreesPerVolt = 1 / .0927;
 	double voltsPerDegree = .0927;
-	double zeroDegreeVoltage = .538;
+	double zeroDegreeVoltage = .553; // was .538
 	double minAngle = 41.5;
 	double midAngle = 90.0;
 	double hardStopAngle = 41.5;
@@ -59,6 +59,10 @@ public class AimShooter extends Subsystem {
 
 	public double getShooterAngle() {
 		return (hardStopAngle + ((pot.getVoltage() - zeroDegreeVoltage) * degreesPerVolt));
+	}
+
+	public double getPotVoltage() {
+		return (pot.getVoltage());
 	}
 
 	public void moveToAngle(double angle) {
