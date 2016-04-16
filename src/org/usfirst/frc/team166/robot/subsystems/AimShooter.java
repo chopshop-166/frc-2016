@@ -69,7 +69,15 @@ public class AimShooter extends Subsystem {
 		if (angle > getShooterAngle()) {
 			motor.set(.4);// was .4
 		} else {
-			motor.set(-.12); // was .12
+			motor.set(-.13); // was .12
+		}
+	}
+
+	public void moveToAngleParallel(double angle) {
+		if (angle > getShooterAngle()) {
+			motor.set(.35);// was .4
+		} else {
+			motor.set(-.11); // was .12
 		}
 	}
 

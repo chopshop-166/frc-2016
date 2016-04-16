@@ -20,16 +20,16 @@ public class Vision extends Subsystem {
 		visionTable = NetworkTable.getTable("VisionDataTable");
 	}
 
-	public int getDesiredShooterAngle() {
+	public double getDesiredShooterAngle() {
 		// returns the desired shooter angle as calculated in the python code
-		double angle = Math.round(visionTable.getNumber("shooterAngle", defaultShooterAngle));
+		double angle = visionTable.getNumber("shooterAngle", defaultShooterAngle);
 		if (angle < 45) {
 			SmartDashboard.putString("Shot Distance", "Too Far");
 		} else {
 			SmartDashboard.putString("Shot Distance", "Good");
 		}
 
-		return (int) (Math.max(angle, 41));
+		return (Math.max(angle, 41));
 	}
 
 	public double getXOffset() {

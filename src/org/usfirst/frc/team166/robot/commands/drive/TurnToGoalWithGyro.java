@@ -9,9 +9,9 @@ import org.usfirst.frc.team166.robot.Robot;
  */
 public class TurnToGoalWithGyro extends Command {
 	double xOffset = 0.0;
-	double shotZone = .06;
-	double spinSpeed = .17;
-	double fastSpinSpeed = .2;
+	double shotZone = .05; // was .06
+	double spinSpeed = .16;
+	double fastSpinSpeed = .17;
 
 	public TurnToGoalWithGyro() {
 		// Use requires() here to declare subsystem dependencies
@@ -27,29 +27,28 @@ public class TurnToGoalWithGyro extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		xOffset = Robot.vision.getXOffset();
+		xOffset = Robot.vision.getXOffset(); // Obtain offset from dataTables
 
-		if (Math.abs(xOffset) > .3) {
-			spinSpeed = .25;
+		if (Math.abs(xOffset) > .8) { // If more than 30% away, drive fast
+			spinSpeed = .18;
 		} else {
-			spinSpeed = .17;
+			spinSpeed = .16;
 		}
 
-		if (xOffset > shotZone) {
+		if (xOffset > shotZone) { // If the target is to the right, spin right
 			if (!Robot.drive.isRobotSpinning()) {
-				Robot.drive.spinRight(fastSpinSpeed);
+				Robot.drive.spinRight(fastSpinSpeed); // If we are stuck, give it a little more power
 			} else {
 				Robot.drive.spinRight(spinSpeed);
 			}
-		} else if (xOffset < -shotZone) {
+		} else if (xOffset < -shotZone) { // If the target is to the left, spin left
 			if (!Robot.drive.isRobotSpinning()) {
 				Robot.drive.spinLeft(fastSpinSpeed);
 			} else {
 				Robot.drive.spinLeft(spinSpeed);
 			}
 		} else {
-			Robot.drive.brake();
-			// Robot.drive.stop();
+			Robot.drive.brake(); // See Robot.drive.brake();
 		}
 	}
 

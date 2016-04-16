@@ -45,6 +45,7 @@ public class Drive extends Subsystem {
 
 	double alignSpeedDeadzone = 1.0;
 	double brakeSpeed = .1;
+	double driveLeftMotorsForwardSpeed = .9;
 
 	boolean isGyroReset = false;
 
@@ -245,17 +246,17 @@ public class Drive extends Subsystem {
 	}
 
 	public void brake() {
-		turnRate = gyro.getRate();
+		turnRate = gyro.getRate(); // Get the gyro rate in degrees/second
 		if (turnRate > alignSpeedDeadzone) {
-			brakeToLeft();
+			brakeToLeft(); // Spin with low power to the left
 		} else if (turnRate < -alignSpeedDeadzone) {
-			brakeToRight();
+			brakeToRight(); // Spin with low power to the right
 		} else {
-			stop();
+			stop(); // Send 0 power to MCs
 		}
 	}
 
-	public boolean isRobotSpinning() {
+	public boolean isRobotSpinning() { // Determine if the robot is spinning
 		if (Math.abs(gyro.getRate()) < alignSpeedDeadzone) {
 			return false;
 		} else {
@@ -286,6 +287,16 @@ public class Drive extends Subsystem {
 		leftBotMotor.set(0);
 		rightTopMotor.set(0);
 		rightBotMotor.set(0);
+	}
+
+	public void driveLeftMotorsForward() {
+		leftTopMotor.set(-driveLeftMotorsForwardSpeed);
+		leftBotMotor.set(-driveLeftMotorsForwardSpeed);
+	}
+
+	public void driveRightMotorsForward() {
+		rightTopMotor.set(driveLeftMotorsForwardSpeed);
+		rightBotMotor.set(driveLeftMotorsForwardSpeed);
 	}
 
 	public void setPIDConstants() {

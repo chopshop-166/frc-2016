@@ -2,7 +2,6 @@ package org.usfirst.frc.team166.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -50,13 +49,14 @@ public class Shooter extends Subsystem {
 	}
 
 	public void updatePIDConstants() {
-		double ShooterP = Preferences.getInstance().getDouble(RobotMap.Prefs.ShooterP, 0.1);
-		double ShooterI = Preferences.getInstance().getDouble(RobotMap.Prefs.ShooterI, 0);
-		double ShooterD = Preferences.getInstance().getDouble(RobotMap.Prefs.ShooterD, 0);
-		double ShooterF = Preferences.getInstance().getDouble(RobotMap.Prefs.ShooterF, 1.0);
+		double ShooterP = .025;
+		double rightShooterP = .00001;
+		double ShooterI = 0.0;
+		double ShooterD = 0.0;
+		double ShooterF = 1.0;
 
 		leftPID.setConstants(ShooterP, ShooterI, ShooterD, ShooterF);
-		rightPID.setConstants(ShooterP, ShooterI, ShooterD, ShooterF);
+		rightPID.setConstants(rightShooterP, ShooterI, ShooterD, ShooterF);
 
 	}
 

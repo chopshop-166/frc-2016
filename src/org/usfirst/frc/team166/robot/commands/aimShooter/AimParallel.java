@@ -2,17 +2,16 @@ package org.usfirst.frc.team166.robot.commands.aimShooter;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team166.robot.Robot;
 
 /**
  *
  */
-public class Aim extends Command {
+public class AimParallel extends Command {
 	double desiredAngle = Preferences.getInstance().getDouble("testAngle", 46);
 
-	public Aim() {
+	public AimParallel() {
 		requires(Robot.aimShooter);
 	}
 
@@ -25,21 +24,19 @@ public class Aim extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		if (Robot.vision.getDesiredShooterAngle() >= 45.0) {
-			// Robot.intake.lowerRake();
-		}
-		SmartDashboard.putNumber("Desired Angle", Robot.vision.getDesiredShooterAngle());
-		SmartDashboard.putNumber("POT Angle", Robot.aimShooter.getShooterAngle());
-		Robot.aimShooter.moveToAngle(Robot.vision.getDesiredShooterAngle());
 		// Robot.aimShooter.moveToAngle(desiredAngle);
+		if (!((Math.abs(Robot.vision.getDesiredShooterAngle() - Robot.aimShooter.getShooterAngle())) < .4)) {
+			Robot.aimShooter.moveToAngle(Robot.vision.getDesiredShooterAngle());
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
 		// return ((Math.abs(Robot.vision.getDesiredShooterAngle() - Robot.aimShooter.getShooterAngle())) < 5.0);
-		return ((Math.abs(Robot.vision.getDesiredShooterAngle() - Robot.aimShooter.getShooterAngle())) < .25);
+		// return ((Math.abs(Robot.vision.getDesiredShooterAngle() - Robot.aimShooter.getShooterAngle())) < .25);
 		// return ((Math.abs(desiredAngle - Robot.aimShooter.getShooterAngle())) < .25);
+		return false;
 	}
 
 	// Called once after isFinished returns true
