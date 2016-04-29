@@ -8,7 +8,7 @@ import org.usfirst.frc.team166.robot.Robot;
  *
  */
 public class SetShooterSpeed extends Command {
-	double mySpeed = 0.0;
+	double mySpeed = 0.9;
 
 	public SetShooterSpeed(double speed) {
 		// Use requires() here to declare subsystem dependencies
@@ -25,7 +25,7 @@ public class SetShooterSpeed extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.shooter.setSpeed(mySpeed);
+		Robot.shooter.setSpeedOpenLoop(mySpeed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

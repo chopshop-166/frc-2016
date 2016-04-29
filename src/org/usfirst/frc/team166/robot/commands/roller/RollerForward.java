@@ -1,4 +1,4 @@
-package org.usfirst.frc.team166.robot.commands;
+package org.usfirst.frc.team166.robot.commands.roller;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,28 +7,22 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class CancelShot extends Command {
+public class RollerForward extends Command {
 
-	public CancelShot() {
+	public RollerForward() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.aimShooter);
 		requires(Robot.intakeRoller);
-		requires(Robot.shooter);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.aimShooter.stop();
-		Robot.intakeRoller.stopRoller();
-		Robot.shooter.setSpeedOpenLoop(0.0);
-		Robot.intake.intakeMotorStop();
+		Robot.intakeRoller.startRoller(.25);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

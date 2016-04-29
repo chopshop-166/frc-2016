@@ -1,4 +1,4 @@
-package org.usfirst.frc.team166.robot.commands;
+package org.usfirst.frc.team166.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,34 +7,30 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class CancelShot extends Command {
+public class TurnToGoalWhileDrivingForward extends Command {
+	public double shotZone = .05;
 
-	public CancelShot() {
+	public TurnToGoalWhileDrivingForward() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.aimShooter);
-		requires(Robot.intakeRoller);
-		requires(Robot.shooter);
+		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.aimShooter.stop();
-		Robot.intakeRoller.stopRoller();
-		Robot.shooter.setSpeedOpenLoop(0.0);
-		Robot.intake.intakeMotorStop();
+		Robot.drive.resetGyro();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-
+		Robot.drive.turnToGoalWhileDrivingForward(Robot.vision.getXOffset());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return ((!Robot.drive.isRobotSpinning()) && (Math.abs(Robot.vision.getXOffset()) < shotZone));
 	}
 
 	// Called once after isFinished returns true

@@ -7,13 +7,13 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class TurnToGoalWithGyro extends Command {
+public class TurnToGoalWithGyroSlow extends Command {
 	double xOffset = 0.0;
 	double shotZone = .045; // was .05
-	double spinSpeed = .26; // was .3
+	double spinSpeed = .2; // was .16
 	double fastSpinSpeed = .17;
 
-	public TurnToGoalWithGyro() {
+	public TurnToGoalWithGyroSlow() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drive);
 	}

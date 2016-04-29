@@ -36,8 +36,9 @@ public class Drive extends Subsystem {
 	double gyroVal = 0;
 	double joystickTurnOffset;
 	double autoTurnValue;
-	double turnSpeedScalar = 0.35;
+	double turnSpeedScalar = 0.3; // was .35
 	double turnRate = 0;
+	double shotZone = .05;
 
 	boolean highGear;
 	boolean neutral;
@@ -45,7 +46,11 @@ public class Drive extends Subsystem {
 
 	double alignSpeedDeadzone = 1.0;
 	double brakeSpeed = .1;
-	double driveLeftMotorsForwardSpeed = .9;
+	double driveLeftMotorsForwardSpeed = 1.0;
+	double alignForwardSpeed = .17;
+	double alignForwardScaler = 0.0;
+	double alignBackwardScaler = 0.0;
+	double alignBackwardSpeed = .17;
 
 	boolean isGyroReset = false;
 
@@ -181,6 +186,28 @@ public class Drive extends Subsystem {
 		rightBotMotor.set(speed);
 	}
 
+	public void turnToGoalWhileDrivingForward(double offset) {
+		alignForwardScaler = Math.min(offset * 2, .23);
+		if (offset > shotZone) {
+			tankDrive.tankDrive(alignForwardSpeed + alignForwardScaler, -alignForwardSpeed);
+		} else if (offset < -shotZone) {
+			tankDrive.tankDrive(alignForwardSpeed, -alignForwardSpeed - alignForwardScaler);
+		} else {
+			stop();
+		}
+	}
+
+	public void turnToGoalWhileDrivingBackward(double offset) {
+		alignBackwardScaler = Math.min(offset * 2, .23);
+		if (offset > shotZone) {
+			tankDrive.tankDrive(-alignBackwardSpeed - alignBackwardScaler, alignBackwardSpeed);
+		} else if (offset < -shotZone) {
+			tankDrive.tankDrive(-alignBackwardSpeed, alignBackwardSpeed + alignBackwardScaler);
+		} else {
+			stop();
+		}
+	}
+
 	public void turnToGoal(double offset) {
 		// double turnToGoalSpeed = (Math.max(Math.abs((offset / 3.2)), .2)); // was .25 at 3:16pm
 		double turnToGoalSpeed = .18; // Trying constant to avoid overshooting
@@ -243,6 +270,10 @@ public class Drive extends Subsystem {
 
 	public void printGyroRate() {
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
+	}
+
+	public double getGyroRate() {
+		return gyro.getRate();
 	}
 
 	public void brake() {

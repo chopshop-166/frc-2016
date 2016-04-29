@@ -70,7 +70,6 @@ public class OI {
 		CPbutton2.whenPressed(new BatterShot());
 		CPbutton3.whenPressed(new CancelShot());
 		CPbutton4.whenPressed(new LoadingProcess());
-
 		CPbutton5.whenPressed(new ToggleIntakeSolenoid());
 		CPbutton6.whenPressed(new ToggleAManipulators());
 		CPbutton7.whenPressed(new SetShooterSpeed(1.0));
