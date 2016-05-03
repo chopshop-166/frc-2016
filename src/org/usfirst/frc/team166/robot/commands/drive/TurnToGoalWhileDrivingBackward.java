@@ -7,35 +7,35 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class SpinLeft extends Command {
+public class TurnToGoalWhileDrivingBackward extends Command {
+	public double shotZone = .05;
 
-	public SpinLeft() {
+	public TurnToGoalWhileDrivingBackward() {
 		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
 		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.drive.resetGyro();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.spinLeft(.25);
+		Robot.drive.turnToGoalWhileDrivingBackward(Robot.vision.getXOffset());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return ((!Robot.drive.isRobotSpinning()) && (Math.abs(Robot.vision.getXOffset()) < shotZone));
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.drive.stop();
 	}
 
 	// Called when another command which requires one or more of the same

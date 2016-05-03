@@ -23,5 +23,6 @@ public class AutoLoadingProcess extends CommandGroup {
 		addSequential(new RollerSequence());
 		addSequential(new IntakeMotorStop());
 		addSequential(new SetShooterSpeed(.9));
+		// addSequential(new SetShooterSpeed(.9));
 	}
 }

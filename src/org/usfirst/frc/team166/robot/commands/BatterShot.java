@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 import org.usfirst.frc.team166.robot.commands.aimShooter.AimToAngle;
+import org.usfirst.frc.team166.robot.commands.drive.DriveDistance;
 import org.usfirst.frc.team166.robot.commands.intake.LowerRake;
 import org.usfirst.frc.team166.robot.commands.intake.RaiseRake;
 import org.usfirst.frc.team166.robot.commands.roller.MoveBallIntoShooter;
@@ -17,6 +18,7 @@ import org.usfirst.frc.team166.robot.commands.shooterLock.UnlockShooter;
 public class BatterShot extends CommandGroup {
 
 	public BatterShot() {
+		addSequential(new DriveDistance(-.4, 26));
 		addSequential(new UnlockShooter());
 		addSequential(new LowerRake());
 		addSequential(new SetShooterSpeed(Preferences.getInstance().getDouble("ShooterSpeed", 0.0)));

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team166.robot.commands.drive;
+package org.usfirst.frc.team166.robot.commands.roller;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,35 +7,33 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class SpinLeft extends Command {
+public class RollerForward extends Command {
 
-	public SpinLeft() {
+	public RollerForward() {
 		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		requires(Robot.drive);
+		requires(Robot.intakeRoller);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.intakeRoller.startRoller(.25);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.spinLeft(.25);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.drive.stop();
 	}
 
 	// Called when another command which requires one or more of the same

@@ -7,28 +7,29 @@ import org.usfirst.frc.team166.robot.Robot;
 /**
  *
  */
-public class SpinLeft extends Command {
+public class TurnFromRightWall extends Command {
 
-	public SpinLeft() {
+	public TurnFromRightWall() {
 		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
 		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.drive.resetEncoders();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.spinLeft(.25);
+		Robot.drive.driveRightMotorsForward();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
+		// return (Robot.drive.getEncoderDistance() >= 18.0);
 		return false;
 	}
 

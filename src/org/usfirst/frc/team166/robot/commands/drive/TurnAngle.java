@@ -25,9 +25,9 @@ public class TurnAngle extends Command {
 	@Override
 	protected void execute() {
 		if (desiredAngle > 0) {
-			Robot.drive.spinLeft();
+			Robot.drive.spinLeft(.3);
 		} else {
-			Robot.drive.spinRight();
+			Robot.drive.spinRight(.3);
 		}
 	}
 

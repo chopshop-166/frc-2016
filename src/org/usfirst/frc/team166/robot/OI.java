@@ -10,11 +10,11 @@ import org.usfirst.frc.team166.robot.commands.LoadingProcess;
 import org.usfirst.frc.team166.robot.commands.MediumRangeShot;
 import org.usfirst.frc.team166.robot.commands.aManipulators.ToggleAManipulators;
 import org.usfirst.frc.team166.robot.commands.drive.DriveWithGyro;
-import org.usfirst.frc.team166.robot.commands.drive.HighGear;
-import org.usfirst.frc.team166.robot.commands.drive.SpinLeft;
-import org.usfirst.frc.team166.robot.commands.drive.SpinRight;
 import org.usfirst.frc.team166.robot.commands.drive.ToggleDriveDirection;
+import org.usfirst.frc.team166.robot.commands.drive.TurnFromLeftWall;
+import org.usfirst.frc.team166.robot.commands.drive.TurnFromRightWall;
 import org.usfirst.frc.team166.robot.commands.drive.TurnToGoalFast;
+import org.usfirst.frc.team166.robot.commands.drive.TurnToGoalWithGyro;
 import org.usfirst.frc.team166.robot.commands.intake.ToggleIntakeSolenoid;
 import org.usfirst.frc.team166.robot.commands.shooter.SetShooterSpeed;
 
@@ -56,10 +56,10 @@ public class OI {
 		leftJoyButton3.whenPressed(new TurnToGoalFast());
 		rightJoyTrigger.whenPressed(new ToggleDriveDirection());
 
-		rightJoyButton3.whenPressed(new HighGear());
+		rightJoyButton3.whenPressed(new TurnToGoalWithGyro());
 		rightJoyButton2.whenPressed(new EjectBall());
-		rightJoyButton4.whileHeld(new SpinLeft());
-		rightJoyButton5.whileHeld(new SpinRight());
+		rightJoyButton4.whileHeld(new TurnFromRightWall());
+		rightJoyButton5.whileHeld(new TurnFromLeftWall());
 		// rightJoyButton7.whenPressed(new Neutral());
 
 		// The Following commands are mapped from buttons on a joystick and may
@@ -70,7 +70,6 @@ public class OI {
 		CPbutton2.whenPressed(new BatterShot());
 		CPbutton3.whenPressed(new CancelShot());
 		CPbutton4.whenPressed(new LoadingProcess());
-
 		CPbutton5.whenPressed(new ToggleIntakeSolenoid());
 		CPbutton6.whenPressed(new ToggleAManipulators());
 		CPbutton7.whenPressed(new SetShooterSpeed(1.0));

@@ -12,6 +12,8 @@ public class DriveDistance extends Command {
 	double mySpeed;
 	double myDistance;
 
+	// Input/Real = 25/32 It goes 32" when you put 25" into the command
+
 	public DriveDistance(double speed, double distance) {
 		mySpeed = -speed; // negative because speed is reversed for these motors
 		myDistance = distance;

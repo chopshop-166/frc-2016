@@ -21,7 +21,8 @@ public class CancelShot extends Command {
 	protected void initialize() {
 		Robot.aimShooter.stop();
 		Robot.intakeRoller.stopRoller();
-		Robot.shooter.setSpeed(0.0);
+		Robot.shooter.setSpeedOpenLoop(0.0);
+		Robot.intake.intakeMotorStop();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

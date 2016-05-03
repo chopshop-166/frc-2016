@@ -36,11 +36,21 @@ public class Drive extends Subsystem {
 	double gyroVal = 0;
 	double joystickTurnOffset;
 	double autoTurnValue;
-	double turnSpeedScalar = 0.35;
-	double gyroRateModifier = 0;
+	double turnSpeedScalar = 0.3; // was .35
+	double turnRate = 0;
+	double shotZone = .05;
+
 	boolean highGear;
 	boolean neutral;
 	boolean isShiftingOK;
+
+	double alignSpeedDeadzone = 1.0;
+	double brakeSpeed = .1;
+	double driveLeftMotorsForwardSpeed = 1.0;
+	double alignForwardSpeed = .17;
+	double alignForwardScaler = 0.0;
+	double alignBackwardScaler = 0.0;
+	double alignBackwardSpeed = .17;
 
 	boolean isGyroReset = false;
 
@@ -162,25 +172,39 @@ public class Drive extends Subsystem {
 		neutral = true;
 	}
 
-	public void spinRight() {
-		// spins the robot to the right at the minimum speed required to turn
-		if (isReversed) {
-			// if the robot is in reverse mode
-			tankDrive.tankDrive(spinSpeed * 3, -spinSpeed * 3, false);
+	public void spinRight(double speed) {
+		leftTopMotor.set(-speed);
+		leftBotMotor.set(-speed);
+		rightTopMotor.set(-speed);
+		rightBotMotor.set(-speed);
+	}
+
+	public void spinLeft(double speed) {
+		leftTopMotor.set(speed);
+		leftBotMotor.set(speed);
+		rightTopMotor.set(speed);
+		rightBotMotor.set(speed);
+	}
+
+	public void turnToGoalWhileDrivingForward(double offset) {
+		alignForwardScaler = Math.min(offset * 2, .23);
+		if (offset > shotZone) {
+			tankDrive.tankDrive(alignForwardSpeed + alignForwardScaler, -alignForwardSpeed);
+		} else if (offset < -shotZone) {
+			tankDrive.tankDrive(alignForwardSpeed, -alignForwardSpeed - alignForwardScaler);
 		} else {
-			// if the robot is NOT in reverse mode
-			tankDrive.tankDrive(-spinSpeed * 3, spinSpeed * 3, false);
+			stop();
 		}
 	}
 
-	public void spinLeft() {
-		// spins the robot to the left at the minimum speed required to turn
-		if (isReversed) {
-			// if the robot is in reverse mode
-			tankDrive.tankDrive(-spinSpeed * 3, spinSpeed * 3, false);
+	public void turnToGoalWhileDrivingBackward(double offset) {
+		alignBackwardScaler = Math.min(offset * 2, .23);
+		if (offset > shotZone) {
+			tankDrive.tankDrive(-alignBackwardSpeed - alignBackwardScaler, alignBackwardSpeed);
+		} else if (offset < -shotZone) {
+			tankDrive.tankDrive(-alignBackwardSpeed, alignBackwardSpeed + alignBackwardScaler);
 		} else {
-			// if the robot is NOT in reverse mode
-			tankDrive.tankDrive(spinSpeed * 3, -spinSpeed * 3, false);
+			stop();
 		}
 	}
 
@@ -244,9 +268,66 @@ public class Drive extends Subsystem {
 		return gyroVal;
 	}
 
+	public void printGyroRate() {
+		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
+	}
+
+	public double getGyroRate() {
+		return gyro.getRate();
+	}
+
+	public void brake() {
+		turnRate = gyro.getRate(); // Get the gyro rate in degrees/second
+		if (turnRate > alignSpeedDeadzone) {
+			brakeToLeft(); // Spin with low power to the left
+		} else if (turnRate < -alignSpeedDeadzone) {
+			brakeToRight(); // Spin with low power to the right
+		} else {
+			stop(); // Send 0 power to MCs
+		}
+	}
+
+	public boolean isRobotSpinning() { // Determine if the robot is spinning
+		if (Math.abs(gyro.getRate()) < alignSpeedDeadzone) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public void brakeToRight() {
+		leftTopMotor.set(-brakeSpeed);
+		leftBotMotor.set(-brakeSpeed);
+		// rightTopMotor.set(0.0);
+		// rightBotMotor.set(0.0);
+		rightTopMotor.set(-brakeSpeed);
+		rightBotMotor.set(-brakeSpeed);
+	}
+
+	public void brakeToLeft() {
+		leftTopMotor.set(brakeSpeed);
+		leftBotMotor.set(brakeSpeed);
+		// leftTopMotor.set(0.0);
+		// leftBotMotor.set(0.0);
+		rightTopMotor.set(brakeSpeed);
+		rightBotMotor.set(brakeSpeed);
+	}
+
 	public void stop() {
-		// stops the drive motors
-		tankDrive.tankDrive(0, 0);
+		leftTopMotor.set(0);
+		leftBotMotor.set(0);
+		rightTopMotor.set(0);
+		rightBotMotor.set(0);
+	}
+
+	public void driveLeftMotorsForward() {
+		leftTopMotor.set(-driveLeftMotorsForwardSpeed);
+		leftBotMotor.set(-driveLeftMotorsForwardSpeed);
+	}
+
+	public void driveRightMotorsForward() {
+		rightTopMotor.set(driveLeftMotorsForwardSpeed);
+		rightBotMotor.set(driveLeftMotorsForwardSpeed);
 	}
 
 	public void setPIDConstants() {
