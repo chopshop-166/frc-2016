@@ -42,11 +42,6 @@ public class PIDSpeedController implements SpeedController {
 	}
 
 	@Override
-	public void set(double setpoint, byte syncGroup) {
-		set(setpoint);
-	}
-
-	@Override
 	public void set(double setpoint) {
 		controller.setSetpoint(setpoint);
 		controller.enable();
@@ -70,6 +65,7 @@ public class PIDSpeedController implements SpeedController {
 		return false;
 	}
 
+	@Override
 	public void stopMotor() {
 		controller.disable();
 	}

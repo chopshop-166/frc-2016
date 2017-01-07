@@ -33,11 +33,6 @@ public class MultiSpeedController implements SpeedController, LiveWindowSendable
 	}
 
 	@Override
-	public void set(double setpoint, byte syncGroup) {
-		set(setpoint);
-	}
-
-	@Override
 	public void set(double setpoint) {
 		_setpoint = (setpoint < -1.0 ? -1.0 : (setpoint > 1.0 ? 1.0 : setpoint));
 
@@ -67,6 +62,7 @@ public class MultiSpeedController implements SpeedController, LiveWindowSendable
 		return _isInverted;
 	}
 
+	@Override
 	public void stopMotor() {
 		for (SpeedController sc : _controllers) {
 			sc.stopMotor();
