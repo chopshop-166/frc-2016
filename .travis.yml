@@ -1,5 +1,5 @@
 sudo: false
 language: java
-install: git clone https://github.com/chopshop-166/wpilib-mirror.git ~/wpilib
+install: git clone https://github.com/chopshop-166/wpilib-mirror.git ~/wpilib --depth=1 -b wpilib-2016
 script: ant jar
 jdk: oraclejdk8
